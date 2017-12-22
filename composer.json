@@ -1,0 +1,26 @@
+{
+    "name": "edwrodrig/static_generator",
+    "authors": [
+        {
+            "name": "Edwin Rodríguez",
+            "email": "edwrodrig@gmail.com"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "require": {
+        "php" : "^7.0"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "^6.4"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "edwrodrig\\static_generator\\" : "src/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "test\\" : "tests/src/"
+        }
+    }
+}
