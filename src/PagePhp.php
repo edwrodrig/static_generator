@@ -4,10 +4,9 @@ namespace edwrodrig\static_generator;
 class PagePhp extends Page {
 
 public function prepare_output() {
-  if ( is_null($this->output_absolute_path) ) {
-    $output = Site::get()->output($this->input_relative_path);
-    $output = preg_replace('/\.php$/', '', $output);
-    $this->output_absolute_path = $output;
+  if ( is_null($this->output_relative_path) ) {
+    $output = preg_replace('/\.php$/', '', $this->input_relative_path);
+    $this->output_relative_path = $output;
   }
   return parent::prepare_output();
 }
@@ -15,7 +14,7 @@ public function prepare_output() {
 public function generate() {
   $output = $this->prepare_output();
 
-  $this->log(sprintf("Rendering file [%s]...", $output));
+  $this->log(sprintf("Rendering file [%s]...", $this->output_relative_path));
   file_put_contents($output, $this->generate_string());
   $this->log("DONE\n");
 }

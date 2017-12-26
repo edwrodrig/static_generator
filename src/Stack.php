@@ -18,9 +18,6 @@ function log($str) {
 }
 
 static function get() {
-  if ( empty(self::$stack) ) {
-    self::push();
-  }
   return self::$stack[self::level() - 1];
 } 
 

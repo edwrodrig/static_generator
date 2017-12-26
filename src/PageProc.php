@@ -11,7 +11,7 @@ public function output() {
 public function prepare_output() {
   if ( is_null($this->output_absolute_path) ) {
     $output = Site::get()->output($this->input_relative_path);
-    $output = dirname($output), 0777, true);
+    $output = dirname($output, 0777, true);
     $this->output_absolute_path = $output;
   }
   
@@ -25,8 +25,17 @@ public function generate() {
   require($this->input_absolute_path);
   self::pop();
 
-  $this->log("File [%s] processed\n", $this->input_relative_path);
+  $this->log(sprintf("File [%s] processed\n", $this->input_relative_path));
   
 }
+
+public function generate_from_function($output, $function) {
+  $page = new PageFunction;
+  $page->output_relative_path = $output;
+  $page->function = $function;
+
+  $page->generate();
+}
+
 
 }

@@ -8,7 +8,7 @@ public $function;
 public function generate() {
   $output = $this->prepare_output();
 
-  $this->log(sprintf("Rendering file [%s]...", output));
+  $this->log(sprintf("Rendering file [%s]...", $this->output_relative_path));
 
   file_put_contents($output, $this->generate_string());
 
