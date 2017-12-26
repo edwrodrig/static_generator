@@ -3,18 +3,46 @@ namespace edwrodrig\static_generator;
 
 class Page {
 
+public $input_relative_path;
+public $input_absolute_path;
+public $output_absolute_path = null;
+public $level = 0;
+
 use Stack;
 
-public function file_process(string $output, callable $function) {
-  printf("%sRendering file [%s]...", str_repeat("  ", $this->level), $output);
-  BuilderState::push();
-  $this->current_output = $output;
+public function set_data($data) {
+  $this->input_absolute_path = $data['input_absolute_path'] ?? null;
+  $this->input_relative_path = $data['input_relative_path'] ?? null;
 
-  $content = Utils::ob_safe($function);
+}
 
-  file_put_contents($this->output($output, true), $content);
-  BuilderState::pop();
-  printf("  DONE\n");
+public function prepare_output() {
+  @mkdir(dirname($this->output_absolute_path), 0777, true);
+  return $this->output_absolute_path;
+}
+
+public function create($data) {
+  $path = $data['relative_path'];
+
+  if ( preg_match('/\.copy.php$/', $path) ) {
+    $page = new PageCopy();
+    $page->set_data($data);
+    return $page;
+
+  } else if ( preg_match('/\.proc.php$/', $path) ) {
+    $page->set_data($data);
+    return $page;
+
+  } else if ( preg_match('/\.php$/', $path) ) {
+    $page = new PagePhp();
+    $page->set_data($data);
+    return $page;
+
+  } else if ( !preg_match( '/\.swp$/', $path ) ) {
+    $page = new PageCopy();
+    $page->set_data($data);
+    return $page;
+  }
 }
 
 public function __invoke(...$files) {

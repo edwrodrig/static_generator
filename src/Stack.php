@@ -24,8 +24,8 @@ static function get() {
   return self::$stack[self::level() - 1];
 } 
 
-static function push() {
-  self::$stack[] = new self;
+static function push($element) {
+  self::$stack[] = $element;
 }
 
 static function pop() {

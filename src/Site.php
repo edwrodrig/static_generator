@@ -1,7 +1,7 @@
 <?php
 namespace edwrodrig\static_generator;
 
-class Site {
+class Site implements \IteratorAggregate {
 
 use Stack;
 
@@ -64,22 +64,33 @@ public function __set($name, $value) {
   }
 }
 
-public function iterate_dir($file) {
+public function getIterator() {
+  return $this->iterate_item('.');
+}
+
+public function iterate_item($file) {
   $input = $this->input($file);
 
   if ( !file_exists($input) ) {
 
   } else if ( is_dir($input) ) {
     foreach ( scandir($input) as $index => $dir_file ) {
-      if ( $key < 2 ) continue;
-      yield from $this->iterate_dir($file . DIRECTORY_SEPARATOR . $dir_file);
+      if ( $dir_file == '.' ) continue;
+      if ( $dir_file == '..' ) continue;
+      foreach ( $this->iterate_item($file . DIRECTORY_SEPARATOR . $dir_file) as $item ) {
+        if ( $file != '.' ) $item['level'] += 1;
+        yield $item;
+      }
     }
   } else {
     yield [
-      'input' => $file;
+      'level' => 0,
+      'relative_path' => $file,
+      'absolute_path' => $input
     ];
   }
 }
+
 /*
 public function process($file) {
   $indent = str_repeat("  ", $this->level);
