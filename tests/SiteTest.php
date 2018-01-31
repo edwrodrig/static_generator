@@ -48,6 +48,17 @@ function testIteratorAggregate() {
 
 }
 
+function testInheritSite() {
+  $s = new class extends edwrodrig\static_generator\Site {
+    function __construct() {
+      $this->cache_dir = 'cache_2';
+    }
+  };
+
+  $this->assertEquals('files', $s->input_dir);
+  $this->assertEquals('cache_2', $s->cache_dir);
+}
+
 
 }
 
