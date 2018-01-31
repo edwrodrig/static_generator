@@ -10,6 +10,7 @@ public $output_dir = 'output';
 public $cache_dir = 'cache';
 
 private $base_url = '';
+public $globals = [];
 
 public function url(string $url) : string {
   $url = trim($url);

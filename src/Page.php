@@ -18,7 +18,7 @@ public function set_data($data) {
 }
 
 public function current_url() {
-  return Site::get()->url($this->input_relativa_path);
+  return Site::get()->url($this->input_relative_path);
 }
 
 public function prepare_output() {
