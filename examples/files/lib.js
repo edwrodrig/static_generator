@@ -1,0 +1,1 @@
+function warn(value){alert(value)};function print(value){console.log(value)}

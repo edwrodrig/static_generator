@@ -8,6 +8,23 @@ static function html_string($data) {
   return htmlspecialchars(self::ob_safe($data));
 }
 
+static function iterate_files($files) {
+  foreach ( $this->sources as $source ) {
+    if ( !file_exists($source)) throw new \Exception('FILE_DOES_NOT_EXISTS');
+
+    if ( is_dir($source) ) {
+      foreach ( new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $file )
+      {
+        if ( !$file->isFile() ) continue;
+        yield $file;
+      }
+    } else {
+      yield new \SplFileInfo($source);
+    }
+  }
+
+}
+
 static function ob_safe($content) {
   if ( !is_callable($content) ) {
     return strval($content);

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php \edwrodrig\static_generator\Site::get()->globals['js']->html() ?>
-<?php \edwrodrig\static_generator\Site::get()->globals['css']->html() ?>
+<script src="/lib.js"></script>
+<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 </html>
