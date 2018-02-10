@@ -3,21 +3,19 @@ namespace edwrodrig\static_generator;
 
 class ResourceMinifier {
 
-public $dirs = [];
+public $sources = [];
 
 function iterate_sources() {
-  foreach ( $this->dirs as $dir )
-    foreach ( new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $file ) {
-      if ( !$file->isFile() ) continue;
-      $filename = $file->getPathname();
-      $ext = $file->getExtension();
-      if ( in_array($ext, ['css', 'js']) ) {
-        yield [
-          'absolute_path' => $filename,
-          'type' =>  $ext
-        ];
-      }
+  foreach ( Utils::iterate_files($this->sources as $source ) {
+    $filename = $source->getPathname();
+    $ext = $source->getExtension();
+    if ( in_array($ext, ['css', 'js']) ) {
+      yield [
+        'absolute_path' => $filename,
+        'type' =>  $ext
+      ];
     }
+  }
 }
 
 function js() {
