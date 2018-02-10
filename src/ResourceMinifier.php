@@ -6,7 +6,7 @@ class ResourceMinifier {
 public $sources = [];
 
 function iterate_sources() {
-  foreach ( Utils::iterate_files($this->sources as $source ) {
+  foreach ( Utils::iterate_files($this->sources) as $source ) {
     $filename = $source->getPathname();
     $ext = $source->getExtension();
     if ( in_array($ext, ['css', 'js']) ) {

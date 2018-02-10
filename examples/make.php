@@ -7,7 +7,7 @@ $site->input_dir = 'files';
 $site->output_dir = 'output';
 
 $minifier = new edwrodrig\static_generator\ResourceMinifier;
-$minifier->dirs = [
+$minifier->sources = [
   __DIR__ . '/js',
   __DIR__ . '/css'
 ];
