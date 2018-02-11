@@ -78,6 +78,12 @@ public function iterate_item($file) {
   }
 }
 
+public function regenerate() {
+  printf("Clearing output dir [%s]\n", $this->output_dir);
+  passthru(sprintf('rm -rf %s', $this->output_dir));
+  $this->generate();
+}
+
 public function generate() {
   self::push($this);
   foreach ( $this as $file_data ) {

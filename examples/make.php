@@ -15,5 +15,5 @@ $minifier->sources = [
 $minifier->js()->minify(__DIR__ . '/files/lib.js');
 $minifier->css()->minify(__DIR__ . '/files/style.css');
 
-$site->generate();
+$site->regenerate();
 
