@@ -34,6 +34,14 @@ function testPrint2() {
 
 }
 
+function testInclude() {
+  file_put_contents('/tmp/test_include', '@@@ @@@ @@@');
+
+  ob_start();
+  edwrodrig\static_generator\ScopedElement::include('/tmp/test_include', 'id');
+  $this->assertEquals('id id id', ob_get_clean());
+
+}
 
 }
 

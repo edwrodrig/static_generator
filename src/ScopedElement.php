@@ -23,5 +23,20 @@ function print() {
   echo $content;
 }
 
+static function include($filename, $preffix = null) {
+  $obj = new class($preffix, $filename) extends ScopedElement {
+    function __construct($preffix, $filename) {
+      parent::__construct($preffix);
+      $this->filename = $filename;
+    }
+
+    function content() {
+      include($this->filename);
+    }
+  };
+
+  $obj->print();
+}
+
 }
 
