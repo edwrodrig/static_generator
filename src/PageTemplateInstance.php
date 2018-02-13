@@ -23,19 +23,18 @@ public function generate_string() {
   $php_file = $this->input_absolute_path;
   self::push($this);
 
-  $content = Utils::ob_safe(function() use($php_file) {
-    $metadata = \edwrodrig\static_generator\Utils::get_comment_data($php_file, 'METADATA');
-    $metadata = json_decode(trim($metadata), true);
-    $template_class = $metadata['template'];
-    $template = new $template_class;
-    $template->metadata = $metadata;
-    $template->content = function() use($php_file) {
-      include($php_file);
-    };
-    $template->print();
-  });
+  $metadata = \edwrodrig\static_generator\Utils::get_comment_data($php_file, 'METADATA');
+  $metadata = json_decode(trim($metadata), true);
+  $template_class = $metadata['template'];
+  $template = new $template_class;
+  $template->metadata = $metadata;
+  $template->template_content['body'] = function() use($php_file) {
+    include($php_file);
+  };
 
+  $content = strval($template);
   self::pop();
+
   return $content; 
 }
 

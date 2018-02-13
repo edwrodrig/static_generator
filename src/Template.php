@@ -3,7 +3,7 @@ namespace edwrodrig\static_generator;
 
 abstract class Template {
 
-public $template_function = [];
+public $template_content = [];
 
 function bottom_up_call($method, $args = []) {
   $c = new \ReflectionClass($this);

@@ -1,10 +1,10 @@
 <?php
 
-class TestPageTemplateInstance {
+class TestPageTemplateInstance extends \edwrodrig\static_generator\Template {
 
 public function print() {
   echo $this->metadata['name'];
-  ($this->content)();
+  $this->bottom_up_call('body');
 }
 
 };
