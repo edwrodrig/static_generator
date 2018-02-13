@@ -31,25 +31,32 @@ public function prepare_output() {
 static public function create($data) {
   $path = $data['relative_path'];
 
-  if ( preg_match('/\.copy.php$/', $path) ) {
-    $page = new PageCopy();
-    $page->set_data($data);
-    return $page;
+  if ( preg_match('/\.php$/', $path) ) {
+    $metadata = Utils::get_comment_data($data['absolute_path'], 'METADATA') ?? '{}';
+    $metadata = json_decode($metadata, true);
 
-  } else if ( preg_match('/\.proc.php$/', $path) ) {
-    $page = new PageProc();
-    $page->set_data($data);
-    return $page;
+    $type = $metadata['page_type'] ?? 'interpret';
 
-  } else if ( preg_match('/\.tpl.php$/', $path) ) {
-    $page = new PageTemplateInstance();
-    $page->set_data($data);
-    return $page;
+    if ( $type == 'copy' ) {
+      $page = new PageCopy();
+      $page->set_data($data);
+      return $page;
 
-  } else if ( preg_match('/\.php$/', $path) ) {
-    $page = new PagePhp();
-    $page->set_data($data);
-    return $page;
+    } else if ( $type == 'process' ) {
+      $page = new PageProc();
+      $page->set_data($data);
+      return $page;
+
+    } else if ( $type == 'template' ) {
+      $page = new PageTemplateInstance();
+      $page->set_data($data);
+      return $page;
+
+    } else {
+      $page = new PagePhp();
+      $page->set_data($data);
+      return $page;
+    }
 
   } else if ( !preg_match( '/\.swp$/', $path ) ) {
     $page = new PageCopy();

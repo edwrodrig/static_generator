@@ -1,4 +1,9 @@
 <?php
+/*METADATA
+{
+  "page_type" : "process"
+}
+*/
 
 for ( $i = 0; $i < 10; $i++ ) {
   edwrodrig\static_generator\Page::get()->generate_from_function(

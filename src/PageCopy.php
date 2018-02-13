@@ -5,8 +5,7 @@ class PageCopy extends Page {
 
 public function prepare_output() {
   if ( is_null($this->output_relative_path) ) {
-    $output = preg_replace('/\.copy.php$/', '.php', $this->input_relative_path);
-    $this->output_relative_path = $output;
+    $this->output_relative_path = $this->input_relative_path;
   }
 
   return parent::prepare_output();

@@ -5,7 +5,7 @@ class PageTemplateInstance extends Page {
 
 public function prepare_output() {
   if ( is_null($this->output_relative_path) ) {
-    $output = preg_replace('/\.tpl.php$/', '', $this->input_relative_path);
+    $output = preg_replace('/\.php$/', '', $this->input_relative_path);
     $this->output_relative_path = $output;
   }
   return parent::prepare_output();

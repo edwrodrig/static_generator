@@ -7,22 +7,28 @@ function createProvider() {
   return [
   [
     \edwrodrig\static_generator\PageCopy::class,
-    'h.copy.php'
+    ['page_type' => 'copy'],
+    'h.php'
   ],
   [
     \edwrodrig\static_generator\PageProc::class,
-    'h.proc.php'
+    ['page_type' => 'process'],
+    'h.php'
   ],
   [
     \edwrodrig\static_generator\PagePhp::class,
+    [],
     'h.php'
   ],
   [
     \edwrodrig\static_generator\PageTemplateInstance::class,
-    'h.tpl.php'
+    ['page_type' => 'template']
+    ,
+    'h.php'
   ],
   [
     \edwrodrig\static_generator\PageCopy::class,
+    [],
     'h.jpg'
   ]
 
@@ -33,8 +39,11 @@ function createProvider() {
 /**
  * @dataProvider createProvider
  */
-function testCreate($expected, $input_file) {
-  $page = edwrodrig\static_generator\Page::create(['relative_path' => $input_file]);
+function testCreate($expected, $metadata, $input_file) {
+  $filename = '/tmp/' . $input_file;
+  $file = file_put_contents($filename, "<?php\n/*METADATA\n" . json_encode($metadata) . "\n*/?>");
+
+  $page = edwrodrig\static_generator\Page::create(['absolute_path' => $filename, 'relative_path' => $input_file]);
   $this->assertInstanceOf($expected, $page);
 }
 
