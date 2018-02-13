@@ -41,6 +41,11 @@ static public function create($data) {
     $page->set_data($data);
     return $page;
 
+  } else if ( preg_match('/\.tpl.php$/', $path) ) {
+    $page = new PageTemplateInstance();
+    $page->set_data($data);
+    return $page;
+
   } else if ( preg_match('/\.php$/', $path) ) {
     $page = new PagePhp();
     $page->set_data($data);

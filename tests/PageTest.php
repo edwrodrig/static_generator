@@ -18,6 +18,10 @@ function createProvider() {
     'h.php'
   ],
   [
+    \edwrodrig\static_generator\PageTemplateInstance::class,
+    'h.tpl.php'
+  ],
+  [
     \edwrodrig\static_generator\PageCopy::class,
     'h.jpg'
   ]
