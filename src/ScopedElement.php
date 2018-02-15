@@ -31,7 +31,7 @@ static function include($filename, $preffix = null) {
     }
 
     function content() {
-      include($this->filename);
+      require($this->filename);
     }
   };
 

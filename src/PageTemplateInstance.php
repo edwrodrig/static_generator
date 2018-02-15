@@ -25,7 +25,14 @@ public function generate_string() {
 
   $metadata = \edwrodrig\static_generator\Utils::get_comment_data($php_file, 'METADATA');
   $metadata = json_decode(trim($metadata), true);
+  if ( !isset($metadata['template']) )
+    throw new \Exception('TEMPLATE_NOT_DEFINED');
+
   $template_class = $metadata['template'];
+
+  if ( !class_exists($template_class) )
+    throw new \Exception('TEMPLATE_CLASS_DOES_NOT_EXISTS');
+
   $template = new $template_class;
   $template->metadata = $metadata;
   $template->template_content['body'] = function() use($php_file) {
