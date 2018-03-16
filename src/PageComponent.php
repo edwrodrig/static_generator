@@ -2,7 +2,7 @@
 
 namespace edwrodrig\static_generator;
 
-abstract class ScopedElement
+abstract class PageComponent
 {
 
     public $prefix_pattern = '@@@';
@@ -30,7 +30,7 @@ abstract class ScopedElement
 
     static public function include(string $filename, ?string $prefix = null)
     {
-        $obj = new class($prefix, $filename) extends ScopedElement
+        $obj = new class($prefix, $filename) extends PageComponent
         {
             private $filename;
 

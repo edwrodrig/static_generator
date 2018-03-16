@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Make Example" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/examples/make.php">
+    <method />
+  </configuration>
+</component>
