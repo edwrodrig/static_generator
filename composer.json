@@ -8,7 +8,7 @@
     ],
     "minimum-stability" : "dev",
     "require": {
-        "php" : "^7.0",
+        "php" : "^7.2",
         "matthiasmullie/minify" : "^1.3"
     },
     "require-dev" : {
@@ -23,8 +23,5 @@
         "psr-4" : {
             "test\\" : "tests/src/"
         }
-    },
-    "scripts" : {
-      "test" : "phpunit"
     }
 }

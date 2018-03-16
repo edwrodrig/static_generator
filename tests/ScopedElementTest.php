@@ -11,7 +11,7 @@ function testPrint1() {
 
   };
 
-  $obj->preffix = 'id';
+  $obj->prefix = 'id';
   ob_start();
   $obj->print();
   $this->assertEquals('id', ob_get_clean());
@@ -27,7 +27,7 @@ function testPrint2() {
 
   };
 
-  $obj->preffix = 'id';
+  $obj->prefix = 'id';
   ob_start();
   $obj->print();
   $this->assertEquals('id id id', ob_get_clean());

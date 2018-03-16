@@ -1,37 +1,45 @@
 <?php
+
 namespace edwrodrig\static_generator;
 
-trait Stack {
- 
-static public $stack = [];
+trait Stack
+{
 
-static function level() {
-  return count(self::$stack);
-}
+    static public $stack = [];
 
-function log($str) {
-  printf(
-    "%s%s",
-    str_repeat("  ", self::level()),
-    $str
-  );
-}
+    static function level()
+    {
+        return count(self::$stack);
+    }
 
-static function get() {
-  return self::$stack[self::level() - 1];
-} 
+    function log($str)
+    {
+        printf(
+            "%s%s",
+            str_repeat("  ", self::level()),
+            $str
+        );
+    }
 
-static function push($element) {
-  self::$stack[] = $element;
-}
+    static function get()
+    {
+        return self::$stack[self::level() - 1];
+    }
 
-static function pop() {
-  array_pop(self::$stack);
-}
+    static function push($element)
+    {
+        self::$stack[] = $element;
+    }
 
-static function reset() {
-  self::$stack = [];
-}
+    static function pop()
+    {
+        array_pop(self::$stack);
+    }
+
+    static function reset()
+    {
+        self::$stack = [];
+    }
 
 }
 
