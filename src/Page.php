@@ -48,7 +48,7 @@ class Page
     /**
      * @return null|string
      */
-    public function prepare_output() : ?string
+    public function prepare_output() : string
     {
         $this->output_relative_path = preg_replace('/^\.\//', '', $this->output_relative_path);
         $this->output_absolute_path = Site::get()->output($this->output_relative_path);
@@ -90,6 +90,10 @@ class Page
                 $page->set_data($data);
                 return $page;
             }
+        } else if ( preg_match('/\.scss$/', $path)) {
+            $page = new PageScss();
+            $page->set_data($data);
+            return $page;
 
         } else if (!preg_match('/\.swp$/', $path)) {
             $page = new PageCopy();

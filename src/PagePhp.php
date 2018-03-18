@@ -5,7 +5,7 @@ namespace edwrodrig\static_generator;
 class PagePhp extends Page
 {
 
-    public function prepare_output() : ?string
+    public function prepare_output() : string
     {
         if (is_null($this->output_relative_path)) {
             $output = preg_replace('/\.php$/', '', $this->input_relative_path);

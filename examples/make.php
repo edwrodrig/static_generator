@@ -8,12 +8,10 @@ $site->output_dir = 'output';
 
 $minifier = new edwrodrig\static_generator\ResourceMinifier;
 $minifier->sources = [
-  __DIR__ . '/js',
-  __DIR__ . '/css'
+  __DIR__ . '/js'
 ];
 
 $minifier->js()->minify(__DIR__ . '/files/lib.js');
-$minifier->css()->minify(__DIR__ . '/files/style.css');
 
 $site->regenerate();
 

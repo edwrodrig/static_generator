@@ -8,7 +8,7 @@ class PageCopy extends Page
     /**
      * @return null|string
      */
-    public function prepare_output() : ?string
+    public function prepare_output() : string
     {
         if (is_null($this->output_relative_path)) {
             $this->output_relative_path = $this->input_relative_path;
