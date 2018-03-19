@@ -60,20 +60,5 @@ class Util
         }
     }
 
-    static function get_comment_data($filename, $name)
-    {
-        $tokens = token_get_all(file_get_contents($filename));
-        foreach ($tokens as $token) {
-            if ($token[0] !== T_COMMENT) continue;
-            $content = $token[1];
-            if (strpos($content, '/*' . $name) === 0) {
-                $content = preg_replace('/^\/\*' . $name . '/', '', $content);
-                $content = preg_replace('/\*\/$/', '', $content);
-                return $content;
-            }
-        }
-        return null;
-
-    }
 
 }

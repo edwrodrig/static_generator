@@ -65,10 +65,9 @@ class Page
         $path = $data['relative_path'];
 
         if (preg_match('/\.php$/', $path)) {
-            $metadata = Util::get_comment_data($data['absolute_path'], 'METADATA') ?? '{}';
-            $metadata = json_decode($metadata, true);
+            $metadata = new PageMetadata($data['absolute_path']);
 
-            $type = $metadata['page_type'] ?? 'interpret';
+            $type = $metadata->get_type();
 
             if ($type == 'copy') {
                 $page = new PageCopy();
@@ -102,6 +101,30 @@ class Page
         } else {
             return null;
         }
+    }
+
+    /**
+     * @param $data
+     * @return Template|null
+     * @throws exception\TemplateClassDoesNotExistsException
+     */
+    static public function instance_template($data) : ?Template
+    {
+        $path = $data['relative_path'];
+
+        if (preg_match('/\.php$/', $path)) {
+            $metadata = new PageMetadata($data['absolute_path']);
+
+            $type = $metadata->get_type();
+
+            if ($type == 'template') {
+                $page = new PageTemplateInstance();
+                $page->set_data($data);
+                return $page->get_template();
+            }
+        }
+
+        return null;
     }
 
 }

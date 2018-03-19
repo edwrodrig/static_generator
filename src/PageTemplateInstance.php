@@ -2,15 +2,15 @@
 
 namespace edwrodrig\static_generator;
 
-use edwrodrig\static_generator\Util;
-
 class PageTemplateInstance extends Page
 {
+
+    protected $template = null;
 
     /**
      * @return null|string
      */
-    public function prepare_output() : ?string
+    public function prepare_output() : string
     {
         if (is_null($this->output_relative_path)) {
             $output = preg_replace('/\.php$/', '', $this->input_relative_path);
@@ -21,7 +21,6 @@ class PageTemplateInstance extends Page
 
     /**
      * @throws exception\TemplateClassDoesNotExistsException
-     * @throws exception\TemplateNotDefinedException
      */
     public function generate()
     {
@@ -35,28 +34,11 @@ class PageTemplateInstance extends Page
     /**
      * @return string
      * @throws exception\TemplateClassDoesNotExistsException
-     * @throws exception\TemplateNotDefinedException
      */
     public function generate_string() : string
     {
-        $php_file = $this->input_absolute_path;
+        $template = $this->get_template();
         self::push($this);
-
-        $metadata = Util::get_comment_data($php_file, 'METADATA');
-        $metadata = json_decode(trim($metadata), true);
-        if (!isset($metadata['template']))
-            throw new exception\TemplateNotDefinedException($php_file);
-
-        $template_class = $metadata['template'];
-
-        if (!class_exists($template_class))
-            throw new exception\TemplateClassDoesNotExistsException($template_class);
-
-        $template = new $template_class;
-        $template->metadata = $metadata;
-        $template->template_content['body'] = function () use ($php_file) {
-            include($php_file);
-        };
 
         $content = strval($template);
         self::pop();
@@ -64,4 +46,23 @@ class PageTemplateInstance extends Page
         return $content;
     }
 
+    /**
+     * @return TemplatePage
+     * @throws exception\TemplateClassDoesNotExistsException
+     */
+    public function get_template() : TemplatePage {
+        if ( is_null($this->template) ) {
+            $php_file = $this->input_absolute_path;
+
+            $metadata = new PageMetadata($php_file);
+            $template_class = $metadata->get_template_class();
+
+            $this->template = new $template_class($php_file, $metadata);
+        }
+        return $this->template;
+    }
+
+    public function __call(string $method, array $arguments) {
+        return $this->template->{$method}(...$arguments);
+    }
 }

@@ -2,6 +2,25 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
+use edwrodrig\static_generator\TemplatePage;
+
+class Template extends TemplatePage {
+
+    /**
+     * @return mixed
+     * @throws \edwrodrig\static_generator\exception\WrongDataException
+     */
+    public function get_title() {
+        return $this->metadata->get_data()['title'];
+    }
+
+    public function get_name() : string {
+        return 'template';
+    }
+
+};
+
+
 $site = new edwrodrig\static_generator\Site;
 $site->input_dir = 'files';
 $site->output_dir = 'output';

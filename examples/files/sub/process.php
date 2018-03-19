@@ -1,8 +1,6 @@
 <?php
-/*METADATA
-{
-  "page_type" : "process"
-}
+/*
+ * @type process
 */
 
 for ( $i = 0; $i < 10; $i++ ) {

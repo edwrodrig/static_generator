@@ -1,8 +1,7 @@
 <?php
-/*METADATA
-{
-  "page_type" : "copy"
-}
+/*
+  @type copy
+
 */
 
 echo "some";

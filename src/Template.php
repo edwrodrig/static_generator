@@ -4,20 +4,12 @@ namespace edwrodrig\static_generator;
 
 abstract class Template
 {
-
-    public $template_content = [];
-
-    function bottom_up_call($method, $args = [])
+    public function bottom_up_call($method, $args = [])
     {
         $c = new \ReflectionClass($this);
 
         $found = false;
         $content = $args[0] ?? '';
-
-        if (isset($this->template_content[$method])) {
-            $content = Util::ob_safe($this->template_content[$method]);
-            $found = true;
-        }
 
         do {
             if ($c->hasMethod($method)) {
@@ -36,7 +28,7 @@ abstract class Template
         echo $content;
     }
 
-    function __toString()
+    public function __toString()
     {
         try {
             return Util::ob_safe(function () {
@@ -47,17 +39,17 @@ abstract class Template
         }
     }
 
-    static function create(...$args)
+    public static function create(...$args)
     {
         $class = get_called_class();
         return new $class(...$args);
     }
 
-    function print()
+    public function print()
     {
     }
 
-    function try_print()
+    public function try_print()
     {
         echo strval($this);
     }

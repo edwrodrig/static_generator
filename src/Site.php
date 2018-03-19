@@ -12,6 +12,7 @@ class Site implements \IteratorAggregate
     public $cache_dir = 'cache';
 
     private $base_url = '';
+    private $templates = null;
     public $globals = [];
 
     public function url(string $url): string
@@ -93,6 +94,7 @@ class Site implements \IteratorAggregate
     {
         printf("Clearing output dir [%s]\n", $this->output_dir);
         passthru(sprintf('rm -rf %s', $this->output_dir));
+        $this->templates = null;
         $this->generate();
     }
 
@@ -106,6 +108,20 @@ class Site implements \IteratorAggregate
         }
         self::pop();
     }
+
+    public function get_templates() : array {
+        if ( is_null($this->templates) ) {
+            $this->templates = [];
+            foreach ($this as $file_data) {
+                if ($template = Page::instance_template($file_data)) {
+                    $this->templates[$template->get_name()][] = $template;
+                }
+            }
+        }
+        return $this->templates;
+    }
+
+
 
 }
 
