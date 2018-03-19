@@ -109,7 +109,7 @@ class Site implements \IteratorAggregate
         self::pop();
     }
 
-    public function get_templates() : array {
+    public function get_templates(string $name) : array {
         if ( is_null($this->templates) ) {
             $this->templates = [];
             foreach ($this as $file_data) {
@@ -118,7 +118,8 @@ class Site implements \IteratorAggregate
                 }
             }
         }
-        return $this->templates;
+
+        return $this->templates[$name] ?? [];
     }
 
 
