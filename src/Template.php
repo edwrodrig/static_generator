@@ -28,7 +28,7 @@ class Template
         include $this->filename;
     }
 
-    public function get_name() : string {
+    public function get_template_type() : string {
         return 'base';
     }
 

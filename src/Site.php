@@ -114,7 +114,7 @@ class Site implements \IteratorAggregate
             $this->templates = [];
             foreach ($this as $file_data) {
                 if ($template = Page::instance_template($file_data)) {
-                    $this->templates[$template->get_name()][] = $template;
+                    $this->templates[$template->get_template_type()][] = $template;
                 }
             }
         }
