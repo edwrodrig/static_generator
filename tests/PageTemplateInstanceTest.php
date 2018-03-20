@@ -3,8 +3,8 @@
 class TestPageTemplateInstance extends \edwrodrig\static_generator\Template {
 
 public function print() {
-  echo $this->metadata['name'];
-  $this->bottom_up_call('body');
+  echo $this->metadata->get_data()['name'];
+  parent::print();
 }
 
 };
@@ -15,11 +15,11 @@ function testGenerateString() {
 
   file_put_contents('/tmp/template_instance_test.tpl.php', <<<EOF
 <?php
-/*METADATA
-{
-  "template" : "TestPageTemplateInstance",
+/*
+ @template TestPageTemplateInstance
+ @data {
   "name" : "some_name"
-}
+  }
 */
 echo " Hola";
 ?> Mundo

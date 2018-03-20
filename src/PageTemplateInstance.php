@@ -40,17 +40,17 @@ class PageTemplateInstance extends Page
         $template = $this->get_template();
         self::push($this);
 
-        $content = strval($template);
+        $content = Util::ob_safe(function() use ($template) { $template->print(); });
         self::pop();
 
         return $content;
     }
 
     /**
-     * @return TemplatePage
+     * @return Template
      * @throws exception\TemplateClassDoesNotExistsException
      */
-    public function get_template() : TemplatePage {
+    public function get_template() : Template {
         if ( is_null($this->template) ) {
             $php_file = $this->input_absolute_path;
 

@@ -2,9 +2,7 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-use edwrodrig\static_generator\TemplatePage;
-
-class Template extends TemplatePage {
+class Template extends \edwrodrig\static_generator\Template {
 
     /**
      * @return mixed
