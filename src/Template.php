@@ -32,4 +32,8 @@ class Template
         return 'base';
     }
 
+    public function get_id() : string {
+        return basename($this->filename, '.php');
+    }
+
 }
