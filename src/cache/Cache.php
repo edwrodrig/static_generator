@@ -1,39 +1,42 @@
 <?php
 
-namespace edwrodrig\static_generator;
+namespace edwrodrig\static_generator\cache;
 
 
-class Image
+class Cache
 {
-    static $cache = null;
-    static $images = null;
-    static $keep = [];
-    public $cache_dir = '';
+
+    /**
+     * @var array
+     */
+    private $index;
+
+    private $cache_hits = [];
+
+    /**
+     * @var string
+     */
+    private $cache_dir;
 
     public function __construct(string $cache_dir) {
+        $this->cache_dir = $cache_dir;
+        $this->index = [];
 
+        $this->load_index();
     }
-
 
     public function load_index() {
-        file_get_contents($cache_dir . '/index.json');
-    }
-
-    static function cache_filename()
-    {
-        return \ephp\web\Context::cache('images_cache.json', true);
-    }
-
-    static function load_cache()
-    {
-        if (is_null(self::$cache)) {
-            self::$cache = [];
-            $cache_file = self::cache_filename();
-            self::$loaded_cache = $cache_file;
-            if (file_exists($cache_file)) {
-                self::$cache = json_decode(file_get_contents($cache_file), true) ?? [];
+        $filename = $this->get_index_filename();
+        if ( file_exists($filename) ) {
+            $index_data = file_get_contents($filename);
+            if ( $index_data = json_decode($index_data, true) ) {
+                $this->index = $index_data;
             }
         }
+    }
+
+    public function get_index_filename() : string {
+        return $this->cache_dir . '/index.json';
     }
 
     static function href($id, $options = [])
@@ -64,9 +67,8 @@ class Image
         return self::cache_image($data);
     }
 
-    static function cache_image($image)
+    public function cache(CacheEntry $cache)
     {
-        self::load_cache();
         $source = self::$images[$image['id']];
         $cached_image;
         if (!isset(self::$cache[$image['tag']]) || self::$cache[$image['tag']]['time'] < $source['time']) {
@@ -78,6 +80,7 @@ class Image
 
             $cached_image['filename'] = sprintf('%s_t%s.%s', $image['tag'], $cached_image['utime'], $cached_image['ext']);
             $cached_image['output'] = \ephp\web\Context::cache('images' . DIRECTORY_SEPARATOR . $cached_image['filename'], true);
+
             \ephp\web\Context::log("Processing image[%s]", $cached_image['filename']);
             if ($cached_image['ext'] == 'png')
                 \ephp\Image::optimize_png($source['filename'], $cached_image['output'], $image['dim']);
@@ -87,28 +90,33 @@ class Image
         } else {
             $cached_image = self::$cache[$image['tag']];
         }
-        self::$keep[$cached_image['filename']] = 1;
+
+        $this->cache_hits[$cache->get_key()] = 1;
 
         return sprintf('/contento_images/%s', $cached_image['filename']);
     }
 
-    static function link_images()
-    {
-        symlink(\ephp\web\Context::cache('images'), \ephp\web\Context::output('contento_images'));
+    protected function is_hitted(CacheEntry $entry) {
+        return isset($this->cache_hits[$entry->get_key()]);
     }
 
-    static function save_cache()
+    protected function clear_cache_entry(CacheEntry $entry) {
+        unset($this->cache_hits[$entry->get_key()]);
+        $entry->remove();
+    }
+
+    public function save_index()
     {
-        if (is_null(self::$cache)) return;
-        foreach (self::$cache as $id => $data) {
-            if (isset(self::$keep[$data['filename']])) {
+        foreach ($this->index as $id => $entry) {
+            if ( $this->is_hitted($entry))
                 continue;
-            }
-            printf("Image not longer used[%s]", $data['filename']);
-            unlink($data['output']);
-            echo "...DONE\n";
-            unset(self::$cache[$id]);
+            else
+                $this->clear_cache_entry($entry);
         }
-        file_put_contents(self::$loaded_cache, json_encode(self::$cache, JSON_PRETTY_PRINT));
+
+        file_put_contents(
+            $this->get_index_filename(),
+            json_encode($this->index, JSON_PRETTY_PRINT)
+        );
     }
 }
