@@ -16,7 +16,7 @@ class Cache
     /**
      * @var string
      */
-    private $cache_dir;
+    protected $cache_dir;
 
     public function __construct(string $cache_dir) {
         $this->cache_dir = $cache_dir;
@@ -69,7 +69,7 @@ class Cache
     }
 
     protected function clear_cache_entry(CacheItem $entry) {
-        unset($this->cache_hits[$entry->get_key()]);
+        unset($this->cache_hits[$entry->get_cache_key()]);
         $entry->cache_remove();
     }
 
