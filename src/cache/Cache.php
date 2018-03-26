@@ -39,33 +39,38 @@ class Cache
         return $this->cache_dir . '/index.json';
     }
 
-    protected function update_cache(CacheEntry $entry) {
 
-        $this->cache_hits[$entry->get_key()] = 1;
+    public function update_cache(CacheItem $entry) : CacheItem {
 
-        if ( !isset($this->index[$entry->get_key()]) ) {
-            $this->index[$entry->get_key()] = $entry;
-            return $entry;
+        $this->cache_hits[$entry->get_cache_key()] = 1;
+
+        if ( !isset($this->index[$entry->get_cache_key()]) ) {
+            return $this->set_cache($entry);
         } else {
-            $last_entry = $this->index[$entry->get_key()];
-            if ( $last_entry->get_cache_time() < $entry->get_last_modification_time() ) {
+            $last_entry = $this->index[$entry->get_cache_key()];
+            if ( $last_entry->get_last_modification_time() < $entry->get_last_modification_time() ) {
                 $last_entry->cache_remove();
-                $this->index[$entry->get_key() ] = $entry;
-                $entry->cache_generate();
-                return $entry;
+
+                return $this->set_cache($entry);
             } else {
                 return $last_entry;
             }
         }
     }
 
-    protected function is_hitted(CacheEntry $entry) {
-        return isset($this->cache_hits[$entry->get_key()]);
+    protected function set_cache(CacheItem $entry) : CacheItem {
+        $this->index[$entry->get_cache_key()] = $entry;
+        $entry->cache_generate();
+        return $entry;
     }
 
-    protected function clear_cache_entry(CacheEntry $entry) {
+    public function is_hitted(CacheItem $entry) {
+        return isset($this->cache_hits[$entry->get_cache_key()]);
+    }
+
+    protected function clear_cache_entry(CacheItem $entry) {
         unset($this->cache_hits[$entry->get_key()]);
-        $entry->remove();
+        $entry->cache_remove();
     }
 
     public function save_index()
