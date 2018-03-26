@@ -39,61 +39,24 @@ class Cache
         return $this->cache_dir . '/index.json';
     }
 
-    static function href($id, $options = [])
-    {
-        if (empty($id)) return "";
+    protected function update_cache(CacheEntry $entry) {
 
-        $data = [
-            'id' => $id
-        ];
-        $name_parts = [$id];
-        if (isset($options['type'])) {
-            $data['type'] = $options['type'];
-            $name_parts[] = $options['type'];
-        }
-        $dim = ['w' => '', 'h' => ''];
-        if (isset($options['w'])) {
-            $dim['w'] = $options['w'];
-        }
+        $this->cache_hits[$entry->get_key()] = 1;
 
-        if (isset($options['h'])) {
-            $dim['h'] = $options['h'];
-        }
-        $dim_str = implode('x', $dim);
-        if ($dim_str != 'x')
-            $name_parts[] = $dim_str;
-        $data['tag'] = implode('_', $name_parts);
-        $data['dim'] = $dim;
-        return self::cache_image($data);
-    }
-
-    public function cache(CacheEntry $cache)
-    {
-        $source = self::$images[$image['id']];
-        $cached_image;
-        if (!isset(self::$cache[$image['tag']]) || self::$cache[$image['tag']]['time'] < $source['time']) {
-            $cached_image = [
-                'time' => $source['time'],
-                'utime' => time(),
-                'ext' => pathinfo($source['filename'], PATHINFO_EXTENSION)
-            ];
-
-            $cached_image['filename'] = sprintf('%s_t%s.%s', $image['tag'], $cached_image['utime'], $cached_image['ext']);
-            $cached_image['output'] = \ephp\web\Context::cache('images' . DIRECTORY_SEPARATOR . $cached_image['filename'], true);
-
-            \ephp\web\Context::log("Processing image[%s]", $cached_image['filename']);
-            if ($cached_image['ext'] == 'png')
-                \ephp\Image::optimize_png($source['filename'], $cached_image['output'], $image['dim']);
-            else if ($cached_image['ext'] == 'jpg')
-                \ephp\Image::optimize_jpg($source['filename'], $cached_image['output'], $image['dim']);
-            self::$cache[$image['tag']] = $cached_image;
+        if ( !isset($this->index[$entry->get_key()]) ) {
+            $this->index[$entry->get_key()] = $entry;
+            return $entry;
         } else {
-            $cached_image = self::$cache[$image['tag']];
+            $last_entry = $this->index[$entry->get_key()];
+            if ( $last_entry->get_cache_time() < $entry->get_last_modification_time() ) {
+                $last_entry->cache_remove();
+                $this->index[$entry->get_key() ] = $entry;
+                $entry->cache_generate();
+                return $entry;
+            } else {
+                return $last_entry;
+            }
         }
-
-        $this->cache_hits[$cache->get_key()] = 1;
-
-        return sprintf('/contento_images/%s', $cached_image['filename']);
     }
 
     protected function is_hitted(CacheEntry $entry) {
