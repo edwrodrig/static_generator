@@ -12,6 +12,7 @@ class Site implements \IteratorAggregate
     public $cache_dir = 'cache';
 
     private $base_url = '';
+    private $lang = 'es';
     private $templates = null;
     public $globals = [];
 
@@ -42,23 +43,29 @@ class Site implements \IteratorAggregate
         return $full_filename;
     }
 
-    private function set_base_url($base_url)
+    public function get_base_url() : string {
+        return $this->base_url;
+    }
+
+    public function set_base_url(string $base_url)
     {
         $this->base_url = trim($base_url ?? '');
         $this->base_url = preg_replace('/\/$/', '', $this->base_url);
     }
 
-    public function __get($name)
-    {
-        if ($name === 'base_url')
-            return $this->base_url;
+    public function get_lang() : string {
+        return $this->lang;
     }
 
-    public function __set($name, $value)
-    {
-        if ($name === 'base_url') {
-            $this->set_base_url($value);
-        }
+    public function set_lang(string $lang) {
+        $this->lang = $lang;
+    }
+
+    public function tr($translatable) : string {
+        if ( isset($translatable[$this->lang]) )
+            return $translatable[$this->lang];
+        else
+            throw new exception\NoTranslationAvailableException($translatable, $this->lang);
     }
 
     public function getIterator()
@@ -121,8 +128,7 @@ class Site implements \IteratorAggregate
 
         return $this->templates[$name] ?? [];
     }
-
-
-
 }
+
+
 

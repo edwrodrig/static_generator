@@ -19,7 +19,8 @@
     "autoload" : {
         "psr-4" : {
             "edwrodrig\\static_generator\\" : "src/"
-        }
+        },
+        "files": ["src/funcs.php"]
     },
     "autoload-dev" : {
         "psr-4" : {
