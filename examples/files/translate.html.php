@@ -1,9 +1,8 @@
 <?php
 
 use edwrodrig\static_generator\Site;
-use function edwrodrig\static_generator\tr;
 
-echo tr(['es'=> 'hola', 'en' => 'hello']);
+echo Site::get()->tr(['es'=> 'hola', 'en' => 'hello']);
 
 if ( Site::get()->get_lang() == 'es' ) :
 ?>

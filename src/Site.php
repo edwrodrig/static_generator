@@ -61,10 +61,19 @@ class Site implements \IteratorAggregate
         $this->lang = $lang;
     }
 
-    public function tr($translatable) : string {
-        if ( isset($translatable[$this->lang]) )
+    /**
+     * @param $translatable
+     * @param null $default
+     * @return string
+     * @throws exception\NoTranslationAvailableException
+     */
+    public function tr($translatable, $default = null) : string
+    {
+        if (isset($translatable[$this->lang]))
             return $translatable[$this->lang];
-        else
+        else if (is_string($default)) {
+            return $default;
+        } else
             throw new exception\NoTranslationAvailableException($translatable, $this->lang);
     }
 

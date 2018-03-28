@@ -9,6 +9,8 @@
 namespace edwrodrig\static_generator\exception;
 
 
+use Exception;
+
 class NoTranslationAvailableException extends Exception
 {
 
@@ -19,8 +21,12 @@ class NoTranslationAvailableException extends Exception
      */
     public function __construct($translatable, $lang)
     {
+        parent::__construct(self::message($translatable, $lang));
+    }
+
+    public static function message($translatable, $lang) {
         ob_start();
-        var_dump($translatable);
-        parent::__construct(sprintf("[%s][%s]", ob_get_clean(), $lang));
+        print_r($translatable);
+        return sprintf("[%s][%s]", ob_get_clean(), $lang);
     }
 }
