@@ -42,7 +42,7 @@ class Page
 
     public function current_url() : string
     {
-        return Site::get()->url($this->input_relative_path);
+        return Site::get()->url($this->output_relative_path);
     }
 
     /**
