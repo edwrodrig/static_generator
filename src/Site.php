@@ -12,7 +12,6 @@ class Site implements \IteratorAggregate
     public $cache_dir = 'cache';
 
     private $base_url = '';
-    private $lang = 'es';
     private $templates = null;
     public $globals = [];
 
@@ -54,11 +53,8 @@ class Site implements \IteratorAggregate
     }
 
     public function get_lang() : string {
-        return $this->lang;
-    }
-
-    public function set_lang(string $lang) {
-        $this->lang = $lang;
+        $locale = \setlocale(LC_ALL, "0");
+        return substr($locale,0, 2);
     }
 
     /**
@@ -69,12 +65,12 @@ class Site implements \IteratorAggregate
      */
     public function tr($translatable, $default = null) : string
     {
-        if (isset($translatable[$this->lang]))
-            return $translatable[$this->lang];
+        if (isset($translatable[$this->get_lang()]))
+            return $translatable[$this->get_lang()];
         else if (is_string($default)) {
             return $default;
         } else
-            throw new exception\NoTranslationAvailableException($translatable, $this->lang);
+            throw new exception\NoTranslationAvailableException($translatable, $this->get_lang());
     }
 
     public function getIterator()

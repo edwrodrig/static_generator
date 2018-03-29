@@ -23,6 +23,8 @@ $site = new edwrodrig\static_generator\Site;
 $site->input_dir = 'files';
 $site->output_dir = 'output';
 
+setlocale(LC_ALL, 'es_CL.utf-8');
+
 $minifier = new edwrodrig\static_generator\ResourceMinifier;
 $minifier->sources = [
   __DIR__ . '/js'

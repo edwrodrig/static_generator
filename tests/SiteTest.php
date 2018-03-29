@@ -63,10 +63,10 @@ class SiteTest extends \PHPUnit\Framework\TestCase {
 
     function testTranslate() {
         $s = new Site;
-        $s->set_lang('es');
+        setlocale(LC_ALL, 'es_CL.utf-8');
         $this->assertEquals('es', $s->tr(['es' => 'es', 'en' => 'en']));
 
-        $s->set_lang('en');
+        setlocale(LC_ALL, 'en_US.utf-8');
         $this->assertEquals('en', $s->tr(['es' => 'es', 'en' => 'en']));
     }
 
@@ -80,14 +80,14 @@ class SiteTest extends \PHPUnit\Framework\TestCase {
      */
     public function testTranslateNoTranslation() {
         $s = new Site;
-        $s->set_lang('es');
+        setlocale(LC_ALL, 'es_CL.utf-8');
         $s->tr([]);
     }
 
 
     public function testTranslateNoTranslationDefault() {
         $s = new Site;
-        $s->set_lang('es');
+        setlocale(LC_ALL, 'es_CL.utf-8');
         $this->assertequals('hola', $s->tr([], 'hola'));
     }
 
@@ -98,7 +98,7 @@ class SiteTest extends \PHPUnit\Framework\TestCase {
      */
     public function testTranslateNoTranslation2() {
         $s = new Site;
-        $s->set_lang('es');
+        setlocale(LC_ALL, 'es_CL.utf-8');
         $s->tr(null);
     }
 
@@ -109,7 +109,7 @@ class SiteTest extends \PHPUnit\Framework\TestCase {
      */
     public function testTranslateNoTranslation3() {
         $s = new Site;
-        $s->set_lang('es');
+        setlocale(LC_ALL, 'es_CL.utf-8');
         $s->tr('');
     }
 
