@@ -133,6 +133,21 @@ class Site implements \IteratorAggregate
 
         return $this->templates[$name] ?? [];
     }
+
+    public static function check_locales(...$langs) {
+        $available_langs = explode("\n", shell_exec('locale -a'));
+
+        foreach ( $langs as $lang ) {
+            echo "Checking lang[$lang]...";
+            if (!in_array($lang, $available_langs)) {
+                echo "NOT AVAILABLE\n";
+                return false;
+            } else {
+                echo "AVAILABLE\n";
+            }
+        }
+        return true;
+    }
 }
 
 
