@@ -13,7 +13,7 @@ use DateTime;
 class FileItem implements CacheItem
 {
     private $base_folder;
-    private $filename;
+    protected $filename;
 
     public function __construct(string $base_folder, string $filename) {
         $this->base_folder = $base_folder;
