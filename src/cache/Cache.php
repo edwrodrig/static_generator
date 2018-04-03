@@ -77,7 +77,7 @@ class Cache
     }
 
     public function absolute_filename($filename) {
-        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . $filename;
+        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $filename;
         @mkdir(dirname($absolute_filename), 0777, true);
         return $absolute_filename;
     }
