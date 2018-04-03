@@ -11,13 +11,13 @@ namespace edwrodrig\static_generator\cache;
 use DateTime;
 use JsonSerializable;
 
-interface CacheItem extends JsonSerializable
+interface CacheItem
 {
     public function get_cache_key() : string;
 
     public function get_last_modification_time() : DateTime;
 
-    public function cache_generate();
+    public function get_cached_file() : string;
 
-    public function cache_remove();
+    public function cache_generate(Cache $cache);
 }

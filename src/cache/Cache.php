@@ -30,17 +30,19 @@ class Cache
         if ( file_exists($filename) ) {
             $index_data = file_get_contents($filename);
             if ( $index_data = json_decode($index_data, true) ) {
-                $this->index = $index_data;
+                foreach ( $index_data as $entry_data ) {
+                    $this->index[] = CacheEntry::create_from_array($entry_data);
+                }
             }
         }
     }
 
     public function get_index_filename() : string {
-        return $this->cache_dir . '/index.json';
+        return $this->absolute_filename('index.json');
     }
 
 
-    public function update_cache(CacheItem $entry) : CacheItem {
+    public function update_cache(CacheItem $entry) {
 
         $this->cache_hits[$entry->get_cache_key()] = 1;
 
@@ -48,8 +50,8 @@ class Cache
             return $this->set_cache($entry);
         } else {
             $last_entry = $this->index[$entry->get_cache_key()];
-            if ( $last_entry->get_last_modification_time() < $entry->get_last_modification_time() ) {
-                $last_entry->cache_remove();
+            if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
+                unlink($this->absolute_filename($last_entry->get_cached_file()));
 
                 return $this->set_cache($entry);
             } else {
@@ -58,19 +60,26 @@ class Cache
         }
     }
 
-    protected function set_cache(CacheItem $entry) : CacheItem {
-        $this->index[$entry->get_cache_key()] = $entry;
-        $entry->cache_generate();
-        return $entry;
+    protected function set_cache(CacheItem $item) : CacheItem {
+        $this->index[$item->get_cache_key()] = CacheEntry::create_from_item($item);
+        $item->cache_generate($this);
+        return $item;
     }
 
     public function is_hitted(CacheItem $entry) {
         return isset($this->cache_hits[$entry->get_cache_key()]);
     }
 
-    protected function clear_cache_entry(CacheItem $entry) {
+    protected function clear_cache_entry(CacheEntry $entry) {
         unset($this->cache_hits[$entry->get_cache_key()]);
-        $entry->cache_remove();
+
+        unlink($this->absolute_filename($entry->get_cache_file()));
+    }
+
+    public function absolute_filename($filename) {
+        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . $filename;
+        @mkdir(dirname($absolute_filename), 0777, true);
+        return $absolute_filename;
     }
 
     public function save_index()
