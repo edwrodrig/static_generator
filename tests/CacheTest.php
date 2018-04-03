@@ -36,7 +36,7 @@ class CacheTest extends TestCase
 
             public function cache_generate(Cache $cache) {
                 CacheTest::$log[] = "cache_generate_" . $this->get_cached_file();
-                file_put_contents($cache->absolute_filename($this->get_cached_file()), 'hola');
+                file_put_contents($cache->cache_filename($this->get_cached_file()), 'hola');
             }
 
             public function get_cached_file() : string {
@@ -68,8 +68,8 @@ class CacheTest extends TestCase
         $this->assertTrue($cache->is_hitted($item));
 
         $this->assertEquals(['cache_generate_hola_123'], self::$log);
-        $this->assertFileExists($cache->absolute_filename('hola_123'));
-        $this->assertFileNotExists($cache->absolute_filename('hola_345'));
+        $this->assertFileExists($cache->cache_filename('hola_123'));
+        $this->assertFileNotExists($cache->cache_filename('hola_345'));
 
         $item = self::create_cache_item('hola', new DateTime('2000-01-01'), '234');
 
@@ -77,8 +77,8 @@ class CacheTest extends TestCase
         $this->assertTrue($cache->is_hitted($item));
 
         $this->assertEquals(['cache_generate_hola_123'], self::$log);
-        $this->assertFileExists($cache->absolute_filename('hola_123'));
-        $this->assertFileNotExists($cache->absolute_filename('hola_234'));
+        $this->assertFileExists($cache->cache_filename('hola_123'));
+        $this->assertFileNotExists($cache->cache_filename('hola_234'));
 
         $item = self::create_cache_item('hola', new DateTime('3000-01-01'), '345');
 
@@ -86,8 +86,12 @@ class CacheTest extends TestCase
         $this->assertTrue($cache->is_hitted($item));
 
         $this->assertEquals(['cache_generate_hola_123', 'cache_generate_hola_345'], self::$log);
-        $this->assertFileNotExists($cache->absolute_filename('hola_123'));
-        $this->assertFileExists($cache->absolute_filename('hola_345'));
+        $this->assertFileNotExists($cache->cache_filename('hola_123'));
+        $this->assertFileExists($cache->cache_filename('hola_345'));
+
+        $cache->save_index();
+
+        $this->assertJsonFileEqualsJsonFile($cache->get_index_filename(), $cache->get_index_filename());
 
     }
 
@@ -113,8 +117,8 @@ class CacheTest extends TestCase
 
         $this->assertTrue($cache->is_hitted($item));
 
-        $this->assertFileExists($cache->absolute_filename('hola1'));
-        $this->assertEquals('A', file_get_contents($cache->absolute_filename('hola1')));
+        $this->assertFileExists($cache->cache_filename('hola1'));
+        $this->assertEquals('A', file_get_contents($cache->cache_filename('hola1')));
 
         $make_source('hola2', 'B');
         $item = $create_file('hola2');
@@ -122,9 +126,9 @@ class CacheTest extends TestCase
         $cache->update_cache($item);
         $this->assertTrue($cache->is_hitted($item));
 
-        $this->assertFileExists($cache->absolute_filename('hola1'));
-        $this->assertFileExists($cache->absolute_filename('hola2'));
-        $this->assertEquals('A', file_get_contents($cache->absolute_filename('hola1')));
+        $this->assertFileExists($cache->cache_filename('hola1'));
+        $this->assertFileExists($cache->cache_filename('hola2'));
+        $this->assertEquals('A', file_get_contents($cache->cache_filename('hola1')));
 
         sleep(1);
         $make_source('hola1','C');
@@ -133,9 +137,9 @@ class CacheTest extends TestCase
         $cache->update_cache($item);
         $this->assertTrue($cache->is_hitted($item));
 
-        $this->assertFileExists($cache->absolute_filename('hola1'));
-        $this->assertFileExists($cache->absolute_filename('hola2'));
-        $this->assertEquals('C', file_get_contents($cache->absolute_filename('hola1')));
+        $this->assertFileExists($cache->cache_filename('hola1'));
+        $this->assertFileExists($cache->cache_filename('hola2'));
+        $this->assertEquals('C', file_get_contents($cache->cache_filename('hola1')));
 
     }
 }

@@ -42,7 +42,7 @@ class Cache
     }
 
 
-    public function update_cache(CacheItem $entry) {
+    public function update_cache(CacheItem $entry) : CacheEntry {
 
         $this->cache_hits[$entry->get_cache_key()] = 1;
 
@@ -51,7 +51,7 @@ class Cache
         } else {
             $last_entry = $this->index[$entry->get_cache_key()];
             if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
-                unlink($this->absolute_filename($last_entry->get_cached_file()));
+                unlink($this->cache_filename($last_entry->get_cached_file()));
 
                 return $this->set_cache($entry);
             } else {
@@ -60,24 +60,29 @@ class Cache
         }
     }
 
-    protected function set_cache(CacheItem $item) : CacheItem {
-        $this->index[$item->get_cache_key()] = CacheEntry::create_from_item($item);
-        $item->cache_generate($this);
-        return $item;
+    public function cache_filename($filename) {
+        return $this->absolute_filename('files' . DIRECTORY_SEPARATOR . $filename);
     }
 
-    public function is_hitted(CacheItem $entry) {
+    protected function set_cache(CacheItem $item) : CacheEntry {
+        $entry = CacheEntry::create_from_item($item);
+        $this->index[$item->get_cache_key()] = $entry;
+        $item->cache_generate($this);
+        return $entry;
+    }
+
+    public function is_hitted($entry) {
         return isset($this->cache_hits[$entry->get_cache_key()]);
     }
 
     protected function clear_cache_entry(CacheEntry $entry) {
         unset($this->cache_hits[$entry->get_cache_key()]);
 
-        unlink($this->absolute_filename($entry->get_cache_file()));
+        unlink($this->cache_filename($entry->get_cache_file()));
     }
 
     public function absolute_filename($filename) {
-        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $filename;
+        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . $filename;
         @mkdir(dirname($absolute_filename), 0777, true);
         return $absolute_filename;
     }

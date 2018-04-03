@@ -53,7 +53,7 @@ class FileItem implements CacheItem
     public function cache_generate(Cache $cache) {
         copy(
             $this->get_source_filename(),
-            $cache->absolute_filename($this->get_cached_file())
+            $cache->cache_filename($this->get_cached_file())
         );
     }
 

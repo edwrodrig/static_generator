@@ -52,7 +52,7 @@ class CacheEntry implements JsonSerializable
         return [
             'cache_key' => $this->cache_key,
             'generation_date' => $this->generation_date->getTimestamp(),
-            'cached_file' => $this->cache_file
+            'cached_file' => $this->cached_file
         ];
     }
 }
