@@ -30,4 +30,10 @@ class FileItemTest extends TestCase
     function testGetBasename(string $expected, string $filename) {
         $this->assertEquals($expected, FileItem::get_basename($filename));
     }
+
+    function testGetCachedFile() {
+        $f = new FileItem('http://edwin.cl', 'hola.jpg', 'rojo');
+        $this->assertEquals('hola_rojo.jpg', $f->get_cached_file());
+    }
+
 }
