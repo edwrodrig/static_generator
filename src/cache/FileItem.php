@@ -31,9 +31,13 @@ class FileItem implements CacheItem
             return $base_name . '_' . $this->suffix;
     }
 
+    public function get_source_filename() {
+        return $this->base_folder . DIRECTORY_SEPARATOR . $this->filename;
+    }
+
     public function get_last_modification_time() : DateTime {
         $date = new DateTime();
-        $date->setTimestamp(filemtime($this->base_folder . DIRECTORY_SEPARATOR . $this->filename));
+        $date->setTimestamp(filemtime($this->get_source_filename()));
         return $date;
     }
 
@@ -48,7 +52,7 @@ class FileItem implements CacheItem
 
     public function cache_generate(Cache $cache) {
         copy(
-            $this->base_folder . DIRECTORY_SEPARATOR . $this->filename,
+            $this->get_source_filename(),
             $cache->absolute_filename($this->get_cached_file())
         );
     }
