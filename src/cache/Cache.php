@@ -59,7 +59,7 @@ class Cache
                 Page::log(sprintf("Outdated cache entry [%s]...UPDATED\n", $entry->get_cached_file()));
                 return $this->set_cache($entry);
             } else {
-                Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
+                //Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
                 return $last_entry;
             }
         }
@@ -110,6 +110,7 @@ class Cache
     }
 
     public function link_cached(string $source, string $target) {
+        Site::log(sprintf("Linking cache files [%s] > [%s]...LINKED\n", $source, $target));
         passthru(sprintf('cp -al %s %s', $this->cache_filename($source), Site::get()->output($target)));
     }
 }

@@ -6,6 +6,7 @@ trait Stack
 {
 
     static public $stack = [];
+    static public $last_element = null;
 
     static function level()
     {
@@ -23,7 +24,7 @@ trait Stack
 
     static function get()
     {
-        return self::$stack[self::level() - 1];
+        return self::$stack[self::level() - 1] ?? self::$last_element;
     }
 
     static function push($element)
@@ -33,12 +34,13 @@ trait Stack
 
     static function pop()
     {
-        array_pop(self::$stack);
+        self::$last_element = array_pop(self::$stack);
     }
 
     static function reset()
     {
         self::$stack = [];
+        self::$last_element = null;
     }
 
 }
