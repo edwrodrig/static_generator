@@ -83,7 +83,7 @@ class Cache
     protected function clear_cache_entry(CacheEntry $entry) {
         unset($this->cache_hits[$entry->get_cache_key()]);
 
-        unlink($this->cache_filename($entry->get_cache_file()));
+        unlink($this->cache_filename($entry->get_cached_file()));
     }
 
     public function absolute_filename($filename) {
@@ -111,6 +111,8 @@ class Cache
 
     public function link_cached(string $source, string $target) {
         Site::log(sprintf("Linking cache files [%s] > [%s]...LINKED\n", $source, $target));
-        passthru(sprintf('cp -al %s %s', $this->cache_filename($source), Site::get()->output($target)));
+        $target = Site::get()->output($target);
+        @mkdir(dirname($target), 0777, true);
+        passthru(sprintf('cp -al %s %s', $this->cache_filename($source), $target));
     }
 }
