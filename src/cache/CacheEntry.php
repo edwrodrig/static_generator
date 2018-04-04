@@ -52,7 +52,7 @@ class CacheEntry implements JsonSerializable
     }
 
     public function get_output_filename() : string {
-        return $this->get_output_filename();
+        return $this->output_filename;
     }
 
     public function __toString() : string {
