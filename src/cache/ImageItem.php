@@ -6,11 +6,7 @@
  * Time: 14:38
  */
 
-namespace ecodim\site\data;
-
-use edwrodrig\static_generator\cache\Cache;
-use edwrodrig\static_generator\cache\FileItem;
-use ecodim\site\Site;
+namespace edwrodrig\static_generator\cache;
 
 class ImageItem extends FileItem
 {
