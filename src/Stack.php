@@ -14,7 +14,7 @@ trait Stack
 
     public static function log($str)
     {
-        printf(
+        fprintf(STDOUT,
             "%s%s",
             str_repeat("  ", self::level()),
             $str
