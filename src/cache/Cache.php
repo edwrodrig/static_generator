@@ -54,8 +54,12 @@ class Cache
             return $this->set_cache($entry);
         } else {
             $last_entry = $this->index[$entry->get_cache_key()];
-            if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
-                unlink($this->cache_filename($last_entry->get_cached_file()));
+            $cached_filename  = $this->cache_filename($last_entry->get_cached_file());
+            if ( !file_exists($cached_filename) ) {
+                Page::log(sprintf("Cache file removed [%s]...UPDATED\n", $entry->get_cached_file()));
+                return $this->set_cache($entry);
+            } else if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
+                unlink($cached_filename);
                 Page::log(sprintf("Outdated cache entry [%s]...UPDATED\n", $entry->get_cached_file()));
                 return $this->set_cache($entry);
             } else {
