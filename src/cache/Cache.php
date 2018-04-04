@@ -32,8 +32,8 @@ class Cache
         if ( file_exists($filename) ) {
             $index_data = file_get_contents($filename);
             if ( $index_data = json_decode($index_data, true) ) {
-                foreach ( $index_data as $entry_data ) {
-                    $this->index[] = CacheEntry::create_from_array($entry_data);
+                foreach ( $index_data as $key => $entry_data ) {
+                    $this->index[$key] = CacheEntry::create_from_array($entry_data);
                 }
             }
         }
