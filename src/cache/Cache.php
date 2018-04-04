@@ -4,6 +4,7 @@ namespace edwrodrig\static_generator\cache;
 
 
 use edwrodrig\static_generator\Page;
+use edwrodrig\static_generator\Site;
 
 class Cache
 {
