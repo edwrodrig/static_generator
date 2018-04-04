@@ -16,6 +16,7 @@ class FileItem implements CacheItem
     protected $filename;
     protected $suffix;
     protected $output_folder = '';
+    protected $extension = null;
 
     public function __construct(string $base_folder, string $filename, string $suffix = '') {
         $this->base_folder = $base_folder;
@@ -51,7 +52,7 @@ class FileItem implements CacheItem
     }
 
     public function get_cached_file() : string {
-        $extension = pathinfo($this->filename, PATHINFO_EXTENSION);
+        $extension = $this->extension ?? pathinfo($this->filename, PATHINFO_EXTENSION);
 
         if ( empty($extension) )
             return $this->get_cache_key();
