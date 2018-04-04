@@ -107,4 +107,8 @@ class Cache
             json_encode($this->index, JSON_PRETTY_PRINT)
         );
     }
+
+    public function link_cached(string $source, string $target) {
+        passthru(sprintf('cp -al %s %s', $this->cache_filename($source), Site::get()->output($target)));
+    }
 }
