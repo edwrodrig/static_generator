@@ -39,6 +39,9 @@ class CacheTest extends TestCase
                 file_put_contents($cache->cache_filename($this->get_cached_file()), 'hola');
             }
 
+            public function get_output_filename() : string {
+                return $this->get_cached_file();
+            }
             public function get_cached_file() : string {
                 return $this->key .'_' . $this->salt;
             }
@@ -91,7 +94,19 @@ class CacheTest extends TestCase
 
         $cache->save_index();
 
-        $this->assertJsonFileEqualsJsonFile($cache->get_index_filename(), $cache->get_index_filename());
+        $index_filename = $cache->get_index_filename();
+        $this->assertFileExists($index_filename);
+        $data = json_decode(file_get_contents($index_filename), true);
+        $this->assertArraySubset(
+            [
+                'hola' => [
+                    'cache_key' => 'hola',
+                    'output_filename' => 'hola_345',
+                    'cached_file' => 'hola_345'
+                ]
+            ],
+            $data);
+
 
     }
 

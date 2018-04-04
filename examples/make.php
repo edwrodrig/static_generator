@@ -1,5 +1,7 @@
 <?php
 
+use edwrodrig\static_generator\cache\Cache;
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 class Template extends \edwrodrig\static_generator\Template {
@@ -20,8 +22,9 @@ class Template extends \edwrodrig\static_generator\Template {
 
 
 $site = new edwrodrig\static_generator\Site;
-$site->input_dir = 'files';
-$site->output_dir = 'output';
+$site->input_dir = __DIR__ . '/files';
+$site->output_dir = __DIR__ . '/output';
+$site->cache_dir = __DIR__ . '/cache';
 
 setlocale(LC_ALL, 'es_CL.utf-8');
 
@@ -32,5 +35,9 @@ $minifier->sources = [
 
 $minifier->js()->minify(__DIR__ . '/files/lib.js');
 
+$site->globals['cache'] = new Cache($site->cache('image'));
+
 $site->regenerate();
+
+$site->globals['cache']->save_index();
 

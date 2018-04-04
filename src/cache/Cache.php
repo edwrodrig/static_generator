@@ -3,6 +3,8 @@
 namespace edwrodrig\static_generator\cache;
 
 
+use edwrodrig\static_generator\Page;
+
 class Cache
 {
 
@@ -47,14 +49,16 @@ class Cache
         $this->cache_hits[$entry->get_cache_key()] = 1;
 
         if ( !isset($this->index[$entry->get_cache_key()]) ) {
+            Page::log(sprintf("New cache entry [%s]...GENERATING\n", $entry->get_cached_file()));
             return $this->set_cache($entry);
         } else {
             $last_entry = $this->index[$entry->get_cache_key()];
             if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
                 unlink($this->cache_filename($last_entry->get_cached_file()));
-
+                Page::log(sprintf("Outdated cache entry [%s]...UPDATED\n", $entry->get_cached_file()));
                 return $this->set_cache($entry);
             } else {
+                Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
                 return $last_entry;
             }
         }
@@ -92,8 +96,10 @@ class Cache
         foreach ($this->index as $id => $entry) {
             if ( $this->is_hitted($entry))
                 continue;
-            else
+            else {
+                Site::log(sprintf("Unused cache entry [%s]...REMOVED\n", $entry->get_cached_file()));
                 $this->clear_cache_entry($entry);
+            }
         }
 
         file_put_contents(

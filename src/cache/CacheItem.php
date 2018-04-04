@@ -19,5 +19,7 @@ interface CacheItem
 
     public function get_cached_file() : string;
 
+    public function get_output_filename() : string;
+
     public function cache_generate(Cache $cache);
 }

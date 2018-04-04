@@ -15,11 +15,20 @@ class FileItem implements CacheItem
     private $base_folder;
     protected $filename;
     protected $suffix;
+    protected $output_folder = '';
 
     public function __construct(string $base_folder, string $filename, string $suffix = '') {
         $this->base_folder = $base_folder;
         $this->filename = $filename;
         $this->suffix = $suffix;
+    }
+
+    public function get_output_filename() : string {
+        if ( empty($this->output_folder) ) {
+            return $this->get_cached_file();
+        } else {
+            return $this->output_folder . DIRECTORY_SEPARATOR . $this->get_cached_file();
+        }
     }
 
     public function get_cache_key() : string {

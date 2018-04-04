@@ -12,7 +12,7 @@ trait Stack
         return count(self::$stack);
     }
 
-    function log($str)
+    public static function log($str)
     {
         printf(
             "%s%s",
