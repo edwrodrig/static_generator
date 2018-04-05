@@ -17,11 +17,16 @@ class FileItem implements CacheItem
     protected $suffix;
     protected $output_folder = '';
     protected $extension = null;
+    protected $salt = null;
 
     public function __construct(string $base_folder, string $filename, string $suffix = '') {
         $this->base_folder = $base_folder;
         $this->filename = $filename;
         $this->suffix = $suffix;
+    }
+
+    public function set_salt() {
+        $this->salt = uniqid();
     }
 
     public function get_output_filename() : string {
@@ -54,10 +59,15 @@ class FileItem implements CacheItem
     public function get_cached_file() : string {
         $extension = $this->extension ?? pathinfo($this->filename, PATHINFO_EXTENSION);
 
+        $file = $this->get_cache_key();
+
+        if ( !empty($this->salt) )
+            $file .= '_' . $this->salt;
+
         if ( empty($extension) )
-            return $this->get_cache_key();
+            return $file;
         else
-            return $this->get_cache_key() . '.' . $extension;
+            return $file . '.' . $extension;
     }
 
     public function cache_generate(Cache $cache) {

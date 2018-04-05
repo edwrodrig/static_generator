@@ -12,7 +12,7 @@ class ImageItem extends FileItem
 {
     private $width;
     private $height;
-    public $svg_factor = 1;
+    protected $size_hint = 1;
     protected $mode = 'copy';
     protected $last_cache_used;
 
@@ -25,8 +25,8 @@ class ImageItem extends FileItem
 
     }
 
-    public function set_svg_factor(int $factor) {
-        $this->svg_factor = $factor;
+    public function set_size_hint(int $size_hint) {
+        $this->size_hint = $size_hint;
     }
 
     public function set_contain(int $width, int $height) {
@@ -46,7 +46,7 @@ class ImageItem extends FileItem
     public function cache_generate(Cache $cache) {
         $this->last_cache_used = $cache;
 
-        $img = \edwrodrig\image\Image::optimize($this->get_source_filename($this->filename), $this->svg_factor);
+        $img = \edwrodrig\image\Image::optimize($this->get_source_filename($this->filename), $this->size_hint);
         if ( $this->mode == 'contain' ) {
             $img = \edwrodrig\image\Image::contain($img, $this->width, $this->height);
 
