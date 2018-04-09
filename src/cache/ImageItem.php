@@ -10,8 +10,8 @@ namespace edwrodrig\static_generator\cache;
 
 class ImageItem extends FileItem
 {
-    private $width;
-    private $height;
+    protected $width;
+    protected $height;
     protected $size_hint = 1;
     protected $mode = 'copy';
     protected $last_cache_used;
