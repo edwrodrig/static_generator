@@ -46,7 +46,7 @@ class ImageItem extends FileItem
     public function cache_generate(Cache $cache) {
         $this->last_cache_used = $cache;
 
-        $img = \edwrodrig\image\Image::optimize($this->get_source_filename($this->filename), $this->size_hint);
+        $img = \edwrodrig\image\Image::optimize($this->get_source_filename(), $this->size_hint);
         if ( $this->mode == 'contain' ) {
             $img = \edwrodrig\image\Image::contain($img, $this->width, $this->height);
 
@@ -54,7 +54,6 @@ class ImageItem extends FileItem
             $img = \edwrodrig\image\Image::cover($img, $this->width, $this->height);
         }
         $img->writeImage($cache->cache_filename($this->get_cached_file()));
-        $cache->update_cache($this);
     }
 
 }
