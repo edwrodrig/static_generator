@@ -40,4 +40,5 @@ $site->globals['cache'] = new Cache($site->cache('image'));
 $site->regenerate();
 
 $site->globals['cache']->save_index();
+$site->globals['cache']->link_cached('.', 'cached');
 

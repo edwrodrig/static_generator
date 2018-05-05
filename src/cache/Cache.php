@@ -4,6 +4,7 @@ namespace edwrodrig\static_generator\cache;
 
 
 use edwrodrig\static_generator\Page;
+use edwrodrig\static_generator\Site;
 
 class Cache
 {
@@ -53,12 +54,16 @@ class Cache
             return $this->set_cache($entry);
         } else {
             $last_entry = $this->index[$entry->get_cache_key()];
-            if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
-                unlink($this->cache_filename($last_entry->get_cached_file()));
+            $cached_filename  = $this->cache_filename($last_entry->get_cached_file());
+            if ( !file_exists($cached_filename) ) {
+                Page::log(sprintf("Cache file removed [%s]...UPDATED\n", $entry->get_cached_file()));
+                return $this->set_cache($entry);
+            } else if ( $last_entry->get_generation_date() < $entry->get_last_modification_time() ) {
+                unlink($cached_filename);
                 Page::log(sprintf("Outdated cache entry [%s]...UPDATED\n", $entry->get_cached_file()));
                 return $this->set_cache($entry);
             } else {
-                Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
+                //Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
                 return $last_entry;
             }
         }
@@ -82,7 +87,7 @@ class Cache
     protected function clear_cache_entry(CacheEntry $entry) {
         unset($this->cache_hits[$entry->get_cache_key()]);
 
-        unlink($this->cache_filename($entry->get_cache_file()));
+        unlink($this->cache_filename($entry->get_cached_file()));
     }
 
     public function absolute_filename($filename) {
@@ -106,5 +111,12 @@ class Cache
             $this->get_index_filename(),
             json_encode($this->index, JSON_PRETTY_PRINT)
         );
+    }
+
+    public function link_cached(string $source, string $target) {
+        Site::log(sprintf("Linking cache files [%s] > [%s]...LINKED\n", $source, $target));
+        $target = Site::get()->output($target);
+        @mkdir(dirname($target), 0777, true);
+        passthru(sprintf('cp -al %s %s', $this->cache_filename($source), $target));
     }
 }
