@@ -1,39 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 19-03-18
- * Time: 14:32
- */
 
 namespace edwrodrig\static_generator;
 
 
 class Template
 {
-    protected $filename;
-    protected $metadata;
+    protected $page_info;
 
-    public function __construct(string $filename, PageMetadata $metadata) {
-        $this->filename = $filename;
-        $this->metadata = $metadata;
-    }
-
-    public function get_metadata() : PageMetadata {
-        return $this->metadata;
+    public function __construct(PagePhp $page_info) {
+        $this->page_info = $page_info;
     }
 
     public function print() {
         /** @noinspection PhpIncludeInspection */
-        include $this->filename;
+        include $this->page_info->getInput()->getAbsolutePath();
     }
 
-    public function get_template_type() : string {
+    public function getTemplateType() : string {
         return 'base';
     }
 
-    public function get_id() : string {
-        return basename($this->filename, '.php');
+    public function getId() : string {
+        return basename($this->getRelativePath()->ilename, '.php');
     }
 
 }

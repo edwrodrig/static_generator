@@ -2,6 +2,8 @@
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\util\FileData;
+
 class Site implements \IteratorAggregate
 {
 
@@ -72,17 +74,24 @@ class Site implements \IteratorAggregate
         } else
             throw new exception\NoTranslationAvailableException($translatable, $this->get_lang());
     }
-
+    /**
+     * @return \Generator|FileData[]
+     */
     public function getIterator()
     {
         return $this->iterate_item('.');
     }
 
+    /**
+     * @param $file
+     * @return \Generator|FileData[]
+     */
     public function iterate_item($file)
     {
         $input = $this->input($file);
+        $file_data = new FileData(0, $file, $this->input_dir);
 
-        if (!file_exists($input)) {
+        if ( ! $file_data->exists() ) {
 
         } else if (is_dir($input)) {
             foreach (scandir($input) as $index => $dir_file) {
@@ -94,11 +103,7 @@ class Site implements \IteratorAggregate
                 }
             }
         } else {
-            yield [
-                'level' => 0,
-                'relative_path' => $file,
-                'absolute_path' => $input
-            ];
+            yield $file_data;
         }
     }
 
@@ -126,7 +131,7 @@ class Site implements \IteratorAggregate
             $this->templates = [];
             foreach ($this as $file_data) {
                 if ($template = Page::instance_template($file_data)) {
-                    $this->templates[$template->get_template_type()][] = $template;
+                    $this->templates[$template->getTemplateType()][] = $template;
                 }
             }
         }

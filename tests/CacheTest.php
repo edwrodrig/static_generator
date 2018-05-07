@@ -6,6 +6,9 @@
  * Time: 10:31
  */
 
+namespace test\edwrodrig\static_generator;
+
+use DateTime;
 use edwrodrig\static_generator\cache\Cache;
 use edwrodrig\static_generator\cache\FileItem;
 use PHPUnit\Framework\TestCase;

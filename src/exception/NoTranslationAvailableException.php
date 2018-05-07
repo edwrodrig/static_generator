@@ -11,6 +11,11 @@ namespace edwrodrig\static_generator\exception;
 
 use Exception;
 
+/**
+ * Class NoTranslationAvailableException
+ * @package edwrodrig\static_generator\exception
+ * @api
+ */
 class NoTranslationAvailableException extends Exception
 {
 
@@ -18,6 +23,7 @@ class NoTranslationAvailableException extends Exception
      * NoTranslationAvailableException constructor.
      * @param $translatable
      * @param string $lang
+     * @internal
      */
     public function __construct($translatable, $lang)
     {
@@ -25,8 +31,6 @@ class NoTranslationAvailableException extends Exception
     }
 
     public static function message($translatable, $lang) {
-        ob_start();
-        print_r($translatable);
-        return sprintf("[%s][%s]", ob_get_clean(), $lang);
+        return sprintf("[%s][%s]", print_r($translatable, true), $lang);
     }
 }

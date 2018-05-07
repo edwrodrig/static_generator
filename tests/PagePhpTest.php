@@ -1,16 +1,60 @@
 <?php
 
-class PagePhpTest extends \PHPUnit\Framework\TestCase {
+namespace test\edwrodrig\static_generator;
 
-function testGenerateString() {
+use edwrodrig\static_generator\PagePhp;
+use edwrodrig\static_generator\util\FileData;
 
-  $page = new edwrodrig\static_generator\PagePhp;
-  $page->input_absolute_path = __DIR__ . '/files/test_dir/hola.php';
-  $output = $page->generate_string();
+class PagePhpTest extends \PHPUnit\Framework\TestCase
+{
 
-  $this->assertEquals("Hola mundo", $output);
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     */
+    function testGenerateString()
+    {
+        exec('rm -rf /tmp/static_generator/test');
 
-}
+        $page = new PagePhp(
+            new FileData(0, 'files/test_dir/hola.php', __DIR__),
+            '/tmp/static_generator/test'
+        );
+        $page->generate();
 
+        $this->assertStringEqualsFile($page->getAbsolutePath(), "Hola mundo");
+
+    }
+
+    /**
+     * @expectedException \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @expectedExceptionMessage UnexistantTemplate
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     */
+    public function testUnexistantTemplate()
+    {
+
+        new PagePhp(
+            new FileData(0, 'unexistant_template.php', __DIR__ . '/files'),
+            '/tmp'
+        );
+    }
+
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \Exception
+     */
+    public function testGenerateTemplate()
+    {
+
+        $page = new PagePhp(
+            new FileData(0, 'template_test.php', __DIR__ . '/files'),
+            '/tmp'
+        );
+
+        $page->generate();
+
+        $this->assertStringEqualsFile($page->getAbsolutePath(), " Hola Mundo");
+
+    }
 }
 

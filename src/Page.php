@@ -2,42 +2,41 @@
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\util\FileData;
+
 class Page
 {
+    /**
+     * @var FileData
+     */
+    public $input_file_data;
 
     /**
      * @var string
      */
-    public $input_relative_path;
-
-    /**
-     * @var string
-     */
-
-    public $input_absolute_path;
-
-    /**
-     * @var string|null
-     */
-    public $output_relative_path = null;
-
-    /**
-     * @var string|null
-     */
-    public $output_absolute_path = null;
-
-    /**
-     * @var int
-     */
-    public $level = 0;
+    private $output_base_dir = null;
 
     use Stack;
 
-    public function set_data($data)
-    {
-        $this->input_absolute_path = $data['absolute_path'] ?? null;
-        $this->input_relative_path = $data['relative_path'] ?? null;
+    public function __construct(FileData $data, string $output_base_dir) {
+        $this->input_file_data = $data;
+        $this->output_base_dir = $output_base_dir;
+    }
 
+    public function getRelativePath() : string {
+        return preg_replace(
+            '/^\.\//',
+            '',
+            $this->input_file_data->getRelativePath()
+        );
+    }
+
+    public function getAbsolutePath() : string {
+        return $this->output_base_dir . DIRECTORY_SEPARATOR . $this->getRelativePath();
+    }
+
+    public function getInput() : FileData {
+        return $this->input_file_data;
     }
 
     public function current_url() : string
@@ -45,87 +44,38 @@ class Page
         return Site::get()->url($this->output_relative_path);
     }
 
-    /**
-     * @return null|string
-     */
-    public function prepare_output() : string
-    {
-        $this->output_relative_path = preg_replace('/^\.\//', '', $this->output_relative_path);
-        $this->output_absolute_path = Site::get()->output($this->output_relative_path);
-        @mkdir(dirname($this->output_absolute_path), 0777, true);
-        return $this->output_absolute_path;
+    public function writePage(string $content) {
+        $file_name = $this->getAbsolutePath();
+        @mkdir(dirname($file_name), 0777, true);
+        file_put_contents($file_name, $content);
     }
 
     /**
-     * @param $data
+     * @param FileData $data
+     * @param string $output_base_dir
      * @return Page|null
+     * @throws exception\InvalidTemplateClassException
      */
-    static public function create($data) : ?Page
+    static public function create(FileData $data, string $output_base_dir) : Page
     {
-        $path = $data['relative_path'];
 
-        if (preg_match('/\.php$/', $path)) {
-            $metadata = new PageMetadata($data['absolute_path']);
+        $class_name = $data->getGenerationClassName();
 
-            $type = $metadata->get_type();
-
-            if ($type == 'copy') {
-                $page = new PageCopy();
-                $page->set_data($data);
-                return $page;
-
-            } else if ($type == 'process') {
-                $page = new PageProc();
-                $page->set_data($data);
-                return $page;
-
-            } else if ($type == 'template') {
-                $page = new PageTemplateInstance();
-                $page->set_data($data);
-                return $page;
-
-            } else {
-                $page = new PagePhp();
-                $page->set_data($data);
-                return $page;
-            }
-        } else if ( preg_match('/\.scss$/', $path)) {
-            $page = new PageScss();
-            $page->set_data($data);
-            return $page;
-
-        } else if (!preg_match('/\.swp$/', $path)) {
-            $page = new PageCopy();
-            $page->set_data($data);
-            return $page;
-        } else {
-            return null;
-        }
+        $page = new $class_name($data, $output_base_dir);
+        return $page;
     }
 
     /**
-     * @param $data
-     * @return Template|null
-     * @throws exception\TemplateClassDoesNotExistsException
+     * @param string $relative_path
+     * @param callable $function
+     * @throws \Exception
      */
-    static public function instance_template($data) : ?Template
+    public function generate_from_function(string $relative_path, callable $function)
     {
-        $path = $data['relative_path'];
+        $page = new PageFunction($this->input_file_data->createChildData($relative_path));
+        $page->function = $function;
 
-        if (preg_match('/\.php$/', $path)) {
-            $metadata = new PageMetadata($data['absolute_path']);
-
-            $type = $metadata->get_type();
-
-            if ($type == 'template') {
-                $page = new PageTemplateInstance();
-                $page->set_data($data);
-                return $page->get_template();
-            }
-        }
-
-        return null;
+        $page->generate();
     }
-
 }
 

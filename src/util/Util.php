@@ -1,6 +1,9 @@
 <?php
 
-namespace edwrodrig\static_generator;
+namespace edwrodrig\static_generator\util;
+
+use Error;
+use Exception;
 
 class Util
 {
@@ -8,11 +11,11 @@ class Util
     /**
      * @param $data
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     static function html_string($data) : string
     {
-        return htmlspecialchars(self::ob_safe($data));
+        return htmlspecialchars(self::outputBufferSafe($data));
     }
 
     /**
@@ -20,7 +23,7 @@ class Util
      * @return \Generator
      * @throws exception\FileDoesNotExistsException
      */
-    static function iterate_files($sources)
+    public static function iterate_files($sources)
     {
         foreach ($sources as $source) {
             if (!file_exists($source)) throw new exception\FileDoesNotExistsException($source);
@@ -38,11 +41,14 @@ class Util
     }
 
     /**
+     * This function nicely closes a {@see ob_get_clean() output buffer} context in the case of an Error.
+     *
      * @param $content
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     * @throws Error
      */
-    static function ob_safe($content) : string
+    public static function outputBufferSafe($content) : string
     {
         if (!is_callable($content)) {
             return strval($content);
@@ -53,9 +59,9 @@ class Util
             ob_start();
             $content();
             return ob_get_clean();
-        } catch (\Exception $e) {
-            while (ob_get_level() > $level) ob_get_clean();
 
+        } catch ( Exception | Error $e) {
+            while (ob_get_level() > $level) ob_get_clean();
             throw $e;
         }
     }

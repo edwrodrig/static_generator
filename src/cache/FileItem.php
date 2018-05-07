@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 03-04-18
- * Time: 11:31
- */
 
 namespace edwrodrig\static_generator\cache;
 

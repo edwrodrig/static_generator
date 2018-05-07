@@ -1,10 +1,12 @@
 <?php
 
+namespace test\edwrodrig\static_generator;
+
 class PageComponentTest extends \PHPUnit\Framework\TestCase {
 
 function testPrint1() {
 
-  $obj = new class extends edwrodrig\static_generator\PageComponent {
+  $obj = new class extends \edwrodrig\static_generator\PageComponent {
      function content() {
        echo '@@@';
      }
@@ -20,7 +22,7 @@ function testPrint1() {
 
 function testPrint2() {
 
-  $obj = new class extends edwrodrig\static_generator\PageComponent {
+  $obj = new class extends \edwrodrig\static_generator\PageComponent {
      function content() {
        echo '@@@ @@@ @@@';
      }
@@ -38,7 +40,7 @@ function testInclude() {
   file_put_contents('/tmp/test_include', '@@@ @@@ @@@');
 
   ob_start();
-  edwrodrig\static_generator\PageComponent::include('/tmp/test_include', 'id');
+  \edwrodrig\static_generator\PageComponent::include('/tmp/test_include', 'id');
   $this->assertEquals('id id id', ob_get_clean());
 
 }

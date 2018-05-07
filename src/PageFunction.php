@@ -2,6 +2,8 @@
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\util\Util;
+
 class PageFunction extends Page
 {
 
@@ -29,7 +31,7 @@ class PageFunction extends Page
     {
         self::push($this);
 
-        $content = Util::ob_safe($this->function);
+        $content = Util::outputBufferSafe($this->function);
 
         self::pop();
         return $content;

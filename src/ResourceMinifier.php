@@ -2,6 +2,7 @@
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\util\Util;
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
 
@@ -12,7 +13,7 @@ class ResourceMinifier
 
     /**
      * @return \Generator
-     * @throws exception\FileDoesNotExistsException
+     * @throws \edwrodrig\static_generator\util\exception\FileDoesNotExistsException
      */
     public function iterate_sources()
     {
@@ -30,7 +31,7 @@ class ResourceMinifier
 
     /**
      * @return JS
-     * @throws exception\FileDoesNotExistsException
+     * @throws \edwrodrig\static_generator\util\exception\FileDoesNotExistsException
      */
     public function js() : JS
     {
@@ -46,7 +47,7 @@ class ResourceMinifier
 
     /**
      * @return CSS
-     * @throws exception\FileDoesNotExistsException
+     * @throws \edwrodrig\static_generator\util\exception\FileDoesNotExistsException
      */
     public function css() : CSS
     {

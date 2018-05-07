@@ -17,7 +17,7 @@ class PageScss extends Page
     public function prepare_output() : string
     {
         if (is_null($this->output_relative_path)) {
-            $output = preg_replace('/\.scss$/', '.css', $this->input_relative_path);
+            $output = preg_replace('/\.scss$/', '.css', $this->input_file_data->getRelativePath());
             $this->output_relative_path = $output;
         }
         return parent::prepare_output();
@@ -51,9 +51,9 @@ class PageScss extends Page
      */
     public function generate_string() : string
     {
-        $scss_file = $this->input_absolute_path;
+        $scss_file = $this->input_file_data->getRelativePath();
         $scss = new Compiler();
-        $scss->setImportPaths(Site::get()->input_dir);
+        $scss->setImportPaths($this->input_file_data->getRootPath());
         $scss->setFormatter(Crunched::class);
         return $scss->compile(file_get_contents($scss_file));
     }
