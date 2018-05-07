@@ -1,6 +1,6 @@
 <?php
 
-namespace edwrodrig\static_generator;
+namespace edwrodrig\static_generator\util;
 
 use edwrodrig\static_generator\util\Util;
 use MatthiasMullie\Minify\CSS;

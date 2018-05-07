@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @template
+ * @template \edwrodrig\static_generator\template\TemplateHtmlBasic
  * @data {
  *     "name": "some_name"
  * }

@@ -119,7 +119,7 @@ class Site implements \IteratorAggregate
     {
         self::push($this);
         foreach ($this as $file_data) {
-            if ($page = Page::create($file_data)) {
+            if ($page = Page::create( )) {
                 $page->generate();
             }
         }

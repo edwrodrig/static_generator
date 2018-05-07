@@ -44,6 +44,9 @@ class PageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider createProvider
+     * @param $expected
+     * @param $metadata
+     * @param $input_file
      */
     function testCreate($expected, $metadata, $input_file)
     {

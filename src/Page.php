@@ -23,6 +23,14 @@ class Page
         $this->output_base_dir = $output_base_dir;
     }
 
+    /**
+     * Get the page relative path.
+     *
+     * It is used for output.
+     * It removes the leading ./ for caution.
+     * You can overload this method if you want to do other transformations.
+     * @return string
+     */
     public function getRelativePath() : string {
         return preg_replace(
             '/^\.\//',
@@ -31,6 +39,10 @@ class Page
         );
     }
 
+    /**
+     * Get the absolute path where the output should be written in the file system.
+     * @return string
+     */
     public function getAbsolutePath() : string {
         return $this->output_base_dir . DIRECTORY_SEPARATOR . $this->getRelativePath();
     }
@@ -44,6 +56,13 @@ class Page
         return Site::get()->url($this->output_relative_path);
     }
 
+    /**
+     * Write the output page.
+     *
+     * It uses the {@see Page::getAbsolutePath() absolute path} as s target.
+     * It creates al directories if the path does not exists
+     * @param string $content The content to write
+     */
     public function writePage(string $content) {
         $file_name = $this->getAbsolutePath();
         @mkdir(dirname($file_name), 0777, true);
@@ -54,9 +73,8 @@ class Page
      * @param FileData $data
      * @param string $output_base_dir
      * @return Page|null
-     * @throws exception\InvalidTemplateClassException
      */
-    static public function create(FileData $data, string $output_base_dir) : Page
+    public static function create(FileData $data, string $output_base_dir) : Page
     {
 
         $class_name = $data->getGenerationClassName();

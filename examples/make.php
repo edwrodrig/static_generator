@@ -4,7 +4,7 @@ use edwrodrig\static_generator\cache\Cache;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-class Template extends \edwrodrig\static_generator\Template {
+class Template extends \edwrodrig\static_generator\template\Template {
 
     /**
      * @return mixed
@@ -28,7 +28,7 @@ $site->cache_dir = __DIR__ . '/cache';
 
 setlocale(LC_ALL, 'es_CL.utf-8');
 
-$minifier = new edwrodrig\static_generator\ResourceMinifier;
+$minifier = new \edwrodrig\static_generator\util\ResourceMinifier;
 $minifier->sources = [
   __DIR__ . '/js'
 ];

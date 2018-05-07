@@ -3,11 +3,18 @@
 namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\FileData;
 use edwrodrig\static_generator\util\Util;
 use Exception;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 
+/**
+ * Class PagePhp
+ * When annotate PhpFiles ensure that the annotations are at one space from initial * or begin of line, in other case it will be parsed incorrectly.
+ * @package edwrodrig\static_generator
+ */
 class PagePhp extends Page
 {
     /**
@@ -48,56 +55,72 @@ class PagePhp extends Page
     public function __construct(FileData $data, string $output_base_dir) {
         parent::__construct($data, $output_base_dir);
 
-        $this->loadDataFromFirstComment();
+        if ( $doc_block = $this->getDocBlock() ) {
+            $this->loadDataFromDoc($doc_block);
+            $this->loadTypeDataFromDoc($doc_block);
+        }
     }
 
 
+    private function loadDataFromDoc(DocBlock $doc_block) {
+        if ( $doc_block->hasTag('data') ) {
+            $data = strval($doc_block->getTagsByName('data')[0]);
+            $data = @json_decode($data, true);
+            $this->data = $data;
+        }
+    }
+
     /**
+     * @param DocBlock $doc_block
      * @throws InvalidTemplateClassException
      */
-    private function loadDataFromFirstComment() {
+    private function loadTypeDataFromDoc(DocBlock $doc_block){
+        if ( $doc_block->hasTag('raw') ) {
+            $this->mode = self::MODE_RAW;
+
+        } else if ( $doc_block->hasTag('silent') ) {
+            $this->mode = self::MODE_SILENT;
+
+        } else if ( $doc_block->hasTag('template') ) {
+            $this->mode = self::MODE_TEMPLATE;
+
+            $template_class = strval($doc_block->getTagsByName('template')[0]);
+
+            if ( empty($template_class) ) {
+                $this->template_class = Template::class;
+
+            } else if ( class_exists($template_class) && is_subclass_of($template_class,Template::class) )  {
+                $this->template_class = $template_class;
+
+            } else {
+                /** @noinspection PhpInternalEntityUsedInspection */
+                throw new InvalidTemplateClassException($template_class);
+
+            }
+
+        } else {
+            $this->mode = self::MODE_TEMPLATE;
+            $this->template_class = Template::class;
+        }
+    }
+
+    /**
+     * Get the first Documentation block of the file.
+     *
+     * In the first comment is where al annotations for templating would be. Other Doc comments are ignored
+     * @return null|DocBlock
+     */
+    private function getDocBlock() : ?DocBlock {
         $tokens = token_get_all($this->input_file_data->getFileContents());
         foreach ($tokens as $token) {
-            if ($token[0] !== T_COMMENT)
+            if ($token[0] !== T_COMMENT && $token[0] !== T_DOC_COMMENT)
                 continue;
 
             $content = $token[1];
             $factory = DocBlockFactory::createInstance();
-            $reader = $factory->create($content);
-
-            if ( $reader->hasTag('data') ) {
-                $data = strval($reader->getTagsByName('data')[0]);
-                $data = @json_decode($data, true);
-                $this->data = $data;
-            }
-
-            if ( $reader->hasTag('raw') ) {
-                $this->mode = self::MODE_RAW;
-            } else if ( $reader->hasTag('silent') ) {
-                $this->mode = self::MODE_SILENT;
-            } else if ( $reader->hasTag('template') ) {
-                $this->mode = self::MODE_TEMPLATE;
-
-                $template_class = strval($reader->getTagsByName('template')[0]);
-
-                if ( empty($template_class) ) {
-                    $this->template_class = Template::class;
-                }
-                else if ( !class_exists($template_class) || !$template_class instanceof Template )  {
-                    /** @noinspection PhpInternalEntityUsedInspection */
-                    throw new InvalidTemplateClassException($template_class);
-                } else {
-                    $this->template_class = $template_class;
-                }
-
-            } else {
-                $this->mode = self::MODE_TEMPLATE;
-                $this->template_class = Template::class;
-            }
-
-            return;
+            return $factory->create($content);
         }
-
+        return null;
     }
 
     /**
@@ -143,6 +166,10 @@ class PagePhp extends Page
 
     public function getTemplate() : Template {
         return new $this->template_class($this);
+    }
+
+    public function getData() : array {
+        return $this->data;
     }
 
     /**

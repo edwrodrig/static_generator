@@ -14,6 +14,9 @@ use Leafo\ScssPhp\Formatter\Crunched;
 
 class PageScss extends Page
 {
+
+
+
     public function prepare_output() : string
     {
         if (is_null($this->output_relative_path)) {

@@ -38,23 +38,5 @@ class PagePhpTest extends \PHPUnit\Framework\TestCase
             '/tmp'
         );
     }
-
-    /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \Exception
-     */
-    public function testGenerateTemplate()
-    {
-
-        $page = new PagePhp(
-            new FileData(0, 'template_test.php', __DIR__ . '/files'),
-            '/tmp'
-        );
-
-        $page->generate();
-
-        $this->assertStringEqualsFile($page->getAbsolutePath(), " Hola Mundo");
-
-    }
 }
 

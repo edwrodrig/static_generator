@@ -15,10 +15,10 @@ class InvalidTemplateClassException extends Exception
 
     /**
      * InvalidTemplateClassException constructor.
-     * @param \phpDocumentor\Reflection\DocBlock\Tag $template_class
+     * @param string $template_class
      * @internal
      */
-    public function __construct($template_class)
+    public function __construct(string $template_class)
     {
         parent::__construct($template_class);
     }
