@@ -43,9 +43,8 @@ class LoggerTest extends TestCase
     public function testCompletingDone() {
 
         $logger = new Logger($this->target);
-        $logger
-            ->begin('Completing...')
-            ->end("DONE\n");
+        $logger->begin('Completing...');
+        $logger->end("DONE\n", false);
 
         $this->assertEquals("Completing...DONE\n", $this->getTargetData());
     }
@@ -60,10 +59,8 @@ EOF;
 
         $logger = new Logger($this->target);
         $logger
-            ->begin('Completing...')
-            ->end("DONE\n")
-            ->begin('Completing...')
-            ->end("DONE\n");
+            ->begin('Completing...')->end("DONE\n", false)
+            ->begin('Completing...')->end("DONE\n", false);
 
 
 

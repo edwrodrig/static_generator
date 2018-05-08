@@ -75,20 +75,13 @@ class Logger
      * @return Logger
      */
     public function log(string $message, bool $indent = true) : Logger {
-        $new_line = false;
         if ( $this->last_nesting_level < $this->current_nesting_level ) {
             $this->last_nesting_level = $this->current_nesting_level;
-            $new_line = true;
             $indent = true;
 
         } else if ( $this->last_nesting_level > $this->current_nesting_level ) {
             $this->last_nesting_level = $this->current_nesting_level;
-            $new_line = true;
             $indent = true;
-        }
-
-        if ( $new_line && $this->getLastCharWritten() != "\n" ) {
-            fwrite($this->target, "\n");
         }
 
         if ( $indent ) {
@@ -101,6 +94,11 @@ class Logger
     }
 
     public function printIndentation() : void {
+
+        if ( $this->getLastCharWritten() != "\n" ) {
+            fwrite($this->target, "\n");
+        }
+
         fwrite(
             $this->target,
             str_repeat("  ", $this->getCurrentNestingLevel())
