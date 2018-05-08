@@ -18,7 +18,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 class PagePhp extends Page
 {
     /**
-     * This page is processes as a template.
+     * This page is processes as a {@see PagePhp::processTemplate() template}.
      */
     const MODE_TEMPLATE = 1;
 
@@ -193,14 +193,10 @@ class PagePhp extends Page
      * @throws Exception
      */
     private function processSilent() {
-        self::push($this);
-
         Util::outputBufferSafe(function () {
             /** @noinspection PhpIncludeInspection */
             require($this->input_file_data->getAbsolutePath());
         });
-
-        self::pop();
     }
 
     private function processRaw() {
@@ -209,19 +205,15 @@ class PagePhp extends Page
     }
 
     /**
+     * Process this file as a Template
      * @throws Exception
      */
     private function processTemplate() {
-        self::push($this);
 
         $content = Util::outputBufferSafe(function () {
             $this->getTemplate()->print();
         });
 
         $this->writePage($content);
-
-        self::pop();
-
-
     }
 }

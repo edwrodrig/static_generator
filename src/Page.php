@@ -16,8 +16,6 @@ class Page
      */
     private $output_base_dir = null;
 
-    use Stack;
-
     public function __construct(FileData $data, string $output_base_dir) {
         $this->input_file_data = $data;
         $this->output_base_dir = $output_base_dir;

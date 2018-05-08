@@ -23,7 +23,7 @@ class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
 
 
         $this->assertRegexp(
-            "#some\_name Hola Mundo.*</html#",
+            "/<body>\s*some_name Hola Mundo\s*<\/body>\s*<\/html>/",
             file_get_contents($page->getAbsolutePath())
         );
 
