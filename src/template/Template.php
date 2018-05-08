@@ -18,7 +18,7 @@ class Template
 
     public function print() {
         /** @noinspection PhpIncludeInspection */
-        include $this->page_info->getInput()->getAbsolutePath();
+        include $this->page_info->getSourceAbsolutePath();
     }
 
     /**
@@ -46,7 +46,7 @@ class Template
      * @return string
      */
     public function getInputAbsolutePath() : string {
-        return $this->page_info->getAbsolutePath();
+        return $this->page_info->getTargetAbsolutePath();
     }
 
     public function getInfo() : PagePhp {

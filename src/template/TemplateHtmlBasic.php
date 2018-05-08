@@ -38,7 +38,7 @@ class TemplateHtmlBasic extends Template
      */
     public function body() : void {
         /** @noinspection PhpIncludeInspection */
-        include $this->page_info->getInput()->getAbsolutePath();
+        include $this->page_info->getSourceAbsolutePath();
     }
 
 

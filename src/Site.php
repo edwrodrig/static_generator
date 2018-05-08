@@ -7,8 +7,6 @@ use edwrodrig\static_generator\util\FileData;
 class Site implements \IteratorAggregate
 {
 
-    use Stack;
-
     public $input_dir = 'files';
     public $output_dir = 'output';
     public $cache_dir = 'cache';
@@ -89,7 +87,7 @@ class Site implements \IteratorAggregate
     public function iterate_item($file)
     {
         $input = $this->input($file);
-        $file_data = new FileData(0, $file, $this->input_dir);
+        $file_data = new FileData($file);
 
         if ( ! $file_data->exists() ) {
 

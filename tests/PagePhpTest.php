@@ -2,8 +2,10 @@
 
 namespace test\edwrodrig\static_generator;
 
+use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\FileData;
+use edwrodrig\static_generator\util\TemporaryLogger;
 
 class PagePhpTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,13 +17,26 @@ class PagePhpTest extends \PHPUnit\Framework\TestCase
     {
         exec('rm -rf /tmp/static_generator/test');
 
+        $logger = new TemporaryLogger;
+
+        $context = new Context(__DIR__, '/tmp/static_generator/test');
+            $context->setLogger($logger);
+
         $page = new PagePhp(
-            new FileData(0, 'files/test_dir/hola.php', __DIR__),
-            '/tmp/static_generator/test'
+            'files/test_dir/hola.php',
+            $context
         );
         $page->generate();
 
-        $this->assertStringEqualsFile($page->getAbsolutePath(), "Hola mundo");
+$expected_log = <<<LOG
+Processing file [files/test_dir/hola.php]...
+  Generating file [files/test_dir/hola]...DONE
+DONE
+LOG;
+
+
+        $this->assertEquals($expected_log, $logger->getTargetData());
+        $this->assertStringEqualsFile($page->getTargetAbsolutePath(), "Hola mundo");
 
     }
 
@@ -32,10 +47,14 @@ class PagePhpTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnexistantTemplate()
     {
+        $logger = new TemporaryLogger;
+
+        $context = new Context(__DIR__ . '/files', '/tmp');
+            $context->setLogger($logger);
 
         new PagePhp(
-            new FileData(0, 'unexistant_template.php', __DIR__ . '/files'),
-            '/tmp'
+            'unexistant_template.php',
+            $context
         );
     }
 }

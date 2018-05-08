@@ -2,8 +2,10 @@
 
 namespace test\edwrodrig\static_generator\template;
 
+use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\FileData;
+use edwrodrig\static_generator\util\TemporaryLogger;
 
 class TemplateTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,15 +15,24 @@ class TemplateTest extends \PHPUnit\Framework\TestCase
      */
     public function testGenerateTemplate()
     {
+        $logger = new TemporaryLogger;
+        $context = new Context(__DIR__ . '/../files', '/tmp');
+            $context->setLogger($logger);
 
         $page = new PagePhp(
-            new FileData(0, 'template_test.php', __DIR__ . '/../files'),
-            '/tmp'
+            'template_test.php',
+            $context
         );
 
         $page->generate();
 
-        $this->assertStringEqualsFile($page->getAbsolutePath(), "some_name Hola Mundo");
+        $expected_log = <<<LOG
+Processing file [template_test.php]...
+  Generating file [template_test]...DONE
+DONE
+LOG;
+        $this->assertEquals($expected_log, $logger->getTargetData());
+        $this->assertStringEqualsFile($page->getTargetAbsolutePath(), "some_name Hola Mundo");
     }
 }
 

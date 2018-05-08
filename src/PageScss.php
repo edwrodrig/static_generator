@@ -12,52 +12,31 @@ namespace edwrodrig\static_generator;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
-class PageScss extends Page
+class PageScss extends PageFile
 {
-
-
-
-    public function prepare_output() : string
+    public function getRelativePath() : string
     {
-        if (is_null($this->output_relative_path)) {
-            $output = preg_replace('/\.scss$/', '.css', $this->input_file_data->getRelativePath());
-            $this->output_relative_path = $output;
-        }
-        return parent::prepare_output();
+        $relative_path = preg_replace(
+            '/\.scss/',
+            '.css',
+            parent::getRelativePath()
+        );
+
+        return $relative_path;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function generate()
     {
-        $output = $this->prepare_output();
+        $this->getLogger()->begin(sprintf("Processing style [%s]...",$this->getRelativePath()));
 
-        if ( strpos(basename($output, '.css'), '_') === 0 )
-            return;
-
-        $string = $this->generate_string();
-
-        if ( empty($string) )
-            return;
-
-
-        $this->log(sprintf("Compiling style [%s]...", $this->output_relative_path));
-
-        file_put_contents($output, $string);
-        $this->log("DONE\n");
+            $this->getLogger()->begin("Compiling...");
+            $scss = new Compiler();
+            $scss->setImportPaths($this->context->getSourceRootPath());
+            $scss->setFormatter(Crunched::class);
+            $compiled_scss = $scss->compile($this->source_file_data->getFileContents());
+            $this->getLogger()->end("DONE\n", false);
+            $this->writePage($compiled_scss);
+        $this->getLogger()->end("DONE\n", false);
     }
 
-    /**
-     * @return string
-     * @throws \Exception
-     */
-    public function generate_string() : string
-    {
-        $scss_file = $this->input_file_data->getRelativePath();
-        $scss = new Compiler();
-        $scss->setImportPaths($this->input_file_data->getRootPath());
-        $scss->setFormatter(Crunched::class);
-        return $scss->compile(file_get_contents($scss_file));
-    }
 }

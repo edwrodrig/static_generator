@@ -2,31 +2,20 @@
 
 namespace edwrodrig\static_generator;
 
-class PageCopy extends Page
+class PageCopy extends PageFile
 {
 
-    /**
-     * @return null|string
-     */
-    public function prepare_output() : string
+    public function generate() : string
     {
-        if (is_null($this->output_relative_path)) {
-            $this->output_relative_path = $this->input_file_data->getRelativePath();
-        }
+        $source = $this->getSourceAbsolutePath();
+        $target =  $this->getTargetAbsolutePath();
+        $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getRelativePath()));
 
-        return parent::prepare_output();
-    }
+        $command = sprintf("cp %s %s", $source, $target);
+        exec($command);
 
-    public function generate()
-    {
-        $output = $this->prepare_output();
-
-        $this->log(sprintf("Copying file [%s]...", $this->input_file_data->getRelativePath()));
-
-        $command = sprintf("cp %s %s", $this->input_file_data->getAbsolutePath(), $output);
-        passthru($command);
-
-        $this->log("DONE\n");
+        $this->getLogger()->end("DONE", false);
+        return $source;
     }
 
 }

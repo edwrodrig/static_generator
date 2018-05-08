@@ -3,22 +3,38 @@
 namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\util\FileData;
+use edwrodrig\static_generator\util\Logger;
 
 class Page
 {
     /**
-     * @var FileData
-     */
-    public $input_file_data;
-
-    /**
      * @var string
      */
-    private $output_base_dir = null;
+    protected $relative_path;
 
-    public function __construct(FileData $data, string $output_base_dir) {
-        $this->input_file_data = $data;
-        $this->output_base_dir = $output_base_dir;
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    public function __construct(string $relative_path, Context $context) {
+        $this->relative_path = $relative_path;
+        $this->context = $context;
+    }
+
+    /**
+     * Get the page relative path.
+     *
+     * It removes the leading ./ for caution.
+     * You can overload this method if you want to do other transformations.
+     * @return string
+     */
+    public function getRelativePath() : string {
+        return preg_replace(
+            '/^\.\//',
+            '',
+            $this->relative_path
+        );
     }
 
     /**
@@ -29,24 +45,16 @@ class Page
      * You can overload this method if you want to do other transformations.
      * @return string
      */
-    public function getRelativePath() : string {
-        return preg_replace(
-            '/^\.\//',
-            '',
-            $this->input_file_data->getRelativePath()
-        );
+    public function getTargetRelativePath() : string {
+        return $this->getRelativePath();
     }
 
     /**
      * Get the absolute path where the output should be written in the file system.
      * @return string
      */
-    public function getAbsolutePath() : string {
-        return $this->output_base_dir . DIRECTORY_SEPARATOR . $this->getRelativePath();
-    }
-
-    public function getInput() : FileData {
-        return $this->input_file_data;
+    public function getTargetAbsolutePath() : string {
+        return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getRelativePath();
     }
 
     public function current_url() : string
@@ -62,22 +70,30 @@ class Page
      * @param string $content The content to write
      */
     public function writePage(string $content) {
-        $file_name = $this->getAbsolutePath();
-        @mkdir(dirname($file_name), 0777, true);
-        file_put_contents($file_name, $content);
+        $this->getLogger()->begin(sprintf("Generating file [%s]...", $this->getTargetRelativePath()));
+
+        if ( empty($content) ) {
+          $this->getLogger()->end("Empty! SKIPPED", false);
+        } else {
+            $file_name = $this->getTargetAbsolutePath();
+            @mkdir(dirname($file_name), 0777, true);
+            file_put_contents($file_name, $content);
+
+            $this->getLogger()->end("DONE", false);
+        }
     }
 
     /**
      * @param FileData $data
-     * @param string $output_base_dir
+     * @param Context $context
      * @return Page|null
+     * @throws util\exception\IgnoredPageFileException
      */
-    public static function create(FileData $data, string $output_base_dir) : Page
+    public static function create(FileData $data, Context $context) : Page
     {
-
         $class_name = $data->getGenerationClassName();
 
-        $page = new $class_name($data, $output_base_dir);
+        $page = new $class_name($data, $context);
         return $page;
     }
 
@@ -88,10 +104,17 @@ class Page
      */
     public function generate_from_function(string $relative_path, callable $function)
     {
-        $page = new PageFunction($this->input_file_data->createChildData($relative_path));
+        $page = new PageFunction($relative_path, $this->context);
         $page->function = $function;
 
         $page->generate();
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLogger() : Logger {
+        return $this->context->getLogger();
     }
 }
 

@@ -13,10 +13,16 @@ use edwrodrig\static_generator\cache\Cache;
 use edwrodrig\static_generator\cache\FileItem;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class CacheTest
+ * @package test\edwrodrig\static_generator
+ * @ig
+ */
 class CacheTest extends TestCase
 {
 
     static public $log = [];
+
 
     static public function create_cache_item(string $key, DateTime $date, string $salt) {
         $item = new class implements \edwrodrig\static_generator\cache\CacheItem {
@@ -58,6 +64,7 @@ class CacheTest extends TestCase
     }
 
     function setUp() {
+        $this->markTestIncomplete();
         passthru('rm -rf /tmp/cache_test');
         self::$log = [];
     }

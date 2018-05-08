@@ -15,7 +15,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
  * When annotate PhpFiles ensure that the annotations are at one space from initial * or begin of line, in other case it will be parsed incorrectly.
  * @package edwrodrig\static_generator
  */
-class PagePhp extends Page
+class PagePhp extends PageFile
 {
     /**
      * This page is processes as a {@see PagePhp::processTemplate() template}.
@@ -48,12 +48,12 @@ class PagePhp extends Page
 
     /**
      * PagePhp constructor.
-     * @param FileData $data
-     * @param string $output_base_dir
+     * @param string $source_path
+     * @param Context $context The generation context
      * @throws InvalidTemplateClassException
      */
-    public function __construct(FileData $data, string $output_base_dir) {
-        parent::__construct($data, $output_base_dir);
+    public function __construct(string $source_path, Context $context) {
+        parent::__construct($source_path, $context);
 
         if ( $doc_block = $this->getDocBlock() ) {
             $this->loadDataFromDoc($doc_block);
@@ -111,7 +111,7 @@ class PagePhp extends Page
      * @return null|DocBlock
      */
     private function getDocBlock() : ?DocBlock {
-        $tokens = token_get_all($this->input_file_data->getFileContents());
+        $tokens = token_get_all($this->getSourceFileContents());
         foreach ($tokens as $token) {
             if ($token[0] !== T_COMMENT && $token[0] !== T_DOC_COMMENT)
                 continue;
@@ -149,9 +149,9 @@ class PagePhp extends Page
         return $this->mode == self::MODE_RAW;
     }
 
-    public function getRelativePath() : string
+    public function getTargetRelativePath() : string
     {
-        $relative_path = parent::getRelativePath();
+        $relative_path = parent::getTargetRelativePath();
         if ( $this->isTemplate() ) {
 
                 $relative_path = preg_replace(
@@ -175,45 +175,52 @@ class PagePhp extends Page
     /**
      * @throws Exception
      */
-    public function generate()
+    public function generate() : string
     {
-        $this->log(sprintf("Processing file [%s]...", $this->input_file_data->getRelativePath()));
+        $this->getLogger()->begin(sprintf("Processing file [%s]...", $this->getSourceRelativePath()));
 
+        $content = '';
         if ( $this->mode == self::MODE_TEMPLATE )
-            $this->processTemplate();
+            $content = $this->processTemplate();
         else if ( $this->mode == self::MODE_SILENT )
-            $this->processSilent();
+            $content = $this->processSilent();
         else if ( $this->mode == self::MODE_RAW )
-            $this->processRaw();
+            $content = $this->processRaw();
 
-        $this->log("DONE\n");
+        $this->getLogger()->end("DONE\n", false);
+
+        return $content;
     }
 
     /**
      * @throws Exception
      */
-    private function processSilent() {
-        Util::outputBufferSafe(function () {
+    private function processSilent() : string {
+        $content = Util::outputBufferSafe(function () {
             /** @noinspection PhpIncludeInspection */
-            require($this->input_file_data->getAbsolutePath());
+            require($this->getSourceAbsolutePath());
         });
+        return $content;
     }
 
-    private function processRaw() {
-        $content = file_get_contents($this->input_file_data->getAbsolutePath());
+    private function processRaw() : string {
+        $content = $this->getSourceFileContents();
         $this->writePage($content);
+        return $content;
     }
 
     /**
      * Process this file as a Template
      * @throws Exception
      */
-    private function processTemplate() {
+    private function processTemplate() : string {
 
         $content = Util::outputBufferSafe(function () {
             $this->getTemplate()->print();
         });
 
         $this->writePage($content);
+
+        return $content;
     }
 }

@@ -12,29 +12,11 @@ class PageFunction extends Page
     /**
      * @throws \Exception
      */
-    public function generate()
+    public function generate() : string
     {
-        $output = $this->prepare_output();
-
-        $this->log(sprintf("Rendering file [%s]...", $this->output_relative_path));
-
-        file_put_contents($output, $this->generate_string());
-
-        $this->log("DONE\n");
-    }
-
-    /**
-     * @return string
-     * @throws \Exception
-     */
-    public function generate_string() : string
-    {
-        self::push($this);
-
         $content = Util::outputBufferSafe($this->function);
+        $this->writePage($content);
 
-        self::pop();
         return $content;
     }
-
 }

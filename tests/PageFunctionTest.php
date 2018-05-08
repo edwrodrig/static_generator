@@ -2,21 +2,34 @@
 
 namespace test\edwrodrig\static_generator;
 
+use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\FileData;
+use edwrodrig\static_generator\util\TemporaryLogger;
 
-class PageFunctionTest extends \PHPUnit\Framework\TestCase {
+class PageFunctionTest extends \PHPUnit\Framework\TestCase
+{
 
-function testGenerateString() {
+    function testGenerateString()
+    {
+        $logger = new TemporaryLogger;
 
-  $page = new \edwrodrig\static_generator\PageFunction(
-      new FileData(0, 'out'),
-      '');
-  $page->function = function() { echo "Hola mundo"; };
-  $output = $page->generate_string();
+        $context = new Context('', 'out');
+            $context->setLogger($logger);
 
-  $this->assertEquals("Hola mundo", $output);
+        $page = new \edwrodrig\static_generator\PageFunction(
+            'out',
+            $context);
 
-}
+        $page->function = function () {
+            echo "Hola mundo";
+        };
+
+        $output = $page->generate();
+
+        $this->assertEquals('Generating file [out]...DONE', $logger->getTargetData());
+        $this->assertEquals("Hola mundo", $output);
+
+    }
 
 }
 
