@@ -74,7 +74,7 @@ class CacheEntry implements JsonSerializable
     public function getRelativePath() : string {
         return $this->relative_path;
     }
-    
+
     public function jsonSerialize() {
         return [
             'cache_key' => $this->key,
