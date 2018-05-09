@@ -57,35 +57,6 @@ class Page
         return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getRelativePath();
     }
 
-
-    /**
-     * Get a url with absolute target path if needed.
-     *
-     * It is useful when the target web folder is not /, when you have different version of a site in different folder, for example, by languages
-     * @param string $path
-     * @return string
-     */
-    public function url(string $path) : string {
-        if ( strpos($path, '/') === 0 )
-            return '/' . $this->context->getTargetWebPath() . $path;
-        else
-            return $path;
-    }
-
-    /**
-     * Get the url of the current page.
-     *
-     * Useful to determine if you're in a current page.
-     * ```
-     * $this->>currentUrl() == '/index.html'
-     * ```
-     * @return string
-     */
-    public function currentUrl() : string
-    {
-        return $this->url('/' . $this->getTargetRelativePath());
-    }
-
     /**
      * Write the output page.
      *
@@ -108,20 +79,6 @@ class Page
     }
 
     /**
-     * @param FileData $data
-     * @param Context $context
-     * @return Page|null
-     * @throws util\exception\IgnoredPageFileException
-     */
-    public static function create(FileData $data, Context $context) : Page
-    {
-        $class_name = $data->getGenerationClassName();
-
-        $page = new $class_name($data, $context);
-        return $page;
-    }
-
-    /**
      * @param string $relative_path
      * @param callable $function
      * @throws \Exception
@@ -139,6 +96,14 @@ class Page
      */
     public function getLogger() : Logger {
         return $this->context->getLogger();
+    }
+
+    /**
+     * Get the current context
+     * @return Context
+     */
+    public function getContext() : Context {
+        return $this->context;
     }
 }
 

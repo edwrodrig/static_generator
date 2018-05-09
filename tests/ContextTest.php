@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class ContextTest extends TestCase
 {
+    /**
+     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
+     */
     function testTranslate()
     {
         $s = new Context('', '');

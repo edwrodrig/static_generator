@@ -169,6 +169,17 @@ class PagePhp extends PageFile
         return new $this->template_class($this);
     }
 
+    /**
+     * Data provided in the {@see PagePhp::getDocBlock() first comment}
+     *
+     * This data can be used in different context specially in {@see Template::getData() templates}
+     * Example
+     * ```
+     * @data something_in_json_format
+     * ```
+     * @data
+     * @return array
+     */
     public function getData() : array {
         return $this->data;
     }

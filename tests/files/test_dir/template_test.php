@@ -7,6 +7,9 @@
  * }
  */
 
-echo $this->getInfo()->getData()['name'];
+/**
+ * @var $this \edwrodrig\static_generator\template\Template
+ */
+echo $this->getData()['name'];
 echo " Hola";
 ?> Mundo

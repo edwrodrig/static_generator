@@ -47,14 +47,14 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
         /**
          * @var $templates \edwrodrig\static_generator\PagePhp[]
          */
-        $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', '/tmp')), false);
+        $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', '/tmp')));
 
 
         $this->assertCount(3, $templates);
 
-        $this->assertEquals('template_test', $templates[0]->getTargetRelativePath());
-        $this->assertEquals('template_html_basic_test', $templates[1]->getTargetRelativePath());
-        $this->assertEquals('hola', $templates[2]->getTargetRelativePath());
+        $this->assertEquals('template_test', $templates['template_test.php']->getTargetRelativePath());
+        $this->assertEquals('template_html_basic_test', $templates['template_html_basic_test.php']->getTargetRelativePath());
+        $this->assertEquals('hola', $templates['hola.php']->getTargetRelativePath());
     }
 
     /**
@@ -66,15 +66,15 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
         /**
          * @var $pages \edwrodrig\static_generator\PageFile[]
          */
-        $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', '/tmp')), false);
+        $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', '/tmp')));
 
         $this->assertCount(5, $pages);
 
-        $this->assertEquals('template_test', $pages[0]->getTargetRelativePath());
-        $this->assertEquals('template_html_basic_test', $pages[1]->getTargetRelativePath());
-        $this->assertEquals('hola.html', $pages[2]->getTargetRelativePath());
-        $this->assertEquals('hola', $pages[3]->getTargetRelativePath());
-        $this->assertEquals('sub/chao.html', $pages[4]->getTargetRelativePath());
+        $this->assertEquals('template_test', $pages['template_test.php']->getTargetRelativePath());
+        $this->assertEquals('template_html_basic_test', $pages['template_html_basic_test.php']->getTargetRelativePath());
+        $this->assertEquals('hola.html', $pages['hola.html']->getTargetRelativePath());
+        $this->assertEquals('hola', $pages['hola.php']->getTargetRelativePath());
+        $this->assertEquals('sub/chao.html', $pages['sub/chao.html']->getTargetRelativePath());
 
     }
 }
