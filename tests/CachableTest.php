@@ -35,15 +35,15 @@ class CacheTest extends TestCase
 
             public $salt;
 
-            public function get_cache_key() : string {
+            public function getKey() : string {
                 return $this->key;
             }
 
-            public function get_last_modification_time() : DateTime {
+            public function getLastModificationTime() : DateTime {
                 return $this->date;
             }
 
-            public function cache_generate(CacheManager $cache) {
+            public function generate(CacheManager $cache) {
                 CacheTest::$log[] = "cache_generate_" . $this->get_cached_file();
                 file_put_contents($cache->cache_filename($this->get_cached_file()), 'hola');
             }
@@ -51,7 +51,7 @@ class CacheTest extends TestCase
             public function get_output_filename() : string {
                 return $this->get_cached_file();
             }
-            public function get_cached_file() : string {
+            public function getTargetRelativePath() : string {
                 return $this->key .'_' . $this->salt;
             }
         };

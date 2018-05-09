@@ -13,82 +13,74 @@ use JsonSerializable;
 
 /**
  * Class CacheEntry
- * This represent a entry in the {@see CacheManager cache manager}.
+ * This represent a entry in the {@see CacheIndex cache index}.
  * @package edwrodrig\static_generator\cache
  */
 class CacheEntry implements JsonSerializable
 {
     /**
-     * The date when this entry was generated. This value is always generated internally
+     * The date when this entry was generated. This value is always generated internally.
+     *
+     * Internally this date should be always greater than the {@see CacheableItem::getLastModificationDate()}
      * @var DateTime
      */
     protected $generation_date;
 
     /**
-     * The absolute filename that where cached.
+     * The relative path filename that where cached.
      * @var string
      */
-    protected $cached_file;
+    protected $relative_path;
 
     /**
      * The very identifier of this cache entry.
      *
-     * It must be unique between all entries in the {@see CacheManager manager}
+     * It must be unique between all entries in the {@see CacheIndex index}
      * @var string
      */
-    protected $cache_key;
+    protected $key;
 
-    /**
-     * The relative path of the cache entry in the target cache directory
-     * @var string
-     */
-    protected $output_filename;
 
-    public function get_cache_key() : string {
-        return $this->cache_key;
+    public function getKey() : string {
+        return $this->key;
     }
 
-    public static function create_from_item(CacheableItem $item) {
+
+    public static function createFromItem(CacheableItem $item, CacheManager $manager) {
+        $item->generate($manager);
+
         $entry = new self;
-        $entry->cached_file = $item->get_cached_file();
+        $entry->relative_path = $item->getTargetRelativePath();
         $entry->output_filename = $item->get_output_filename();
         $entry->generation_date = new DateTime();
-        $entry->cache_key = $item->get_cache_key();
+        $entry->key = $item->getKey();
         return $entry;
     }
 
     public static function create_from_array(array $data) {
         $entry = new self;
-        $entry->cached_file = $data['cached_file'];
+        $entry->relative_path = $data['cached_file'];
         $entry->generation_date = new DateTime();
         $entry->generation_date->setTimestamp((int)$data['generation_date']);
         $entry->output_filename = $data['output_filename'];
-        $entry->cache_key = $data['cache_key'];
+        $entry->key = $data['cache_key'];
         return $entry;
     }
 
-    public function get_generation_date() : DateTime {
+    public function getGenerationDate() : DateTime {
         return $this->generation_date;
     }
 
-    public function get_cached_file() : string {
-        return $this->cached_file;
+    public function getRelativePath() : string {
+        return $this->relative_path;
     }
-
-    public function get_output_filename() : string {
-        return $this->output_filename;
-    }
-
-    public function __toString() : string {
-        return $this->get_output_filename();
-    }
-
+    
     public function jsonSerialize() {
         return [
-            'cache_key' => $this->cache_key,
+            'cache_key' => $this->key,
             'generation_date' => $this->generation_date->getTimestamp(),
             'output_filename' => $this->output_filename,
-            'cached_file' => $this->cached_file
+            'cached_file' => $this->relative_path
         ];
     }
 }

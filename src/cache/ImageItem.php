@@ -43,7 +43,7 @@ class ImageItem extends FileItem
         $this->mode = 'cover';
     }
 
-    public function cache_generate(CacheManager $cache) {
+    public function generate(CacheManager $cache) {
         $this->last_cache_used = $cache;
 
         $img = \edwrodrig\image\Image::optimize($this->get_source_filename(), $this->size_hint);
@@ -53,7 +53,7 @@ class ImageItem extends FileItem
         } else if ( $this->mode == 'cover' ) {
             $img = \edwrodrig\image\Image::cover($img, $this->width, $this->height);
         }
-        $img->writeImage($cache->cache_filename($this->get_cached_file()));
+        $img->writeImage($cache->cache_filename($this->getTargetRelativePath()));
     }
 
 }

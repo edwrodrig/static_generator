@@ -13,7 +13,20 @@ class CacheIndex
 {
     private $data = [];
 
+    /**
+     * The base path of this cache index
+     * @var string
+     */
+    private $path;
+
+    /**
+     * CacheIndex constructor.
+     * Creates a cache index object
+     * @param string $filename
+     */
     public function __construct(string $filename) {
+
+        $this->path = dirname($filename);
         if ( !file_exists($filename) ) return;
 
         $index_data = file_get_contents($filename);

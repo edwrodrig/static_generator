@@ -23,15 +23,7 @@ class FileItem implements CacheableItem
         $this->salt = uniqid();
     }
 
-    public function get_output_filename() : string {
-        if ( empty($this->output_folder) ) {
-            return $this->get_cached_file();
-        } else {
-            return $this->output_folder . DIRECTORY_SEPARATOR . $this->get_cached_file();
-        }
-    }
-
-    public function get_cache_key() : string {
+    public function getKey() : string {
         $base_name = self::get_basename($this->filename);
 
         if ( empty($this->suffix) )
@@ -44,16 +36,16 @@ class FileItem implements CacheableItem
         return $this->base_folder . DIRECTORY_SEPARATOR . $this->filename;
     }
 
-    public function get_last_modification_time() : DateTime {
+    public function getLastModificationTime() : DateTime {
         $date = new DateTime();
         $date->setTimestamp(filemtime($this->get_source_filename()));
         return $date;
     }
 
-    public function get_cached_file() : string {
+    public function getTargetRelativePath() : string {
         $extension = $this->extension ?? pathinfo($this->filename, PATHINFO_EXTENSION);
 
-        $file = $this->get_cache_key();
+        $file = $this->getKey();
 
         if ( !empty($this->salt) )
             $file .= '_' . $this->salt;
@@ -64,10 +56,10 @@ class FileItem implements CacheableItem
             return $file . '.' . $extension;
     }
 
-    public function cache_generate(CacheManager $cache) {
+    public function generate(CacheManager $cache) {
         copy(
             $this->get_source_filename(),
-            $cache->cache_filename($this->get_cached_file())
+            $cache->cache_filename($this->getTargetRelativePath())
         );
     }
 

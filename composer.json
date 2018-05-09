@@ -10,6 +10,9 @@
     ],
     "license" : "MIT",
     "minimum-stability" : "stable",
+    "suggest": {
+        "edwrodrig/image": "To work with images"
+    },
     "require": {
         "php" : "^7.2",
         "matthiasmullie/minify" : "^1.3",

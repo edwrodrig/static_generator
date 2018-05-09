@@ -21,14 +21,37 @@ class CacheManager
     /**
      * @var string
      */
-    protected $cache_dir;
+    protected $target_root_path;
+
+
+
 
     public function __construct(string $cache_dir, Context $context) {
         $this->context = $context;
-        $this->cache_dir = $cache_dir;
+        $this->target_root_path = $cache_dir;
         $this->index = [];
 
-        $this->loadIndex();
+        $this->index = new CacheIndex($this->get_index_filename());
+    }
+
+    /**
+     * Get the target root path.
+     *
+     * Return the cache target root path relative to the {@see Context::getTargetRootPath() context root path}.
+     * @return string
+     */
+    public function getTargetRootPath() : string {
+        return $this->target_root_path;
+    }
+
+    /**
+     * Get the target absolute path.
+     *
+     * Return the cache target absolute path in the current file system.
+     * @return string
+     */
+    public function getTargetAbsolutePath() : string {
+        return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetRootPath();
     }
 
     public function get_index_filename() : string {
@@ -38,20 +61,20 @@ class CacheManager
 
     public function update_cache(CacheableItem $item) : CacheEntry {
 
-        $this->cache_hits[$item->get_cache_key()] = 1;
+        $this->cache_hits[$item->getKey()] = 1;
 
-        if ( !isset($this->index[$item->get_cache_key()]) ) {
-            $this->getLogger()->begin(sprintf("New cache entry [%s]...GENERATING\n", $item->get_cached_file()));
+        if ( !isset($this->index[$item->getKey()]) ) {
+            $this->getLogger()->begin(sprintf("New cache entry [%s]...GENERATING\n", $item->getTargetRelativePath()));
             return $this->set_cache($item);
         } else {
-            $last_entry = $this->index[$item->get_cache_key()];
+            $last_entry = $this->index[$item->getKey()];
             $cached_filename  = $this->cache_filename($last_entry->get_cached_file());
             if ( !file_exists($cached_filename) ) {
-                $this->getLogger()->begin(sprintf("Cache file removed [%s]...UPDATED\n", $item->get_cached_file()));
+                $this->getLogger()->begin(sprintf("Cache file removed [%s]...UPDATED\n", $item->getTargetRelativePath()));
                 return $this->set_cache($item);
-            } else if ( $last_entry->get_generation_date() < $item->get_last_modification_time() ) {
+            } else if ( $last_entry->get_generation_date() < $item->getLastModificationTime() ) {
                 unlink($cached_filename);
-                $this->getLogger()->begin(sprintf("Outdated cache entry [%s]...UPDATED\n", $item->get_cached_file()));
+                $this->getLogger()->begin(sprintf("Outdated cache entry [%s]...UPDATED\n", $item->getTargetRelativePath()));
                 return $this->set_cache($item);
             } else {
                 //Page::log(sprintf("Cache hit[%s]...RETRIEVED\n", $entry->get_cached_file()));
@@ -65,9 +88,9 @@ class CacheManager
     }
 
     protected function set_cache(CacheableItem $item) : CacheEntry {
-        $entry = CacheEntry::create_from_item($item);
-        $this->index[$item->get_cache_key()] = $entry;
-        $item->cache_generate($this);
+        $entry = CacheEntry::createFromItem($item);
+        $this->index[$item->getKey()] = $entry;
+        $item->generate($this);
         return $entry;
     }
 
@@ -76,13 +99,13 @@ class CacheManager
     }
 
     protected function clearEntry(CacheEntry $entry) {
-        unset($this->cache_hits[$entry->get_cache_key()]);
+        unset($this->cache_hits[$entry->getKey()]);
 
-        unlink($this->cache_filename($entry->get_cached_file()));
+        unlink($this->cache_filename($entry->getRelativePath()));
     }
 
     public function absolute_filename($filename) {
-        $absolute_filename = $this->cache_dir . DIRECTORY_SEPARATOR . $filename;
+        $absolute_filename = $this->target_root_path . DIRECTORY_SEPARATOR . $filename;
         @mkdir(dirname($absolute_filename), 0777, true);
         return $absolute_filename;
     }

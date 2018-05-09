@@ -35,7 +35,7 @@ class FileItemTest extends TestCase
 
     function testGetCachedFile() {
         $f = new FileItem('http://edwin.cl', 'hola.jpg', 'rojo');
-        $this->assertEquals('hola_rojo.jpg', $f->get_cached_file());
+        $this->assertEquals('hola_rojo.jpg', $f->getTargetRelativePath());
     }
 
 }
