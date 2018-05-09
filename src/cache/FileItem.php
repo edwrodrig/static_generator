@@ -4,7 +4,7 @@ namespace edwrodrig\static_generator\cache;
 
 use DateTime;
 
-class FileItem implements CacheItem
+class FileItem implements CacheableItem
 {
     private $base_folder;
     protected $filename;
@@ -64,7 +64,7 @@ class FileItem implements CacheItem
             return $file . '.' . $extension;
     }
 
-    public function cache_generate(Cache $cache) {
+    public function cache_generate(CacheManager $cache) {
         copy(
             $this->get_source_filename(),
             $cache->cache_filename($this->get_cached_file())

@@ -9,7 +9,7 @@
 namespace test\edwrodrig\static_generator;
 
 use DateTime;
-use edwrodrig\static_generator\cache\Cache;
+use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\cache\FileItem;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class CacheTest extends TestCase
 
 
     static public function create_cache_item(string $key, DateTime $date, string $salt) {
-        $item = new class implements \edwrodrig\static_generator\cache\CacheItem {
+        $item = new class implements \edwrodrig\static_generator\cache\CacheableItem {
             public $key;
 
             /**
@@ -43,7 +43,7 @@ class CacheTest extends TestCase
                 return $this->date;
             }
 
-            public function cache_generate(Cache $cache) {
+            public function cache_generate(CacheManager $cache) {
                 CacheTest::$log[] = "cache_generate_" . $this->get_cached_file();
                 file_put_contents($cache->cache_filename($this->get_cached_file()), 'hola');
             }
@@ -73,7 +73,7 @@ class CacheTest extends TestCase
 
         $item = self::create_cache_item('hola', new DateTime('2000-01-01'), '123');
 
-        $cache = new Cache('/tmp/cache_test');
+        $cache = new CacheManager('/tmp/cache_test');
 
         $this->assertFalse($cache->is_hitted($item));
         $cache->update_cache($item);
@@ -135,7 +135,7 @@ class CacheTest extends TestCase
         $make_source('hola1', 'A');
         $item = $create_file('hola1');
 
-        $cache = new Cache('/tmp/cache_test');
+        $cache = new CacheManager('/tmp/cache_test');
 
         $this->assertFalse($cache->is_hitted($item));
         $cache->update_cache($item);

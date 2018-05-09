@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 08-05-18
- * Time: 12:25
- */
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\util;
 

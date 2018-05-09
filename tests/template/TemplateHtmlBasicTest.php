@@ -16,7 +16,7 @@ class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
     public function testGenerateTemplate()
     {
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
         $context->setLogger($logger);
 
         $page = new PagePhp(

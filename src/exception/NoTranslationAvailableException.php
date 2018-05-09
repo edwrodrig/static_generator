@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 27-03-18
- * Time: 17:09
- */
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\exception;
 
@@ -30,7 +25,12 @@ class NoTranslationAvailableException extends Exception
         parent::__construct(self::message($translatable, $lang));
     }
 
-    public static function message($translatable, $lang) {
+    /**
+     * @param $translatable
+     * @param $lang
+     * @return string
+     */
+    private static function message($translatable, $lang) {
         return sprintf("[%s][%s]", print_r($translatable, true), $lang);
     }
 }

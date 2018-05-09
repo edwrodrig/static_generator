@@ -4,7 +4,6 @@ namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
-use edwrodrig\static_generator\util\FileData;
 use edwrodrig\static_generator\util\TemporaryLogger;
 
 class PagePhpTest extends \PHPUnit\Framework\TestCase

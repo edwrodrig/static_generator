@@ -1,6 +1,6 @@
 <?php
 
-use edwrodrig\static_generator\cache\Cache;
+use edwrodrig\static_generator\cache\CacheManager;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
@@ -8,7 +8,6 @@ class Template extends \edwrodrig\static_generator\template\Template {
 
     /**
      * @return mixed
-     * @throws \edwrodrig\static_generator\exception\WrongDataException
      */
     public function get_title() {
         return $this->metadata->get_data()['title'];
@@ -35,7 +34,7 @@ $minifier->sources = [
 
 $minifier->js()->minify(__DIR__ . '/files/lib.js');
 
-$site->globals['cache'] = new Cache($site->cache('image'));
+$site->globals['cache'] = new CacheManager($site->cache('image'));
 
 $site->regenerate();
 

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 02-04-18
- * Time: 11:50
- */
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\widget;
 use edwrodrig\static_generator\util\GoogleTrackingId;

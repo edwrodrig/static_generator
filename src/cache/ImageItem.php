@@ -43,7 +43,7 @@ class ImageItem extends FileItem
         $this->mode = 'cover';
     }
 
-    public function cache_generate(Cache $cache) {
+    public function cache_generate(CacheManager $cache) {
         $this->last_cache_used = $cache;
 
         $img = \edwrodrig\image\Image::optimize($this->get_source_filename(), $this->size_hint);

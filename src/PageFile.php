@@ -1,9 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
-
-use edwrodrig\static_generator\util\FileData;
-use edwrodrig\static_generator\util\Logger;
 
 class PageFile extends Page
 {
@@ -28,6 +26,9 @@ class PageFile extends Page
     /**
      * Get the contents of the file.
      *
+     * Return an empty string it the file does not exist.
+     * The file should always exist.
+     * This case is considered for testing
      * @return string
      */
     public function getSourceFileContents() : string {

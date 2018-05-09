@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-use edwrodrig\static_generator\util\FileData;
 use edwrodrig\static_generator\util\Logger;
 
 class Page
@@ -57,9 +57,33 @@ class Page
         return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getRelativePath();
     }
 
-    public function current_url() : string
+
+    /**
+     * Get a url with absolute target path if needed.
+     *
+     * It is useful when the target web folder is not /, when you have different version of a site in different folder, for example, by languages
+     * @param string $path
+     * @return string
+     */
+    public function url(string $path) : string {
+        if ( strpos($path, '/') === 0 )
+            return '/' . $this->context->getTargetWebPath() . $path;
+        else
+            return $path;
+    }
+
+    /**
+     * Get the url of the current page.
+     *
+     * Useful to determine if you're in a current page.
+     * ```
+     * $this->>currentUrl() == '/index.html'
+     * ```
+     * @return string
+     */
+    public function currentUrl() : string
     {
-        return Site::get()->url($this->output_relative_path);
+        return $this->url('/' . $this->getTargetRelativePath());
     }
 
     /**

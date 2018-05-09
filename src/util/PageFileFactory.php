@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 08-05-18
- * Time: 14:55
- */
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\util;
 
@@ -64,7 +59,7 @@ class PageFileFactory
      * If this file is a single file then yields itself.
      * If this file is a directory then yields every nested file, if inside there are directories then applies this function recursively.
      * @param Context $context
-     * @return \Generator|PageFile[]
+     * @return \Generator|\edwrodrig\static_generator\PageFile[]
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @throws exception\IgnoredPageFileException
      */
@@ -78,6 +73,22 @@ class PageFileFactory
             if ( self::isIgnore($file->getSubPathName()) ) continue;
 
             yield self::createPage($file->getSubPathName(), $context);
+        }
+    }
+
+    /**
+     * @param Context $context
+     * @return \Generator|\edwrodrig\static_generator\PagePhp[]
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws exception\IgnoredPageFileException
+     */
+    public static function createTemplates(Context $context) {
+
+        foreach ( self::createPages($context) as $page ) {
+
+            if ( $page instanceof PagePhp && $page->isTemplate() ) {
+                yield $page;
+            }
         }
     }
 }

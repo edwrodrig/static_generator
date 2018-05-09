@@ -11,20 +11,44 @@ namespace edwrodrig\static_generator\cache;
 use DateTime;
 use JsonSerializable;
 
+/**
+ * Class CacheEntry
+ * This represent a entry in the {@see CacheManager cache manager}.
+ * @package edwrodrig\static_generator\cache
+ */
 class CacheEntry implements JsonSerializable
 {
+    /**
+     * The date when this entry was generated. This value is always generated internally
+     * @var DateTime
+     */
     protected $generation_date;
 
+    /**
+     * The absolute filename that where cached.
+     * @var string
+     */
     protected $cached_file;
 
+    /**
+     * The very identifier of this cache entry.
+     *
+     * It must be unique between all entries in the {@see CacheManager manager}
+     * @var string
+     */
     protected $cache_key;
+
+    /**
+     * The relative path of the cache entry in the target cache directory
+     * @var string
+     */
     protected $output_filename;
 
     public function get_cache_key() : string {
         return $this->cache_key;
     }
 
-    public static function create_from_item(CacheItem $item) {
+    public static function create_from_item(CacheableItem $item) {
         $entry = new self;
         $entry->cached_file = $item->get_cached_file();
         $entry->output_filename = $item->get_output_filename();

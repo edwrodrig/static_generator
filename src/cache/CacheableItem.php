@@ -11,7 +11,7 @@ namespace edwrodrig\static_generator\cache;
 use DateTime;
 use JsonSerializable;
 
-interface CacheItem
+interface CacheableItem
 {
     public function get_cache_key() : string;
 
@@ -21,5 +21,5 @@ interface CacheItem
 
     public function get_output_filename() : string;
 
-    public function cache_generate(Cache $cache);
+    public function cache_generate(CacheManager $cache);
 }
