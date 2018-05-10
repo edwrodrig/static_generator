@@ -10,6 +10,7 @@ use edwrodrig\static_generator\util\Util;
 use Exception;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\Type;
 
 /**
  * Class PagePhp
@@ -85,9 +86,22 @@ class PagePhp extends PageFile
         } else if ( $doc_block->hasTag('template') ) {
             $this->mode = self::MODE_TEMPLATE;
 
-            $template_class = strval($doc_block->getTagsByName('template')[0]);
+            $template_class = '';//strval($doc_block->getTagsByName('template')[0]);
 
-            if ( empty($template_class) ) {
+            $vars = $doc_block->getTagsByName('var');
+            /** @var $var DocBlock\Tags\Var_ */
+            foreach ( $vars as $var ) {
+
+                if ( $var->getVariableName() == 'this' ) {
+                    if ( $description = $var->getDescription() ) {
+                        /** @var $type DocBlock\Description*/
+                        $template_class = strval($description);
+                        break;
+                    }
+                }
+            }
+
+            if ( empty($template_class) || $template_class == Template::class ) {
                 $this->template_class = Template::class;
 
             } else if ( class_exists($template_class) && is_subclass_of($template_class,Template::class) )  {

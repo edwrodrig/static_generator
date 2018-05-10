@@ -15,6 +15,7 @@ use JsonSerializable;
  * Class CacheEntry
  * This represent a entry in the {@see CacheIndex cache index}.
  * @package edwrodrig\static_generator\cache
+ * @api
  */
 class CacheEntry implements JsonSerializable
 {
@@ -49,6 +50,7 @@ class CacheEntry implements JsonSerializable
      * CacheEntry constructor.
      *
      * To create a entry you must use {@see CacheEntry::createFromItem}
+     * @internal
      * @param string $key
      * @param CacheManager $manager
      */
@@ -59,7 +61,7 @@ class CacheEntry implements JsonSerializable
 
     /**
      * Get the unique key of this entry.
-     *
+     * @api
      * @see CacheEntry::$key
      * @return string
      */
@@ -69,6 +71,7 @@ class CacheEntry implements JsonSerializable
 
     /**
      * Creates an entry from a CacheableItem
+     * @api
      * @param CacheableItem $item
      * @param CacheManager $manager
      * @return CacheEntry
@@ -82,6 +85,7 @@ class CacheEntry implements JsonSerializable
 
     /**
      * Creates a cache entry from an recovered {@see CacheEntry::jsonSerialize() array entry}
+     * @internal
      * @param array $data
      * @param CacheManager $manager
      * @return CacheEntry
@@ -97,7 +101,8 @@ class CacheEntry implements JsonSerializable
     }
 
     /**
-     *
+     * Get the target path relative to {@see CacheManager::getTargetAbsolutePath() cache dir}
+     * @api
      * @return string
      */
     public function getTargetRelativePath() : string {
@@ -110,7 +115,7 @@ class CacheEntry implements JsonSerializable
      * The path there the cached file is stored in the local file system.
      * @return string
      */
-    public function getTargetAbsolutePath() : string {
+    protected function getTargetAbsolutePath() : string {
         return $this->manager->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . $this->getTargetRelativePath();
     }
 
@@ -130,6 +135,7 @@ class CacheEntry implements JsonSerializable
      * Function to remove the current cached file.
      * This function is used when the entry is updated and the file if replaced by another one.
      * As the files can have different names, the last one must be deleted.
+     * @api
      * @return bool
      */
     public function removeCachedFile() : bool
@@ -148,6 +154,8 @@ class CacheEntry implements JsonSerializable
      *
      * Only updates if the entry {@see CacheEntry::cachedFileExists() losses} their cached filename (example: by manually deleting the cache file)
      * or if cache entry is {@see CacheableItem::getLastModificationTime() outdated}
+     * @uses CacheEntry::generate() To generate the file
+     * @internal
      * @param CacheableItem $item
      * @return bool If an update occurs
      */
@@ -171,7 +179,13 @@ class CacheEntry implements JsonSerializable
         }
     }
 
-
+    /**
+     * Generate the new cache file.
+     *
+     * This function replaces the current information of the cache entry with the.
+     * Is protected because generation must occurs only when file is modified or not existant.
+     * @param CacheableItem $item
+     */
     protected function generate(CacheableItem $item) {
         $this->removeCachedFile();
         $this->last_modification_time = $item->getLastModificationTime();
@@ -186,7 +200,7 @@ class CacheEntry implements JsonSerializable
      * The json version of the data.
      *
      * This data must be compatible with {@see CacheEntry::createFromArray()}
-     *
+     * @internal
      * @return array
      */
     public function jsonSerialize() : array {
@@ -195,14 +209,5 @@ class CacheEntry implements JsonSerializable
             'last_modification_time' => $this->last_modification_time->getTimestamp(),
             'relative_path' => $this->relative_path
         ];
-    }
-
-    /**
-     * Get the last modification date
-     * @return DateTime
-     */
-    public function getLastModificationTime(): DateTime
-    {
-        return $this->last_modification_time;
     }
 }

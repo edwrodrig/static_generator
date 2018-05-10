@@ -6,6 +6,11 @@ namespace edwrodrig\static_generator\cache;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\Logger;
 
+/**
+ * Class CacheManager
+ * @package edwrodrig\static_generator\cache
+ * @api
+ */
 class CacheManager
 {
     /**
@@ -23,8 +28,6 @@ class CacheManager
     protected $target_root_path;
 
 
-
-
     public function __construct(string $cache_dir, Context $context) {
         $this->context = $context;
         $this->target_root_path = $cache_dir;
@@ -37,7 +40,7 @@ class CacheManager
      * Return the cache target root path relative to the {@see Context::getTargetRootPath() context root path}.
      * @return string
      */
-    public function getTargetRootPath() : string {
+    protected function getTargetRootPath() : string {
         return $this->target_root_path;
     }
 
@@ -45,6 +48,8 @@ class CacheManager
      * Get the target absolute path.
      *
      * Return the cache target absolute path in the current file system.
+     *
+     * @api
      * @return string
      */
     public function getTargetAbsolutePath() : string {
@@ -54,7 +59,9 @@ class CacheManager
     /**
      * Update the index according a item
      *
-     * This function always creates a new entry or update an existing one if needed
+     * This function always creates a new entry or update an existing one if needed.
+     *
+     * @api
      * @param CacheableItem $item
      * @return CacheEntry an updated cache entry
      */
@@ -66,7 +73,10 @@ class CacheManager
      * Prepare a cache file.
      *
      * This functions should always be called before creating a cache file.
-     * This create the respective folders if does not exist and return the absolute path to use
+     * This create the respective folders if does not exist and return the absolute path to use.
+     * This function is intended to be uses in {@see CacheableItem::generate()}.
+     *
+     * @api
      * @param CacheableItem $item
      * @return string
      */
@@ -77,6 +87,12 @@ class CacheManager
     }
 
     /**
+     * Get the context logger.
+     *
+     * its a convenience function for internal cache element has access to the log.
+     * You can use it in {@see CacheableItem::generate()}.
+     *
+     * @api
      * @return Logger
      */
     public function getLogger() : Logger {

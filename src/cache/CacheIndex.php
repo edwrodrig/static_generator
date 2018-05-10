@@ -8,7 +8,11 @@
 
 namespace edwrodrig\static_generator\cache;
 
-
+/**
+ * Class CacheIndex
+ * @package edwrodrig\static_generator\cache
+ * @internal
+ */
 class CacheIndex
 {
     /**

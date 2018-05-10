@@ -53,9 +53,15 @@ interface CacheableItem
     /**
      * Generates this cache entry.
      *
-     * This must generate a cache file. All cache files must be generated in to {@see CacheManager::getTargetAbsolutePath() target root path}
-     * and match the {@see CacheManager::getTargetRelativePath() relative path}.
-     * @param CacheManager $cache to retrieve the {@see CacheManager::getTargetAbsolutePath() target root path}
+     * This must generate a cache file. All cache files must be generated in to {@see CacheManager::getTargetAbsolutePath() target root path}.
+     * For convenience this method should call {@see CacheManager::prepareCacheFile()} to get the target filename.
+     * This function should not delete the previous entry, because it is removed internally.
+     * ```
+     *   $absolute_path = $this->manager->prepareCacheFile();
+     *   file_put_contents($absolute_path, 'content');
+     * ```
+     *
+     * @param CacheManager $manager to retrieve the {@see CacheManager::prepareCacheFile() target root path}
      */
-    public function generate(CacheManager $cache);
+    public function generate(CacheManager $manager);
 }

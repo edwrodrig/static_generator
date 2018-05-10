@@ -37,18 +37,13 @@ class CacheEntryTest extends TestCase
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt', $entry->getTargetAbsolutePath());
-
-        $first_generation_date = $entry->getLastModificationTime();
 
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt_2');
         $entry = $manager->update($item);
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt', $entry->getTargetAbsolutePath());
 
-        $this->assertEquals($first_generation_date, $entry->getLastModificationTime());
 
 
         $expected_log = <<<LOG
@@ -75,20 +70,24 @@ LOG;
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt', $entry->getTargetAbsolutePath());
-
-        $first_generation_date = $entry->getLastModificationTime();
 
         $entry->removeCachedFile();
 
-        $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt_2');
+        $item = new CacheableItem('abc', new DateTime('2014-01-01'), 'salt_2');
         $entry = $manager->update($item);
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt_2', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt_2', $entry->getTargetAbsolutePath());
 
-        $this->assertEquals($first_generation_date, $entry->getLastModificationTime());
+
+        $item = new CacheableItem('abc', new DateTime('2014-02-01'), 'salt_3');
+        $entry = $manager->update($item);
+
+        $this->assertEquals('abc', $entry->getKey());
+        $this->assertEquals('abc_salt_3', $entry->getTargetRelativePath());
+
+
+        $entry = $manager->update($item);
 
         $expected_log = <<<LOG
 New cache entry [abc]
@@ -96,6 +95,9 @@ New cache entry [abc]
 Removing file [abc_salt]...REMOVED
 Cache file [abc_salt] NOT FOUND!
   Generating cache file [abc_salt_2]...GENERATED
+Outdated cache entry [abc] FOUND!
+  Removing file [abc_salt_2]...REMOVED
+  Generating cache file [abc_salt_3]...GENERATED
 
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -116,18 +118,12 @@ LOG;
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt', $entry->getTargetAbsolutePath());
-
-        $first_generation_date = $entry->getLastModificationTime();
 
         $item = new CacheableItem('abc', new DateTime('2016-01-01'), 'salt_2');
         $entry = $manager->update($item);
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt_2', $entry->getTargetRelativePath());
-        $this->assertEquals('/tmp/out/abc_salt_2', $entry->getTargetAbsolutePath());
-
-        $this->assertGreaterThan($first_generation_date, $entry->getLastModificationTime());
 
     $expected_log = <<<LOG
 New cache entry [abc]
