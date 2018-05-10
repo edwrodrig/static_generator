@@ -6,9 +6,17 @@ use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\FileData;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use org\bovigo\vfs\vfsStream;
 
 class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
 {
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
+
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @throws \Exception
@@ -16,7 +24,7 @@ class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
     public function testGenerateTemplate()
     {
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
         $page = new PagePhp(

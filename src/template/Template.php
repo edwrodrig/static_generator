@@ -16,7 +16,7 @@ use edwrodrig\static_generator\PagePhp;
 class Template
 {
     /**
-     * The Page object of the file. Shoudl always be a {@see PagePhp}
+     * The Page object of the file. Should always be a {@see PagePhp}
      * @var PagePhp
      */
     protected $page_info;

@@ -6,12 +6,11 @@
  * Time: 10:31
  */
 
-namespace test\edwrodrig\static_generator;
+namespace test\edwrodrig\static_generator\cache;
 
 use DateTime;
-use test\edwrodrig\static_generator\cache\CacheableItem;
+use org\bovigo\vfs\vfsStream;
 use edwrodrig\static_generator\cache\CacheManager;
-use edwrodrig\static_generator\cache\FileItem;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\TemporaryLogger;
 use PHPUnit\Framework\TestCase;
@@ -23,10 +22,17 @@ use PHPUnit\Framework\TestCase;
  */
 class CacheEntryTest extends TestCase
 {
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
+
     function testCacheEntryUpdateSameEntry() {
 
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
             $context->setLogger($logger);
 
         $manager = new CacheManager('out', $context);
@@ -59,7 +65,7 @@ LOG;
     function testCacheEntryUpdateRemovedCachedFile() {
 
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
         $manager = new CacheManager('out', $context);
@@ -107,7 +113,7 @@ LOG;
     function testCacheEntryUpdateModifiedFile() {
 
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
         $manager = new CacheManager('out', $context);

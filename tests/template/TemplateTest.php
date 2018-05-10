@@ -5,9 +5,17 @@ namespace test\edwrodrig\static_generator\template;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use org\bovigo\vfs\vfsStream;
 
 class TemplateTest extends \PHPUnit\Framework\TestCase
 {
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
+
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @throws \Exception
@@ -15,7 +23,7 @@ class TemplateTest extends \PHPUnit\Framework\TestCase
     public function testGenerateTemplate()
     {
         $logger = new TemporaryLogger;
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
             $context->setLogger($logger);
 
         $page = new PagePhp(
@@ -40,12 +48,12 @@ LOG;
      */
     public function testUrl()
     {
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setTargetWebPath('es');
         $page = new PagePhp('out.html', $context);
         $template = $page->getTemplate();
         $this->assertEquals('out.html', $page->getTargetRelativePath());
-        $this->assertEquals('/tmp/out.html', $page->getTargetAbsolutePath());
+        $this->assertEquals($this->root->url() . '/out.html', $page->getTargetAbsolutePath());
         $this->assertEquals('in.html', $template->url('in.html'));
         $this->assertEquals('/es/in.html', $template->url('/in.html'));
     }
@@ -55,7 +63,7 @@ LOG;
      */
     public function testCurrentUrl()
     {
-        $context = new Context(__DIR__ . '/../files/test_dir', '/tmp');
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setTargetWebPath('es');
         $page = new PagePhp('out.html', $context);
         $template = $page->getTemplate();

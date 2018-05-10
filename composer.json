@@ -20,7 +20,9 @@
         "phpdocumentor/reflection-docblock": "^4.3.0"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "^7.0"
+        "phpunit/phpunit" : "^7.0",
+        "edwrodrig/image" : "^2.0",
+        "mikey179/vfsStream": "^1.6"
     },
     "autoload" : {
         "psr-4" : {

@@ -5,20 +5,25 @@ namespace test\edwrodrig\static_generator;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use org\bovigo\vfs\vfsStream;
 
 class PagePhpTest extends \PHPUnit\Framework\TestCase
 {
+
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
 
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      */
     function testGenerateString()
     {
-        exec('rm -rf /tmp/static_generator/test');
-
         $logger = new TemporaryLogger;
 
-        $context = new Context(__DIR__, '/tmp/static_generator/test');
+        $context = new Context(__DIR__, $this->root->url());
             $context->setLogger($logger);
 
         $page = new PagePhp(
@@ -48,7 +53,7 @@ LOG;
     {
         $logger = new TemporaryLogger;
 
-        $context = new Context(__DIR__ . '/files', '/tmp');
+        $context = new Context(__DIR__ . '/files', $this->root->url());
             $context->setLogger($logger);
 
         new PagePhp(

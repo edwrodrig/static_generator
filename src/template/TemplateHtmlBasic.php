@@ -48,6 +48,10 @@ class TemplateHtmlBasic extends Template
     }
 
 
+    /**
+     * @api
+     * @return string
+     */
     public function getTemplateType() : string {
         return 'html_basic';
     }

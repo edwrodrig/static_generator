@@ -4,9 +4,17 @@ namespace test\edwrodrig\static_generator\util;
 
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\PageFileFactory;
+use org\bovigo\vfs\vfsStream;
 
 class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
 {
+
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
 
     /**
      * @param string $expected
@@ -21,7 +29,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $page = PageFileFactory::createPage(
             $input_file,
-            new Context('', '')
+            new Context('', $this->root->url())
         );
         $this->assertInstanceOf($expected, $page);
 
@@ -38,7 +46,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     function testCreateIgnored(string $input_file) {
         PageFileFactory::createPage(
             $input_file,
-            new Context('', '')
+            new Context('', $this->root->url())
         );
     }
 
@@ -47,7 +55,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
         /**
          * @var $templates \edwrodrig\static_generator\PagePhp[]
          */
-        $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', '/tmp')));
+        $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 
 
         $this->assertCount(3, $templates);
@@ -66,7 +74,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
         /**
          * @var $pages \edwrodrig\static_generator\PageFile[]
          */
-        $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', '/tmp')));
+        $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 
         $this->assertCount(5, $pages);
 
