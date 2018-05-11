@@ -1,59 +1,101 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: edwin
- * Date: 03-04-18
- * Time: 14:38
- */
 
 namespace edwrodrig\static_generator\cache;
+
+use edwrodrig\image\Image;
+use edwrodrig\image\Size;
 
 class ImageItem extends FileItem
 {
     protected $width;
     protected $height;
-    protected $size_hint = 1;
-    protected $mode = 'copy';
-    protected $last_cache_used;
+    protected $resize_mode = 'copy';
 
-    public function __construct(string $base_folder, string $file, string $suffix = '')
+    public function __construct(string $root_path, string $file, string $version = '', int $width = 1000)
     {
-        parent::__construct($base_folder, $file, $suffix);
+        parent::__construct($root_path, $file, $version);
+        $this->width = $width;
 
         if (pathinfo($file, PATHINFO_EXTENSION) == 'svg')
-            $this->extension = 'png';
+            $this->target_extension = 'png';
 
     }
 
-    public function set_size_hint(int $size_hint) {
-        $this->size_hint = $size_hint;
-    }
-
-    public function set_contain(int $width, int $height) {
+    /**
+     * Command to resize contain the image
+     *
+     * Uses the behavior of (@see Image::contain()}.
+     * @param int $width
+     * @param int $height
+     * @return $this
+     */
+    public function resizeContain(int $width, int $height) : ImageItem {
         $this->width = $width;
         $this->height = $height;
-        $this->suffix = $width . 'x' . $height . '_contain';
-        $this->mode = 'contain';
+        $this->version = $width . 'x' . $height . '_contain';
+        $this->resize_mode = 'contain';
+
+        return $this;
     }
 
-    public function set_cover(int $width, int $height) {
+    /**
+     * Command to resize cover the image
+     *
+     * Uses the behavior of (@see Image::cover()}.
+     * @param int $width
+     * @param int $height
+     * @return $this
+     */
+    public function resizeCover(int $width, int $height) : ImageItem {
         $this->width = $width;
         $this->height = $height;
-        $this->suffix = $width . 'x' . $height . '_cover';
-        $this->mode = 'cover';
+        $this->version = $width . 'x' . $height . '_cover';
+        $this->resize_mode = 'cover';
+
+        return $this;
     }
 
-    public function generate(CacheManager $cache) {
-        $this->last_cache_used = $cache;
 
-        $img = \edwrodrig\image\Image::optimize($this->get_source_filename(), $this->size_hint);
-        if ( $this->mode == 'contain' ) {
-            $img = \edwrodrig\image\Image::contain($img, $this->width, $this->height);
+    /**
+     * Process image.
+     *
+     * This method is used by {@see ImageItem::generate()} and will be overriden
+     * if you want to add more functionality to this object.
+     * @param Image $image
+     */
+    protected function process(Image $image) {
+    }
 
-        } else if ( $this->mode == 'cover' ) {
-            $img = \edwrodrig\image\Image::cover($img, $this->width, $this->height);
+    /**
+     * @param CacheManager $manager
+     * @throws \ImagickException
+     * @throws \edwrodrig\image\exception\ConvertingSvgException
+     * @throws \edwrodrig\image\exception\InvalidImageException
+     * @throws \edwrodrig\image\exception\InvalidSizeException
+     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @uses ImageItem::process()
+     */
+    public function generate(CacheManager $manager) {
+
+        $img = Image::createFromFile($this->getSourceFilename(), $this->width);
+
+        $this->process($img);
+
+        if ( $this->resize_mode == 'contain' ) {
+            $img->contain(new Size($this->width, $this->height));
+
+        } else if ( $this->resize_mode == 'cover' ) {
+            $img->cover(new Size($this->width, $this->height));
         }
-        $img->writeImage($cache->cache_filename($this->getTargetRelativePath()));
+
+        if ( $this->target_extension == 'jpg') {
+            $img->optimizePhoto();
+        } else {
+            $img->optimize();
+        }
+
+
+        $img->writeImage($manager->prepareCacheFile($this));
     }
 
 }

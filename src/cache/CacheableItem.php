@@ -44,7 +44,7 @@ interface CacheableItem
      *
      * This must return the target relative path to the {@see CacheManager::getTargetRootPath() target root path of the context}
      * Example you want to generate a file as cache/folder/img_24x24.jpg.
-     * Sometines is a good idea that the file is salted to
+     * Sometimes is a good idea that the file is salted to
      * {@see https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating_and_updating_cached_responses help caching efficience}
      * @return string
      */
@@ -57,7 +57,7 @@ interface CacheableItem
      * For convenience this method should call {@see CacheManager::prepareCacheFile()} to get the target filename.
      * This function should not delete the previous entry, because it is removed internally.
      * ```
-     *   $absolute_path = $this->manager->prepareCacheFile();
+     *   $absolute_path = $manager->prepareCacheFile();
      *   file_put_contents($absolute_path, 'content');
      * ```
      *

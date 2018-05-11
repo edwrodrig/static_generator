@@ -95,4 +95,67 @@ LOG;
 
 
     }
+
+
+    public function testManagerUnused() {
+        $logger = new TemporaryLogger;
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $context->setLogger($logger);
+
+        $manager = new CacheManager('cache', $context);
+
+        $item_1 = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
+        $item_2 = new CacheableItem('zxc', new DateTime('2016-01-01'), 'salt');
+
+        $manager->update($item_1);
+        $manager->update($item_2);
+
+        $manager->save();
+
+        $expected_log = <<<LOG
+New cache entry [abc]
+  Generating cache file [abc_salt]...GENERATED
+New cache entry [zxc]
+  Generating cache file [zxc_salt]...GENERATED
+
+LOG;
+        $this->assertEquals($expected_log, $logger->getTargetData());
+
+
+        $logger = new TemporaryLogger;
+        $context->setLogger($logger);
+
+        $manager = new CacheManager('cache', $context);
+
+        $manager->update($item_1);
+        $manager->save();
+
+        $expected_log = <<<LOG
+Unused cache entry [zxc] FOUND!
+  Removing file [zxc_salt]...REMOVED
+
+LOG;
+
+        $this->assertEquals($expected_log, $logger->getTargetData());
+
+        $logger = new TemporaryLogger;
+        $context->setLogger($logger);
+
+        $manager = new CacheManager('cache', $context);
+
+        $manager->update($item_1);
+        $manager->update($item_2);
+        $manager->save();
+
+        $expected_log = <<<LOG
+New cache entry [zxc]
+  Generating cache file [zxc_salt]...GENERATED
+
+LOG;
+
+        $this->assertEquals($expected_log, $logger->getTargetData());
+
+
+    }
+
 }

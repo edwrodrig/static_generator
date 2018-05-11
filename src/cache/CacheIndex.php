@@ -94,6 +94,7 @@ class CacheIndex
      *
      * All the entries without {@see CacheIndex::$hits hits} are going to be removed.
      * This function should be called before saving the index to a file.
+     * Using this functions reset {@see CacheIndex::$hits previous hits}.
      */
     protected function removeUnusedEntries() {
         foreach ($this->data as $key => $entry) {
@@ -104,6 +105,9 @@ class CacheIndex
             $this->removeEntry($entry);
             $this->manager->getLogger()->end('', false);
         }
+
+
+        $this->hits = [];
     }
 
     /**
