@@ -11,6 +11,7 @@ namespace edwrodrig\static_generator\cache;
 class CacheIndex
 {
     /**
+     * The cache entries in the form of an associative array where the {@see CacheEntry::getKey() key} references the {@see CacheEntry}
      * @var CacheEntry[]
      */
     private $data = [];
@@ -27,6 +28,9 @@ class CacheIndex
     private $hits = [];
 
     /**
+     * The cache manager.
+     *
+     * Important to retrieve some pass it to cache entries
      * @var CacheManager
      */
     private $manager;

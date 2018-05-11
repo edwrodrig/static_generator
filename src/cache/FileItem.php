@@ -6,7 +6,32 @@ use DateTime;
 
 class FileItem implements CacheableItem
 {
+    /**
+     * The root path of the file.
+     *
+     * The absolute path must be splitted in two parts The root path and the {@see FileItem::$filename filename}.
+     * This part is all the part of the path not considered in the target cache dir.
+     *
+     * In the following case
+     * ```
+     * $root_path = '/some/root/path'
+     * $filename = 'files/used.txt'
+     * ````
+     *
+     * The target cache path will be cache/root/files/used.txt
+     *
+     * @var string
+     */
     private $root_path;
+
+    /**
+     * The filename
+     *
+     * The path to the source filename relative to the {@see FileItem::$root_path}
+     * This also works as a relative path to the target dir.
+     *
+     * @var string
+     */
     protected $filename;
 
     /**
@@ -39,8 +64,9 @@ class FileItem implements CacheableItem
     /**
      * FileItem constructor.
      *
-     * @param string $root_path
-     * @param string $filename
+     * @api
+     * @param string $root_path {@see FileItem::$root_path}
+     * @param string $filename {@see FileItem::$filename}
      * @param string $version
      */
     public function __construct(string $root_path, string $filename, string $version = '') {
@@ -52,7 +78,8 @@ class FileItem implements CacheableItem
     /**
      * Generates a random salt fot the file.
      *
-     * @see FileItem::setSalt()
+     * @see FileItem::$salt
+     * @api
      * @return FileItem
      */
     public function setSalt() : FileItem {
@@ -61,9 +88,15 @@ class FileItem implements CacheableItem
     }
 
     /**
-     * Set the target extension
+     * Set the target extension.
+     *
+     * This is useful when you want to override the extension of the file.
+     * For example if you want to change the extension of a image from jpg to png.
+     * This change works only on the {@see FileItem::getTargetRelativeName() target name}.
+     * The effective conversion of the file should be implemented in the {@see FileItem::generate() method}.
      *
      * @see FileItem::$target_extension
+     * @api
      * @param string $extension
      * @return FileItem
      */
@@ -72,6 +105,12 @@ class FileItem implements CacheableItem
         return $this;
     }
 
+    /**
+     * An identifier of the file in the index.
+     *
+     * @api
+     * @return string
+     */
     public function getKey() : string {
         $base_name = self::getBasename($this->filename);
 
@@ -81,10 +120,26 @@ class FileItem implements CacheableItem
             return $base_name . '_' . $this->version;
     }
 
+    /**
+     * Get the absolute source filename.
+     *
+     * The filename that will be cached.
+     * @see FileItem::$root_path
+     * @see FileItem::$filename
+     * @return string
+     */
     protected function getSourceFilename() : string{
         return $this->root_path . DIRECTORY_SEPARATOR . $this->filename;
     }
 
+    /**
+     * Get the last modification of the file.
+     *
+     * It is the modification time in the system
+     * @api
+     * @see filemtime()
+     * @return DateTime
+     */
     public function getLastModificationTime() : DateTime {
         $date = new DateTime();
         $date->setTimestamp(filemtime($this->getSourceFilename()));
@@ -106,6 +161,7 @@ class FileItem implements CacheableItem
      * Get the Target relative path.
      *
      * The target filename is the same as the source {@see FileItem::$filename} {@see FileItem::setSalt() salted} and with a {@see FileItem::getTargetExtension() overriden extension}
+     * @api
      * @return string
      */
     public function getTargetRelativePath() : string {
@@ -122,6 +178,13 @@ class FileItem implements CacheableItem
             return $file . '.' . $extension;
     }
 
+    /**
+     * Generates the cached file
+     *
+     * In this case only copy the file to the target.
+     * @api
+     * @param CacheManager $manager
+     */
     public function generate(CacheManager $manager) {
         copy(
             $this->getSourceFilename(),
@@ -133,6 +196,7 @@ class FileItem implements CacheableItem
      * Get the basename without extension.
      *
      * If filename is foo/bar.jpg then this function output foo/bar
+     * @api
      * @param string $filename
      * @return string
      */

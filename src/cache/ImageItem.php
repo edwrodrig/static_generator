@@ -7,13 +7,56 @@ use edwrodrig\image\Size;
 
 class ImageItem extends FileItem
 {
+    /**
+     * The width of the image
+     *
+     * This is used in the context or {@see ImageItem::resizeContain() resizes}
+     * @var int
+     */
     protected $width;
-    protected $height;
-    protected $resize_mode = 'copy';
 
-    public function __construct(string $root_path, string $file, string $version = '', int $width = 1000)
+    /**
+     * The height of the image.
+     *
+     * This is used in the context or {@see ImageItem::resizeContain() resizes}
+     * @var
+     */
+    protected $height;
+
+    /**
+     * Resize mode.
+     *
+     * What resize mode will be executed in {@see ImageItem::generate() generation}.
+     * @var int
+     */
+    protected $resize_mode = self::RESIZE_MODE_COPY;
+
+    /**
+     * The image should not be resized.
+     */
+    const RESIZE_MODE_COPY = 0;
+
+    /**
+     * The image should be resized to be {@see Image::contain() contained}.
+     */
+    const RESIZE_MODE_CONTAIN = 1;
+
+    /**
+     * The image should be resized to be {@see Image::cover() cover}.
+     */
+    const RESIZE_MODE_COVER = 2;
+
+    /**
+     * ImageItem constructor.
+     *
+     * @api
+     * @param string $root_path
+     * @param string $file
+     * @param int $width this size serves a a {@see Image::$svg_width hint} for svg files
+     */
+    public function __construct(string $root_path, string $file, int $width = 1000)
     {
-        parent::__construct($root_path, $file, $version);
+        parent::__construct($root_path, $file, '');
         $this->width = $width;
 
         if (pathinfo($file, PATHINFO_EXTENSION) == 'svg')
@@ -25,6 +68,7 @@ class ImageItem extends FileItem
      * Command to resize contain the image
      *
      * Uses the behavior of (@see Image::contain()}.
+     * @api
      * @param int $width
      * @param int $height
      * @return $this
@@ -33,7 +77,7 @@ class ImageItem extends FileItem
         $this->width = $width;
         $this->height = $height;
         $this->version = $width . 'x' . $height . '_contain';
-        $this->resize_mode = 'contain';
+        $this->resize_mode = self::RESIZE_MODE_CONTAIN;
 
         return $this;
     }
@@ -50,7 +94,7 @@ class ImageItem extends FileItem
         $this->width = $width;
         $this->height = $height;
         $this->version = $width . 'x' . $height . '_cover';
-        $this->resize_mode = 'cover';
+        $this->resize_mode = self::RESIZE_MODE_COVER;
 
         return $this;
     }
@@ -67,6 +111,10 @@ class ImageItem extends FileItem
     }
 
     /**
+     * Generate the image.
+     *
+     * If the target extension is {@see ImageItem::setTargetExtension() forced to jpg}
+     * then the generated image is {@see Image::optimizePhoto() optimized as photo}/
      * @param CacheManager $manager
      * @throws \ImagickException
      * @throws \edwrodrig\image\exception\ConvertingSvgException
@@ -81,10 +129,10 @@ class ImageItem extends FileItem
 
         $this->process($img);
 
-        if ( $this->resize_mode == 'contain' ) {
+        if ( $this->resize_mode == self::RESIZE_MODE_CONTAIN ) {
             $img->contain(new Size($this->width, $this->height));
 
-        } else if ( $this->resize_mode == 'cover' ) {
+        } else if ( $this->resize_mode == self::RESIZE_MODE_COVER ) {
             $img->cover(new Size($this->width, $this->height));
         }
 

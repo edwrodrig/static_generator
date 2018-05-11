@@ -9,13 +9,12 @@
 namespace edwrodrig\static_generator\cache;
 
 use DateTime;
-use JsonSerializable;
-
 /**
  * Interface CacheableItem
  * An interface that must implement every Item suitable for caching.
  * This is readed from {@see CacheEntry::createFromItem() the index} to create an cache entry}
  * @package edwrodrig\static_generator\cache
+ * @api
  */
 interface CacheableItem
 {
@@ -27,6 +26,7 @@ interface CacheableItem
      * but if you do some {@see https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating_and_updating_cached_responses caching management with keys}
      * it is recommended that this key is different from {@see getTargetRelativePath() relative path}
      * @see CacheEntry::getKey()
+     * @api
      * @return string
      */
     public function getKey() : string;
@@ -35,6 +35,7 @@ interface CacheableItem
      * Return the last time the item was modified.
      *
      * It is use to determine if the file has changed from previous time.
+     * @api
      * @return DateTime
      */
     public function getLastModificationTime() : DateTime;
@@ -45,6 +46,7 @@ interface CacheableItem
      * This must return the target relative path to the {@see CacheManager::getTargetRootPath() target root path of the context}
      * Example you want to generate a file as cache/folder/img_24x24.jpg.
      * Sometimes is a good idea that the file is salted to
+     * @api
      * {@see https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating_and_updating_cached_responses help caching efficience}
      * @return string
      */
@@ -60,7 +62,7 @@ interface CacheableItem
      *   $absolute_path = $manager->prepareCacheFile();
      *   file_put_contents($absolute_path, 'content');
      * ```
-     *
+     * @api
      * @param CacheManager $manager to retrieve the {@see CacheManager::prepareCacheFile() target root path}
      */
     public function generate(CacheManager $manager);

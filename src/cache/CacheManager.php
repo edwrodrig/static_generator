@@ -8,29 +8,40 @@ use edwrodrig\static_generator\util\Logger;
 
 /**
  * Class CacheManager
+ *
+ * This function contains works as an interface to {@see CacheManager::update() generate} cache entries from {@see CacheableItem cacheable items}.
+ * @api User must interact with this class
  * @package edwrodrig\static_generator\cache
- * @api
  */
 class CacheManager
 {
     /**
+     * The generation context of this cache
      * @var Context
      */
     private $context;
+
     /**
-     * @var array
+     * @var CacheIndex
      */
     private $index;
 
     /**
+     * The cache target root path relative to the {@see Context::getTargetRootPath() context root path}.
      * @var string
      */
     protected $target_root_path;
 
 
-    public function __construct(string $cache_dir, Context $context) {
+    /**
+     * CacheManager constructor.
+     * @api
+     * @param string $target_root_path
+     * @param Context $context
+     */
+    public function __construct(string $target_root_path, Context $context) {
         $this->context = $context;
-        $this->target_root_path = $cache_dir;
+        $this->target_root_path = $target_root_path;
         $this->index = new CacheIndex($this);
     }
 
@@ -103,9 +114,10 @@ class CacheManager
     /**
      * Save the cache index.
      *
-     * @see CacheIndex::save()
+     * @api
+     * @uses CacheIndex::save()
      */
     public function save() {
-        return $this->index->save();
+        $this->index->save();
     }
 }

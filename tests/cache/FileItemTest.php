@@ -28,21 +28,15 @@ class FileItemTest extends TestCase
     }
 
 
-    function getBasenameProvider() {
-        return [
-            ['b', 'b.exe'],
-            ['hola/adf', 'hola/adf'],
-            ['adf', 'adf'],
-            ['hola/adf', 'hola/adf.exe'],
-            ['http://edwin.cl/hola', 'http://edwin.cl/hola.jpg'],
-            ['http://edwin.cl/hola', 'http://edwin.cl/hola']
-        ];
-    }
-
     /**
-     * @dataProvider getBasenameProvider
      * @param string $expected
      * @param string $filename
+     * @testWith    ["b", "b.exe"]
+     *              ["hola/adf", "hola/adf"]
+     *              ["adf", "adf"]
+     *              ["hola/adf", "hola/adf.exe"]
+     *              ["http://edwin.cl/hola", "http://edwin.cl/hola.jpg"]
+     *              ["http://edwin.cl/hola", "http://edwin.cl/hola"]
      */
     function testGetBasename(string $expected, string $filename) {
         $this->assertEquals($expected, FileItem::getBasename($filename));
