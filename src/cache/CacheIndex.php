@@ -15,13 +15,15 @@ class CacheIndex
      */
     private $data = [];
 
+
     /**
-     * The base path of this cache index
-     * @var string
+     * Hits of keys
+     *
+     * This is a associative array with {@see CacheEntry::getKey() keys} and 1 as values.
+     * Every key present in this array means taht that key was queried.
+     * If a key is not present in this array at the end of a generation means that it is {@see CacheIndex::removeUnusedEntries() unused}.
+     * @var array
      */
-    private $path;
-
-
     private $hits = [];
 
     /**
@@ -29,18 +31,15 @@ class CacheIndex
      */
     private $manager;
 
-
     /**
      * CacheIndex constructor.
      * Creates a cache index object
-     * @param string $filename
      * @param CacheManager $manager
      */
-    public function __construct(string $filename, CacheManager $manager) {
+    public function __construct(CacheManager $manager) {
 
-        $filename = $manager->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . $filename;
         $this->manager = $manager;
-        $this->path = dirname($filename);
+        $filename = $this->getIndexAbsoluteFilePath();
         if ( !file_exists($filename) ) return;
 
         $index_data = file_get_contents($filename);
@@ -79,15 +78,24 @@ class CacheIndex
 
     }
 
+    /**
+     * Removes a entry from the index
+     *
+     * @uses CacheEntry::removeCachedFile()
+     * @param CacheEntry $entry
+     */
     protected function removeEntry(CacheEntry $entry) {
         $entry->removeCachedFile();
         unset($this->data[$entry->getKey()]);
     }
 
     /**
+     * Removes unused entries.
      *
+     * All the entries without {@see CacheIndex::$hits hits} are going to be removed.
+     * This function should be called before saving the index to a file.
      */
-    public function removeUnusedEntries() {
+    protected function removeUnusedEntries() {
         foreach ($this->data as $key => $entry) {
             if (isset($this->hits[$key]))
                 continue;
@@ -96,5 +104,25 @@ class CacheIndex
             $this->removeEntry($entry);
             $this->manager->getLogger()->end('', false);
         }
+    }
+
+    /**
+     * Get the absolute file path of the index.
+     *
+     * @return string
+     */
+    protected function getIndexAbsoluteFilePath() : string {
+        return $this->manager->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . '.cache_index.json';
+    }
+
+    /**
+     * Save the index in a file.
+     *
+     * @uses CacheIndex::removeUnusedEntries()
+     */
+    public function save() : void {
+        $this->removeUnusedEntries();
+        $json = json_encode($this->data, JSON_PRETTY_PRINT);
+        file_put_contents($this->getIndexAbsoluteFilePath(), $json);
     }
 }

@@ -6,9 +6,13 @@ use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\TemporaryLogger;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class TemplateTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var  vfsStreamDirectory
+     */
     private $root;
 
     public function setUp() {

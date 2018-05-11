@@ -5,10 +5,14 @@ namespace test\edwrodrig\static_generator\util;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\PageFileFactory;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
 {
 
+    /**
+     * @var  vfsStreamDirectory
+     */
     private $root;
 
     public function setUp() {
@@ -42,6 +46,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @testWith    ["_hola.scss"]
      *              ["hola.swp"]
+     *              [".cache_index.json"]
      */
     function testCreateIgnored(string $input_file) {
         PageFileFactory::createPage(

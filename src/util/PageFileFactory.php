@@ -61,6 +61,8 @@ class PageFileFactory
             return true;
         else if ( preg_match('/\.swp$/', $filename) === 1)
             return true;
+        else if ( preg_match('/^\./', $filename) === 1)
+            return true;
         else
             return false;
     }

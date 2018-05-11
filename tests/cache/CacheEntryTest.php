@@ -93,7 +93,7 @@ LOG;
         $this->assertEquals('abc_salt_3', $entry->getTargetRelativePath());
 
 
-        $entry = $manager->update($item);
+        $manager->update($item);
 
         $expected_log = <<<LOG
 New cache entry [abc]

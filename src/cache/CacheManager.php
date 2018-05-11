@@ -31,7 +31,7 @@ class CacheManager
     public function __construct(string $cache_dir, Context $context) {
         $this->context = $context;
         $this->target_root_path = $cache_dir;
-        $this->index = new CacheIndex('cache_index.json', $this);
+        $this->index = new CacheIndex($this);
     }
 
     /**
@@ -97,5 +97,15 @@ class CacheManager
      */
     public function getLogger() : Logger {
         return $this->context->getLogger();
+    }
+
+
+    /**
+     * Save the cache index.
+     *
+     * @see CacheIndex::save()
+     */
+    public function save() {
+        return $this->index->save();
     }
 }
