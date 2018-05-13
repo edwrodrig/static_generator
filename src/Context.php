@@ -161,7 +161,6 @@ class Context
      * @param string $lang
      * @return bool
      * @throws exception\UnavailableLocaleException
-     * @api
      */
     public static function checkLocale(string $lang) : bool {
         $available_langs = explode("\n", shell_exec('locale -a'));
@@ -171,6 +170,17 @@ class Context
             throw new exception\UnavailableLocaleException($lang);
         }
         return true;
+    }
+
+    /**
+     * Removed the target path.
+     *
+     * It is useful when regenerating pages.
+     * @api
+     *
+     */
+    public function clearTarget() {
+        exec(sprintf('rm -rf %s', $this->getTargetRootPath()));
     }
 
     /**

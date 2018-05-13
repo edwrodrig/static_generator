@@ -1,5 +1,9 @@
 <?php
+/**
+ * @var $this \edwrodrig\static_generator\template\Template
+ */
 
-use edwrodrig\static_generator\Page;
 
-echo Page::get()->current_url();
+echo $this->currentUrl(), "\n";
+echo $this->url('/absolute_url.html'), "\n";
+echo $this->url('relative_url.html'), "\n";

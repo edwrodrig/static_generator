@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class CacheTest
  * @package test\edwrodrig\static_generator
- * @ig
  */
 class CacheEntryTest extends TestCase
 {
@@ -55,7 +54,6 @@ class CacheEntryTest extends TestCase
         $expected_log = <<<LOG
 New cache entry [abc]
   Generating cache file [abc_salt]...GENERATED
-
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
 
@@ -104,7 +102,6 @@ Cache file [abc_salt] NOT FOUND!
 Outdated cache entry [abc] FOUND!
   Removing file [abc_salt_2]...REMOVED
   Generating cache file [abc_salt_3]...GENERATED
-
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
     }
@@ -137,7 +134,6 @@ New cache entry [abc]
 Outdated cache entry [abc] FOUND!
   Removing file [abc_salt]...REMOVED
   Generating cache file [abc_salt_2]...GENERATED
-
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
     }

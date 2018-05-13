@@ -42,6 +42,9 @@ Processing file [template_test.php]...
   Generating file [template_test]...DONE
 DONE
 LOG;
+        $this->assertEquals('template_test', $page->getTargetRelativePath());
+        $this->assertEquals($this->root->url() . '/template_test', $page->getTargetAbsolutePath());
+        $this->assertFileExists($page->getTargetAbsolutePath());
         $this->assertEquals($expected_log, $logger->getTargetData());
         $this->assertStringEqualsFile($page->getTargetAbsolutePath(), "some_name Hola Mundo");
     }
@@ -65,6 +68,20 @@ LOG;
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      */
+    public function testUrlEmptyTargetWebPath()
+    {
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $page = new PagePhp('out.html', $context);
+        $template = $page->getTemplate();
+        $this->assertEquals('out.html', $page->getTargetRelativePath());
+        $this->assertEquals($this->root->url() . '/out.html', $page->getTargetAbsolutePath());
+        $this->assertEquals('in.html', $template->url('in.html'));
+        $this->assertEquals('/in.html', $template->url('/in.html'));
+    }
+
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     */
     public function testCurrentUrl()
     {
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
@@ -72,6 +89,17 @@ LOG;
         $page = new PagePhp('out.html', $context);
         $template = $page->getTemplate();
         $this->assertEquals('/es/out.html', $template->currentUrl());
+    }
+
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     */
+    public function testCurrentUrlEmptyTargetWebPat()
+    {
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $page = new PagePhp('out.html', $context);
+        $template = $page->getTemplate();
+        $this->assertEquals('/out.html', $template->currentUrl());
     }
 }
 

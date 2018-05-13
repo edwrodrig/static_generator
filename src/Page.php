@@ -5,7 +5,11 @@ namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\util\Logger;
 
-class Page
+/**
+ * Class Page
+ * @package edwrodrig\static_generator
+ */
+abstract class Page
 {
     /**
      * @var string
@@ -25,11 +29,12 @@ class Page
     /**
      * Get the page relative path.
      *
+     * It is used for output.
      * It removes the leading ./ for caution.
      * You can overload this method if you want to do other transformations.
      * @return string
      */
-    public function getRelativePath() : string {
+    public function getTargetRelativePath() : string {
         return preg_replace(
             '/^\.\//',
             '',
@@ -38,23 +43,11 @@ class Page
     }
 
     /**
-     * Get the page relative path.
-     *
-     * It is used for output.
-     * It removes the leading ./ for caution.
-     * You can overload this method if you want to do other transformations.
-     * @return string
-     */
-    public function getTargetRelativePath() : string {
-        return $this->getRelativePath();
-    }
-
-    /**
      * Get the absolute path where the output should be written in the file system.
      * @return string
      */
     public function getTargetAbsolutePath() : string {
-        return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getRelativePath();
+        return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetRelativePath();
     }
 
     /**
@@ -62,9 +55,10 @@ class Page
      *
      * It uses the {@see Page::getAbsolutePath() absolute path} as s target.
      * It creates al directories if the path does not exists
+     * @api
      * @param string $content The content to write
      */
-    public function writePage(string $content) {
+    protected function writePage(string $content) {
         $this->getLogger()->begin(sprintf("Generating file [%s]...", $this->getTargetRelativePath()));
 
         if ( empty($content) ) {
@@ -76,19 +70,6 @@ class Page
 
             $this->getLogger()->end("DONE", false);
         }
-    }
-
-    /**
-     * @param string $relative_path
-     * @param callable $function
-     * @throws \Exception
-     */
-    public function generate_from_function(string $relative_path, callable $function)
-    {
-        $page = new PageFunction($relative_path, $this->context);
-        $page->function = $function;
-
-        $page->generate();
     }
 
     /**
@@ -105,5 +86,7 @@ class Page
     public function getContext() : Context {
         return $this->context;
     }
+
+    abstract public function generate() : string;
 }
 

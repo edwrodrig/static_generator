@@ -62,7 +62,6 @@ New cache entry [rei_100x100_cover]
   Generating cache file [rei_100x100_cover.jpg]...GENERATED
 New cache entry [rei_200x100_contain]
   Generating cache file [rei_200x100_contain.jpg]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());

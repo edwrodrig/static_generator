@@ -88,10 +88,14 @@ class Template
      * @return string
      */
     public function url(string $path) : string {
-        if ( strpos($path, '/') === 0 )
-            return '/' . $this->page_info->getContext()->getTargetWebPath() . $path;
-        else
-            return $path;
+        if ( strpos($path, '/') === 0 ) {
+            $target_web_path = $this->page_info->getContext()->getTargetWebPath();
+            if ( !empty($target_web_path) )
+                return '/' . $target_web_path . $path;
+        }
+
+        return $path;
+
     }
 
     /**
@@ -132,8 +136,8 @@ class Template
      * @return string
      * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
      */
-    public function tr($translatable, ?string $default) : string {
-       return $this->page_info->getContext()->tr($translatable, $default = null);
+    public function tr($translatable, ?string $default = null) : string {
+       return $this->page_info->getContext()->tr($translatable, $default);
     }
 
     /**

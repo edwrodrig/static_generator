@@ -47,7 +47,6 @@ New cache entry [abc]
 Outdated cache entry [abc] FOUND!
   Removing file [abc_salt]...REMOVED
   Generating cache file [abc_salt]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -67,7 +66,6 @@ LOG;
         $expected_log = <<<LOG
 New cache entry [abc]
   Generating cache file [abc_salt]...GENERATED
-
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
 
@@ -88,7 +86,6 @@ LOG;
 Outdated cache entry [abc] FOUND!
   Removing file [abc_salt]...REMOVED
   Generating cache file [abc_salt]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -117,7 +114,6 @@ New cache entry [abc]
   Generating cache file [abc_salt]...GENERATED
 New cache entry [zxc]
   Generating cache file [zxc_salt]...GENERATED
-
 LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
 
@@ -133,7 +129,6 @@ LOG;
         $expected_log = <<<LOG
 Unused cache entry [zxc] FOUND!
   Removing file [zxc_salt]...REMOVED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -150,7 +145,6 @@ LOG;
         $expected_log = <<<LOG
 New cache entry [zxc]
   Generating cache file [zxc_salt]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());

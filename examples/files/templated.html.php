@@ -1,21 +1,13 @@
 <?php
-/*
-@type template
-@template Template
-@data
-{
-   "title" : "title1"
-}
+/**
+ * @template
+ * @data {
+ *   "title" : "title1"
+ * }
+ * @var $this Template
  */
 
-use \edwrodrig\static_generator\Page;
-use edwrodrig\static_generator\Site;
+echo $this->getTitle(), "\n";
 
-echo Page::get()->get_title(),"\n";
-$templates = Site::get()->get_templates('template');
-
-foreach ( $templates as $template ) {
-    echo $template->get_title() ,"\n";
-}
 ?>
 holahola

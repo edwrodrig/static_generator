@@ -1,43 +1,33 @@
 <?php
 
-use edwrodrig\static_generator\cache\CacheManager;
+include_once __DIR__ . '/../vendor/autoload.php';
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+use edwrodrig\static_generator\Context;
 
 class Template extends \edwrodrig\static_generator\template\Template {
 
     /**
      * @return mixed
      */
-    public function get_title() {
-        return $this->metadata->get_data()['title'];
+    public function getTitle() : string {
+        return $this->getData()['title'];
     }
 
-    public function get_name() : string {
-        return 'template';
+    public function getTemplateType(): string
+    {
+        return 'custom_template';
     }
-
 };
 
 
-$site = new edwrodrig\static_generator\Site;
-$site->input_dir = __DIR__ . '/files';
-$site->output_dir = __DIR__ . '/output';
-$site->cache_dir = __DIR__ . '/cache';
+$context = new Context(__DIR__ . '/files', __DIR__ . '/output');
 
 setlocale(LC_ALL, 'es_CL.utf-8');
 
-$minifier = new \edwrodrig\static_generator\util\ResourceMinifier;
-$minifier->sources = [
-  __DIR__ . '/js'
-];
+$context->clearTarget();
 
-$minifier->js()->minify(__DIR__ . '/files/lib.js');
+foreach ( \edwrodrig\static_generator\util\PageFileFactory::createPages($context) as $page ) {
+    $page->generate();
+}
 
-$site->globals['cache'] = new CacheManager($site->cache('image'));
-
-$site->regenerate();
-
-$site->globals['cache']->save_index();
-$site->globals['cache']->link_cached('.', 'cached');
 

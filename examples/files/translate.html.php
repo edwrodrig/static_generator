@@ -1,17 +1,17 @@
 <?php
+/**
+ * @var $this \edwrodrig\static_generator\template\Template
+ */
 
-use edwrodrig\static_generator\Site;
+$this->tr(['es'=> 'hola', 'en' => 'hello']);
 
-echo Site::get()->tr(['es'=> 'hola', 'en' => 'hello']);
-
-if ( Site::get()->get_lang() == 'es' ) :
+if ( $this->getLang() == 'es') :
 ?>
-
 hola como te va
 <?php
-elseif ( Site::get()->get_lang() == 'en' ) :
+elseif ( $this->getLang() == 'en' ) :
 ?>
 
-hellow how are you
+hello how are you
 <?php
 endif;

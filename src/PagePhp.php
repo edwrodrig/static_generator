@@ -122,10 +122,12 @@ class PagePhp extends PageFile
     /**
      * Get the first Documentation block of the file.
      *
-     * In the first comment is where al annotations for templating would be. Other Doc comments are ignored
+     * In the first comment is where al annotations for templating would be. Other Doc comments are ignored.
+     * It is used when in the template you want to retrieve further information for the template (Example: {@see TemplateJs})
+     * @api
      * @return null|DocBlock
      */
-    private function getDocBlock() : ?DocBlock {
+    public function getDocBlock() : ?DocBlock {
         $tokens = token_get_all($this->getSourceFileContents());
         foreach ($tokens as $token) {
             if ($token[0] !== T_COMMENT && $token[0] !== T_DOC_COMMENT)
@@ -248,5 +250,22 @@ class PagePhp extends PageFile
         $this->writePage($content);
 
         return $content;
+    }
+
+    /**
+     * Generates a page from function.
+     *
+     * Useful when php scripts generates a set of files like post entries.
+     * This function is mean to be used {@see PagePhp::isSilent() silent} php pages but is ok to use in other php pages
+     *
+     * @uses PageFunction
+     * @param string $relative_path The path relative to the {@see Context::getTargetRelativePath() target path}
+     * @param callable $function The funciton that echo the content of the file
+     * @throws \Exception
+     */
+    public function generateFromFunction(string $relative_path, callable $function)
+    {
+        $page = new PageFunction($relative_path, $this->context, $function);
+        $page->generate();
     }
 }

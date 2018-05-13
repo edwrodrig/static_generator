@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-class PageFile extends Page
+abstract class PageFile extends Page
 {
 
     public function __construct(string $source_path, Context $context) {

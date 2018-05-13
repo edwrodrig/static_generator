@@ -1,7 +1,6 @@
 <?php
-/*
-  @type copy
-
-*/
+/**
+ * @raw
+ */
 
 echo "some";

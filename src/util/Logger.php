@@ -33,6 +33,13 @@ class Logger
     private $last_nesting_level = 0;
 
     /**
+     * When anything is written, the last char is considered a new line
+     *
+     * @return string
+     */
+    private $last_character_written = "\n";
+
+    /**
      * Logger constructor.
      *
      * Construct a new logger.
@@ -57,21 +64,6 @@ class Logger
         } else {
             $this->target = $target;
         }
-    }
-
-    /**
-     * When anything is written, the last char is considered a new line
-     *
-     * @return string
-     */
-    private function getLastCharWritten() : string {
-        if ( $pos = ftell($this->target) ) {
-            fseek($this->target, -1, SEEK_CUR);
-            return fgetc($this->target);
-        } else {
-            return "\n";
-        }
-
     }
 
     /**
@@ -132,6 +124,9 @@ class Logger
      * @return Logger
      */
     public function log(string $message, bool $indent = true) : Logger {
+        if ( empty($message) )
+            return $this;
+
         $message = trim ($message);
         $message = str_replace("\n", "\n" . $this->getIndentation(), $message);
 
@@ -147,6 +142,7 @@ class Logger
         }
 
         fwrite($this->target, $message);
+        $this->last_character_written = substr($message, -1);
 
         return $this;
     }
@@ -170,7 +166,7 @@ class Logger
      */
     protected function printIndentation() : void {
 
-        if ( $this->getLastCharWritten() != "\n" ) {
+        if ( $this->last_character_written != "\n" ) {
             fwrite($this->target, "\n");
         }
 

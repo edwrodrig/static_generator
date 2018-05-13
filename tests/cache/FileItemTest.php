@@ -65,7 +65,6 @@ class FileItemTest extends TestCase
         $expected_log = <<<LOG
 New cache entry [FileItemTest_rojo]
   Generating cache file [FileItemTest_rojo.php]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -90,7 +89,6 @@ LOG;
         $expected_log = <<<LOG
 New cache entry [FileItemTest_rojo]
   Generating cache file [FileItemTest_rojo.cpp]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());
@@ -116,7 +114,6 @@ LOG;
         $expected_log = <<<LOG
 New cache entry [FileItemTest_rojo]
   Generating cache file [$target_relative_path]...GENERATED
-
 LOG;
 
         $this->assertEquals($expected_log, $logger->getTargetData());

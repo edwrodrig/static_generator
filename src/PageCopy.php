@@ -10,7 +10,7 @@ class PageCopy extends PageFile
     {
         $source = $this->getSourceAbsolutePath();
         $target =  $this->getTargetAbsolutePath();
-        $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getRelativePath()));
+        $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getTargetRelativePath()));
 
         $command = sprintf("cp %s %s", $source, $target);
         exec($command);

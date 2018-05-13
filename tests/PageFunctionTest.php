@@ -5,10 +5,14 @@ namespace test\edwrodrig\static_generator;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\TemporaryLogger;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class PageFunctionTest extends \PHPUnit\Framework\TestCase
 {
 
+    /**
+     * @var vfsStreamDirectory
+     */
     private $root;
 
     public function setUp() {
@@ -25,11 +29,11 @@ class PageFunctionTest extends \PHPUnit\Framework\TestCase
 
         $page = new \edwrodrig\static_generator\PageFunction(
             'out',
-            $context);
-
-        $page->function = function () {
-            echo "Hola mundo";
-        };
+            $context,
+            function () {
+              echo "Hola mundo";
+            }
+        );
 
         $output = $page->generate();
 
