@@ -52,7 +52,8 @@ class FileItemTest extends TestCase
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
         $this->assertEquals('FileItemTest_rojo.php', $item->getTargetRelativePath());
@@ -75,7 +76,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
         $item->setTargetExtension('cpp');
@@ -99,7 +101,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
             $item->setSalt();

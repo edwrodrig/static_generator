@@ -39,7 +39,8 @@ class ImageItemTest extends TestCase
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new ImageItem(__DIR__ . '/../files/image', 'rei.jpg');
         $item->resizeCover(100, 100);

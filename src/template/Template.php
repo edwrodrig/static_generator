@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\template;
 
 
+use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\Logger;
 
@@ -89,13 +90,7 @@ class Template
      * @return string
      */
     public function url(string $path) : string {
-        if ( strpos($path, '/') === 0 ) {
-            $target_web_path = $this->page_info->getContext()->getTargetWebPath();
-            if ( !empty($target_web_path) )
-                return '/' . $target_web_path . $path;
-        }
-
-        return $path;
+        return $this->page_info->getContext()->getUrl($path);
 
     }
 
@@ -160,6 +155,10 @@ class Template
      */
     public function getPageInfo() : PagePhp {
         return $this->page_info;
+    }
+
+    public function getCache(string $web_path) : CacheManager {
+        return $this->page_info->getCache($web_path);
     }
 
 }

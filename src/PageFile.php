@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator;
 
 
+use edwrodrig\static_generator\cache\CacheManager;
+
 abstract class PageFile extends Page
 {
 
@@ -57,7 +59,11 @@ abstract class PageFile extends Page
             throw new exception\CopyException('Error at copying');
         }
 
-        $this->getLogger()->end("DONE", false);
+        $this->getLogger()->end("DONE\n", false);
+    }
+
+    public function getCache(string $web_path) : CacheManager {
+        return $this->getContext()->getCache($web_path);
     }
 }
 

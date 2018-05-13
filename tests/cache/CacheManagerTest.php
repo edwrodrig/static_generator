@@ -30,7 +30,8 @@ class CacheManagerTest extends TestCase
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
         $manager->update($item);
@@ -58,7 +59,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
         $manager->update($item);
@@ -74,7 +76,8 @@ LOG;
         $logger = new TemporaryLogger;
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $manager->update($item);
 
@@ -99,7 +102,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $item_1 = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
         $item_2 = new CacheableItem('zxc', new DateTime('2016-01-01'), 'salt');
@@ -121,7 +125,8 @@ LOG;
         $logger = new TemporaryLogger;
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $manager->update($item_1);
         $manager->save();
@@ -136,7 +141,8 @@ LOG;
         $logger = new TemporaryLogger;
         $context->setLogger($logger);
 
-        $manager = new CacheManager('cache', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
 
         $manager->update($item_1);
         $manager->update($item_2);

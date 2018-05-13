@@ -7,16 +7,10 @@ use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\Logger;
 
 /**
- * TODO BUG
- * Cache se debe generar en una carpeta diferente al output y despues vincular de alguna forma al output.
- * No puede ir en el output porque el output se borrar en cada generación
- * y si el cache esta ahí se pierden todos los archivos generados, por lo tanto pierde proposito
- */
-
-/**
  * Class CacheManager
  *
  * This function contains works as an interface to {@see CacheManager::update() generate} cache entries from {@see CacheableItem cacheable items}.
+ * When caches are used in a context, they must be registered using {@see Context::registerContext()}
  * @api User must interact with this class
  * @package edwrodrig\static_generator\cache
  */
@@ -26,7 +20,7 @@ class CacheManager
      * The generation context of this cache
      * @var Context
      */
-    private $context;
+    private $context = null;
 
     /**
      * @var CacheIndex
@@ -34,10 +28,17 @@ class CacheManager
     private $index;
 
     /**
-     * The cache target root path relative to the {@see Context::getTargetRootPath() context root path}.
+     * The cache target root path absolute.
      * @var string
      */
     protected $target_root_path;
+
+    /**
+     * The target web path of the cache relative to the {@see Context::getTargetWebRoot() web root} of the context.
+     * This value must be unique between caches in a {@see Context::registerContext() context}.
+     * @var string
+     */
+    protected $target_web_path = "cache";
 
 
     /**
@@ -46,20 +47,48 @@ class CacheManager
      * @param string $target_root_path {@see CacheManager::$target_root_path}
      * @param Context $context
      */
-    public function __construct(string $target_root_path, Context $context) {
-        $this->context = $context;
+    public function __construct(string $target_root_path) {
         $this->target_root_path = $target_root_path;
         $this->index = new CacheIndex($this);
     }
 
     /**
-     * Get the target root path.
+     * Get the context of the cache.
+     * @return Context
+     */
+    public function getContext() : Context {
+        return $this->context;
+    }
+
+    /**
+     * Set a new context.
      *
-     * Return the cache target root path relative to the {@see Context::getTargetRootPath() context root path}.
+     * Useful when a cache is shared between different contexts
+     * @param Context $context
+     * @return CacheManager
+     */
+    public function setContext(Context $context) : CacheManager {
+        $this->context = $context;
+        return $this;
+    }
+
+    /**
+     * Get the target web path of the cacha manager.
+     *
+     * @see CacheManager::$target_web_path
      * @return string
      */
-    protected function getTargetRootPath() : string {
-        return $this->target_root_path;
+    public function getTargetWebPath() : string {
+        return $this->target_web_path;
+    }
+
+    /**
+     * @param string $target_web_path
+     * @return $this
+     */
+    public function setTargetWebPath(string $target_web_path) {
+        $this->target_web_path = $target_web_path;
+        return $this;
     }
 
     /**
@@ -71,7 +100,7 @@ class CacheManager
      * @return string
      */
     public function getTargetAbsolutePath() : string {
-        return $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetRootPath();
+        return $this->target_root_path;
     }
 
     /**
@@ -117,7 +146,6 @@ class CacheManager
         return $this->context->getLogger();
     }
 
-
     /**
      * Save the cache index.
      *
@@ -126,5 +154,17 @@ class CacheManager
      */
     public function save() {
         $this->index->save();
+    }
+
+    /**
+     * Creates a symlink to the target output.
+     *
+     * If you don't do this the cached files will be not visible in the target output.
+     */
+    public function linkToTarget() {
+        symlink(
+            $this->getTargetAbsolutePath(),
+            $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath()
+        );
     }
 }

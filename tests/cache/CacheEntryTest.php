@@ -34,7 +34,8 @@ class CacheEntryTest extends TestCase
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
             $context->setLogger($logger);
 
-        $manager = new CacheManager('out', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+            $manager->setContext($context);
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
 
 
@@ -66,7 +67,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('out', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
 
 
@@ -113,7 +115,8 @@ LOG;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
         $context->setLogger($logger);
 
-        $manager = new CacheManager('out', $context);
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
 
 

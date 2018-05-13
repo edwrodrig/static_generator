@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator;
 
 
+use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\util\Logger;
+use edwrodrig\static_generator\util\PageFileFactory;
 
 /**
  * Class Context
@@ -34,7 +36,7 @@ class Context
     /**
      * The target web path of the generation.
      *
-     * It is the base path that is used in the web side. It is differente from {@see Context::$target_root_path}
+     * It is the base path that is used in the web side. It is different from {@see Context::$target_root_path}
      * in the way that this one is displayed when the site is deployed (if this is the site)
      * @see Context::url()
      * @var string
@@ -49,6 +51,12 @@ class Context
      * @var Logger
      */
     private $source_root_path;
+
+    /**
+     * Registered caches
+     * @var CacheManager[]
+     */
+    private $caches = [];
 
     /**
      * Context constructor.
@@ -206,4 +214,72 @@ class Context
         }
     }
 
+
+    /**
+     * @param CacheManager $cache
+     * @return Context
+     * @throws exception\CacheAlreadyRegisteredException
+     */
+    public function registerCache(CacheManager $cache) : Context {
+        $web_path = $cache->getTargetWebPath();
+        if ( isset($this->caches[$web_path]) ) {
+            throw new exception\CacheAlreadyRegisteredException($web_path);
+        } else {
+            $cache->setContext($this);
+            $this->caches[$web_path] = $cache;
+        }
+        return $this;
+    }
+
+
+    /**
+     * @param string $web_path
+     * @return CacheManager
+     * @throws exception\CacheDoesNotExists
+     */
+    public function getCache(string $web_path) : CacheManager {
+        if ( isset($this->caches[$web_path]) )
+            return $this->caches[$web_path];
+        else
+            throw new exception\CacheDoesNotExists($web_path);
+    }
+
+    /**
+     * Generate the pages.
+     *
+     * It is just a convenience function that clears all files in the {@see Context::getTargetRootPath() target}
+     * and generates all from {@see Context::getSourceRootPath() source}
+     * @throws exception\InvalidTemplateClassException
+     * @throws util\exception\IgnoredPageFileException
+     */
+    public function generate() {
+        $this->clearTarget();
+
+        foreach ( PageFileFactory::createPages($this) as $page ) {
+            $page->generate();
+        }
+
+        foreach ( $this->caches as $cache ) {
+            $cache->linkToTarget();
+        }
+    }
+
+    /**
+     * Get a url with absolute target path if needed.
+     *
+     * It is useful when the target web folder is not /, when you have different version of a site in different folder, for example, by languages
+     * @api
+     * @param string $path
+     * @return string
+     */
+    public function getUrl(string $path) : string {
+        if ( strpos($path, '/') === 0 ) {
+            $target_web_path = $this->getTargetWebPath();
+            if ( !empty($target_web_path) )
+                return '/' . $target_web_path . $path;
+        }
+
+        return $path;
+
+    }
 }

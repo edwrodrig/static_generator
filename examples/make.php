@@ -21,33 +21,25 @@ class Template extends \edwrodrig\static_generator\template\Template {
 };
 
 
-//TODO simplificar esto, es inaceptable que para cada lenguaje escriba 5 lineas
+$cache  = new CacheManager(__DIR__ . '/output/cache');
+$cache->setTargetWebPath('cache');
 
 $context = new Context(__DIR__ . '/files', __DIR__ . '/output/es');
+$context->registerCache($cache);
 $context->setTargetWebPath('es');
 setlocale(LC_ALL, 'es_CL.utf-8');
-$context->cache = new CacheManager('cache', $context);
 
-$context->clearTarget();
+$context->generate();
 
-foreach ( \edwrodrig\static_generator\util\PageFileFactory::createPages($context) as $page ) {
-    $page->generate();
-}
-
-$context->cache->save();
 
 $context = new Context(__DIR__ . '/files', __DIR__ . '/output/en');
+$context->registerCache($cache);
 $context->setTargetWebPath('en');
 setlocale(LC_ALL, 'en_US.utf-8');
-$context->cache = new CacheManager('cache', $context);
 
-$context->clearTarget();
+$context->generate();
 
-foreach ( \edwrodrig\static_generator\util\PageFileFactory::createPages($context) as $page ) {
-    $page->generate();
-}
-
-$context->cache->save();
+$cache->save();
 
 
 

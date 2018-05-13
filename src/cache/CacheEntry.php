@@ -120,6 +120,19 @@ class CacheEntry implements JsonSerializable
     }
 
     /**
+     * Get the url of the cached entry.
+     *
+     * Use this function when you want to instantiate the file in the target files, like in a img src tag.
+     * ```
+     * <img src="<?=$cache_entry->getUrl()?>">
+     * ```
+     * @return string
+     */
+    public function getUrl() : string {
+        return $this->manager->getContext()->getUrl('/' . $this->manager->getTargetWebPath() . DIRECTORY_SEPARATOR . $this->getTargetRelativePath());
+    }
+
+    /**
      * Check if the cached file still exists.
      *
      * Maybe sometimes you delete generated cached files manually, so you need to check it to do a restoration.
@@ -209,5 +222,19 @@ class CacheEntry implements JsonSerializable
             'last_modification_time' => $this->last_modification_time->getTimestamp(),
             'relative_path' => $this->relative_path
         ];
+    }
+
+
+    /**
+     * String function.
+     *
+     * Auto return the {@see CacheEntry::getUrl() url} in string context.
+     * ```
+     * <img src="<?=$cache_entry?>">
+     * ```
+     * @return string
+     */
+    public function __toString() : string {
+        return $this->getUrl();
     }
 }
