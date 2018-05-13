@@ -20,10 +20,19 @@ class Template extends \edwrodrig\static_generator\template\Template {
 };
 
 
-$context = new Context(__DIR__ . '/files', __DIR__ . '/output');
-
+$context = new Context(__DIR__ . '/files', __DIR__ . '/output/es');
+$context->setTargetWebPath('es');
 setlocale(LC_ALL, 'es_CL.utf-8');
 
+$context->clearTarget();
+
+foreach ( \edwrodrig\static_generator\util\PageFileFactory::createPages($context) as $page ) {
+    $page->generate();
+}
+
+$context = new Context(__DIR__ . '/files', __DIR__ . '/output/en');
+$context->setTargetWebPath('en');
+setlocale(LC_ALL, 'en_US.utf-8');
 $context->clearTarget();
 
 foreach ( \edwrodrig\static_generator\util\PageFileFactory::createPages($context) as $page ) {
