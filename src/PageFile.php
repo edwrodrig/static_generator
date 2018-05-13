@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
+
 abstract class PageFile extends Page
 {
 
@@ -40,5 +41,23 @@ abstract class PageFile extends Page
             return "";
     }
 
+    /**
+     * Copy the source file to the target file.
+     *
+     * @throws exception\CopyException
+     */
+    protected function copyPage() {
+        $source = $this->getSourceAbsolutePath();
+        $target = $this->getTargetAbsolutePath();
+        @mkdir(dirname($target), 0777, true);
+        $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getTargetRelativePath()));
+
+        if ( !copy($source, $target) ) {
+            /** @noinspection PhpInternalEntityUsedInspection */
+            throw new exception\CopyException('Error at copying');
+        }
+
+        $this->getLogger()->end("DONE", false);
+    }
 }
 

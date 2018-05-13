@@ -5,6 +5,7 @@ namespace edwrodrig\static_generator\template;
 
 
 use edwrodrig\static_generator\PagePhp;
+use edwrodrig\static_generator\util\Logger;
 
 /**
  * Class Template
@@ -149,6 +150,16 @@ class Template
      */
     public function getLogger() : Logger {
        return $this->page_info->getLogger();
+    }
+
+    /**
+     * Get the page info.
+     *
+     * Is the page object that contains the generation of this template
+     * @return PagePhp
+     */
+    public function getPageInfo() : PagePhp {
+        return $this->page_info;
     }
 
 }

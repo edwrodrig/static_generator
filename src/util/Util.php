@@ -20,28 +20,6 @@ class Util
     }
 
     /**
-     * @param $sources
-     * @return \Generator
-     * @throws exception\FileDoesNotExistsException
-     */
-    public static function iterate_files($sources)
-    {
-        foreach ($sources as $source) {
-            if (!file_exists($source)) throw new exception\FileDoesNotExistsException($source);
-
-            if (is_dir($source)) {
-                foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source)) as $file) {
-                    if (!$file->isFile()) continue;
-                    yield $file;
-                }
-            } else {
-                yield new \SplFileInfo($source);
-            }
-        }
-
-    }
-
-    /**
      * This function nicely closes a {@see ob_get_clean() output buffer} context in the case of an Error.
      *
      * @param $content
@@ -66,6 +44,5 @@ class Util
             throw $e;
         }
     }
-
 
 }

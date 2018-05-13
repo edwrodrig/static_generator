@@ -7,6 +7,13 @@ use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\Logger;
 
 /**
+ * TODO BUG
+ * Cache se debe generar en una carpeta diferente al output y despues vincular de alguna forma al output.
+ * No puede ir en el output porque el output se borrar en cada generación
+ * y si el cache esta ahí se pierden todos los archivos generados, por lo tanto pierde proposito
+ */
+
+/**
  * Class CacheManager
  *
  * This function contains works as an interface to {@see CacheManager::update() generate} cache entries from {@see CacheableItem cacheable items}.
@@ -36,7 +43,7 @@ class CacheManager
     /**
      * CacheManager constructor.
      * @api
-     * @param string $target_root_path
+     * @param string $target_root_path {@see CacheManager::$target_root_path}
      * @param Context $context
      */
     public function __construct(string $target_root_path, Context $context) {

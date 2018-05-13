@@ -5,12 +5,10 @@ namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\exception\InvalidTemplateClassException;
 use edwrodrig\static_generator\template\Template;
-use edwrodrig\static_generator\util\FileData;
 use edwrodrig\static_generator\util\Util;
 use Exception;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
-use phpDocumentor\Reflection\Type;
 
 /**
  * Class PagePhp
@@ -231,10 +229,16 @@ class PagePhp extends PageFile
         return $content;
     }
 
+    /**
+     * Process as a raw file
+     *
+     * When is considered a raw file then this page is copied, the same as {@see PageCopy}
+     * @return string
+     * @throws \edwrodrig\static_generator\exception\CopyException
+     */
     private function processRaw() : string {
-        $content = $this->getSourceFileContents();
-        $this->writePage($content);
-        return $content;
+        $this->copyPage();
+        return '';
     }
 
     /**
