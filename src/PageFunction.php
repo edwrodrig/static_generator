@@ -11,6 +11,9 @@ use edwrodrig\static_generator\util\Util;
  * This page is used to generate pages from an arbitrary function.
  * Useful when the you want to generate a set of files or when the file is can not written.
  * (Examples: when a set of files depends on a database entries like post entries)
+ *
+ * This class is intended to use indirectly by {@see PagePhp::createFromFunction()}
+ * @api
  * @package edwrodrig\static_generator
  */
 class PageFunction extends Page
@@ -24,6 +27,8 @@ class PageFunction extends Page
 
     /**
      * PageFunction constructor.
+     *
+     * @api
      * @param string $relative_path
      * @param Context $context
      * @param callable $function
@@ -34,6 +39,10 @@ class PageFunction extends Page
     }
 
     /**
+     * Generates the page.
+     *
+     * In simple works it capture the output of {@see PageFunction::$function the function} and {@see Page::writePage() write} into a file
+     * @api
      * @throws \Exception
      */
     public function generate() : string

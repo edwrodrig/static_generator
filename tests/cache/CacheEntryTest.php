@@ -13,6 +13,7 @@ use org\bovigo\vfs\vfsStream;
 use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,6 +22,9 @@ use PHPUnit\Framework\TestCase;
  */
 class CacheEntryTest extends TestCase
 {
+    /**
+     * @var vfsStreamDirectory
+     */
     private $root;
 
     public function setUp() {

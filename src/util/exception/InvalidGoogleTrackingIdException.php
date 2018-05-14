@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace edwrodrig\static_generator\util\exception;
 
 

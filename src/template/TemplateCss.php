@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: edwin
@@ -23,6 +24,10 @@ use MatthiasMullie\Minify\JS;
 class TemplateCss extends Template
 {
 
+    /**
+     * The internally minifier object
+     * @var JS
+     */
     private $minifier;
 
     /**
@@ -39,6 +44,8 @@ class TemplateCss extends Template
 
 
     /**
+     * Echoes a minified css
+     * @api
      * @throws \Exception
      */
     public function print() {
@@ -51,6 +58,8 @@ class TemplateCss extends Template
     }
 
     /**
+     * Get the template type
+     *
      * @api
      * @return string
      */

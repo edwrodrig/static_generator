@@ -1,10 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\cache;
 
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
 
+/**
+ * Class ImageItem
+ *
+ * Use this function to cache images
+ * This class works with a {@see CacheManager cache} in the following way.
+ * ```
+ * $file = new ImageItem('/images', 'image.jpg');
+ * $cache_manager->update($file);
+ * ```
+ *
+ * Maybe you want to override {@see ImageItem::process()} to creating images with other behaviours.
+ * This class works with {@see Image SVG, PNG and JPG} file formats.
+ * @api
+ * @see FileItem::setSalt() to set a salt to the target filename
+ * @package edwrodrig\static_generator\cache
+ */
 class ImageItem extends FileItem
 {
     /**
@@ -86,6 +103,7 @@ class ImageItem extends FileItem
      * Command to resize cover the image
      *
      * Uses the behavior of (@see Image::cover()}.
+     * @api
      * @param int $width
      * @param int $height
      * @return $this
@@ -105,6 +123,7 @@ class ImageItem extends FileItem
      *
      * This method is used by {@see ImageItem::generate()} and will be overriden
      * if you want to add more functionality to this object.
+     * @api
      * @param Image $image
      */
     protected function process(Image $image) {
@@ -115,6 +134,7 @@ class ImageItem extends FileItem
      *
      * If the target extension is {@see ImageItem::setTargetExtension() forced to jpg}
      * then the generated image is {@see Image::optimizePhoto() optimized as photo}/
+     * @api
      * @param CacheManager $manager
      * @throws \ImagickException
      * @throws \edwrodrig\image\exception\ConvertingSvgException

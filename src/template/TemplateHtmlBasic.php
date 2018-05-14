@@ -13,7 +13,11 @@ namespace edwrodrig\static_generator\template;
 class TemplateHtmlBasic extends Template
 {
 
-
+    /**
+     * Echoes the template
+     *
+     * @api
+     */
     public function print() {?>
 <!DOCTYPE html>
 <html>
@@ -49,6 +53,8 @@ class TemplateHtmlBasic extends Template
 
 
     /**
+     * Get the template type
+     *
      * @api
      * @return string
      */

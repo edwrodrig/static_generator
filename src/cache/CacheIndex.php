@@ -5,6 +5,9 @@ namespace edwrodrig\static_generator\cache;
 
 /**
  * Class CacheIndex
+ *
+ * This class is intended to be used by cache manager.
+ * There is no need that final users subclass this object
  * @package edwrodrig\static_generator\cache
  * @internal
  */

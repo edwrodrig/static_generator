@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: edwin
@@ -126,6 +127,7 @@ class CacheEntry implements JsonSerializable
      * ```
      * <img src="<?=$cache_entry->getUrl()?>">
      * ```
+     * @api
      * @return string
      */
     public function getUrl() : string {
@@ -232,6 +234,7 @@ class CacheEntry implements JsonSerializable
      * ```
      * <img src="<?=$cache_entry?>">
      * ```
+     * @api
      * @return string
      */
     public function __toString() : string {

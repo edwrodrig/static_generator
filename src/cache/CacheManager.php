@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\cache;
 
@@ -45,7 +46,6 @@ class CacheManager
      * CacheManager constructor.
      * @api
      * @param string $target_root_path {@see CacheManager::$target_root_path}
-     * @param Context $context
      */
     public function __construct(string $target_root_path) {
         $this->target_root_path = $target_root_path;
@@ -83,6 +83,10 @@ class CacheManager
     }
 
     /**
+     * Set the target web path.
+     *
+     * @api
+     * @uses CacheManager::$target_web_path
      * @param string $target_web_path
      * @return $this
      */
@@ -160,6 +164,9 @@ class CacheManager
      * Creates a symlink to the target output.
      *
      * If you don't do this the cached files will be not visible in the target output.
+     *
+     * @api
+     * @uses CacheManamger::getTargetWebPath()
      */
     public function linkToTarget() {
         symlink(

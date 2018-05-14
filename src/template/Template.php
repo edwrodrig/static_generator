@@ -151,12 +151,27 @@ class Template
      * Get the page info.
      *
      * Is the page object that contains the generation of this template
+     * @api
      * @return PagePhp
      */
     public function getPageInfo() : PagePhp {
         return $this->page_info;
     }
 
+    /**
+     * Get a context cache.
+     *
+     * Retrieve a cache object from {@see Context::getCache() context} by {@see CacheManager::getTargetWebPath() web_path}.
+     * This is useful when you want to {@see FileItem cache files}
+     * ```
+     * $this->getCache('some_cache')->update(new FileItem('/cacheables', 'file.pdf));
+     * ```
+     *
+     * @api
+     * @param string $web_path
+     * @return CacheManager
+     * @throws \edwrodrig\static_generator\exception\CacheDoesNotExists
+     */
     public function getCache(string $web_path) : CacheManager {
         return $this->page_info->getCache($web_path);
     }

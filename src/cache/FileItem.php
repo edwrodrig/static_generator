@@ -1,9 +1,25 @@
 <?php
+declare(strict_types=1);
 
 namespace edwrodrig\static_generator\cache;
 
 use DateTime;
 
+/**
+ * Class FileItem
+ *
+ * Use this function to cache files.
+ * This class works with a {@see CacheManager cache} in the following way.
+ * ```
+ * $file = new FileItem('/documents', 'doc_1.pdf');
+ * $cache_manager->update($file);
+ * ```
+ *
+ * Maybe you want to override {@see FileItem::generate()} to creating files with other behaviours lije {@see ImageItem}
+ * @api
+ * @see FileItem::setSalt() to set a salt to the target filename
+ * @package edwrodrig\static_generator\cache
+ */
 class FileItem implements CacheableItem
 {
     /**

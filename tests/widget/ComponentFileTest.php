@@ -7,6 +7,9 @@ use org\bovigo\vfs\vfsStreamDirectory;
 
 class ComponentFileTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var vfsStreamDirectory
+     */
     private $root;
 
     public function setUp() {

@@ -13,6 +13,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 /**
  * Class PagePhp
  * When annotate PhpFiles ensure that the annotations are at one space from initial * or begin of line, in other case it will be parsed incorrectly.
+ * @api
  * @package edwrodrig\static_generator
  */
 class PagePhp extends PageFile
@@ -23,16 +24,23 @@ class PagePhp extends PageFile
     const MODE_TEMPLATE = 1;
 
     /**
-     * This page is not processed in any way. Just save in an output file as it is.
+     * This page is not processed in any way. Just save in an {@see PagePhp::processRaw() output file as it is}.
      */
     const MODE_RAW = 2;
 
     /**
-     * This page is processed as a php file but does not generated any output file unless they explicitly says it.
+     * This page is processed as a php file but {@see PagePhp::processSilent() does not generated} any output file unless they explicitly says it.
      */
     const MODE_SILENT = 3;
 
 
+    /**
+     * The current mode of the page.
+     * @see PagePhp::MODE_TEMPLATE default mode
+     * @see PagePhp::MODE_RAW just copy mode
+     * @see PagePhp::MODE_SILENT process but not generate target
+     * @var int
+     */
     private $mode = self::MODE_TEMPLATE;
 
     /**
@@ -42,12 +50,17 @@ class PagePhp extends PageFile
 
     /**
      * The additional data of the php page.
+     *
+     * This is contained in the data annotation.
+     * The content of the data anotation must be a valid json string.
      * @var array
      */
     private $data = [];
 
     /**
      * PagePhp constructor.
+     *
+     * @api
      * @param string $source_path
      * @param Context $context The generation context
      * @throws InvalidTemplateClassException
@@ -62,6 +75,12 @@ class PagePhp extends PageFile
     }
 
 
+    /**
+     * Load the data annotation
+     *
+     * @see PagePhp::$data
+     * @param DocBlock $doc_block
+     */
     private function loadDataFromDoc(DocBlock $doc_block) {
         if ( $doc_block->hasTag('data') ) {
             $data = strval($doc_block->getTagsByName('data')[0]);
@@ -71,6 +90,11 @@ class PagePhp extends PageFile
     }
 
     /**
+     * Parse type annotations.
+     *
+     * Type annotations determine the type of processing of the php file.
+     * Also this determine the template class of the processing
+     * @see PagePhp::$mode
      * @param DocBlock $doc_block
      * @throws InvalidTemplateClassException
      */
@@ -141,6 +165,7 @@ class PagePhp extends PageFile
     /**
      * If the php file processes it silently.
      * Without generating and output unless it is specified explicitly
+     * @api
      * @return bool
      */
     public function isSilent() : bool {
@@ -149,6 +174,9 @@ class PagePhp extends PageFile
 
     /**
      * If this file is processes as a template.
+     *
+     * Generally is the default mode or when the template annotation is present
+     * @api
      * @return bool
      */
     public function isTemplate() : bool {
@@ -158,12 +186,21 @@ class PagePhp extends PageFile
     /**
      * If this file is not processes.
      *
+     * When the raw annotation is present the file is just copied
+     * @api
      * @return bool
      */
     public function isRaw() : bool {
         return $this->mode == self::MODE_RAW;
     }
 
+    /**
+     * Get the target relative path.
+     *
+     * In the case of php files if it is a {@see PagePhp::isTemplate() template}, the last .php from the file is removed.
+     * @api
+     * @return string
+     */
     public function getTargetRelativePath() : string
     {
         $relative_path = parent::getTargetRelativePath();
@@ -179,6 +216,14 @@ class PagePhp extends PageFile
         return $relative_path;
     }
 
+    /**
+     * Get the template class.
+     *
+     * Only use this when the {@see PagePhp::$mode mode} is {@see PhpPage::isTemplate() template}.
+     * In other case this may(should) fail.
+     * @api
+     * @return Template
+     */
     public function getTemplate() : Template {
         return new $this->template_class($this);
     }
@@ -187,11 +232,8 @@ class PagePhp extends PageFile
      * Data provided in the {@see PagePhp::getDocBlock() first comment}
      *
      * This data can be used in different context specially in {@see Template::getData() templates}
-     * Example
-     * ```
-     * @data something_in_json_format
-     * ```
-     * @data
+     * @api
+     * @uses PagePhp::$data
      * @return array
      */
     public function getData() : array {
@@ -199,7 +241,12 @@ class PagePhp extends PageFile
     }
 
     /**
+     * Generates the output of the file
+     *
+     * The generation is according the {@see PagePhp::$mode mode}
+     * @api
      * @throws Exception
+     * @return string
      */
     public function generate() : string
     {
@@ -219,6 +266,11 @@ class PagePhp extends PageFile
     }
 
     /**
+     * Process the file silently.
+     *
+     * Does not generate a {@see Page::writeFile() file}, but the output is returned as a string.
+     * @see PagePhp::isSilent()
+     * @return string
      * @throws Exception
      */
     private function processSilent() : string {
@@ -232,7 +284,8 @@ class PagePhp extends PageFile
     /**
      * Process as a raw file
      *
-     * When is considered a raw file then this page is copied, the same as {@see PageCopy}
+     * When is considered a raw file then this page is {@see Page::copyPage() copied}, works the same as {@see PageCopy}
+     * @see PagePhp::isRaw()
      * @return string
      * @throws \edwrodrig\static_generator\exception\CopyException
      */
@@ -242,7 +295,11 @@ class PagePhp extends PageFile
     }
 
     /**
-     * Process this file as a Template
+     * Process this file as a Template.
+     *
+     * The file {@see Page::writePage() generates an output} but the content generation is delegated to the {@see PagePhp::getTemplate() template}
+     * @see PagePhp::isTemplate()
+     * @return string
      * @throws Exception
      */
     private function processTemplate() : string {
@@ -262,14 +319,16 @@ class PagePhp extends PageFile
      * Useful when php scripts generates a set of files like post entries.
      * This function is mean to be used {@see PagePhp::isSilent() silent} php pages but is ok to use in other php pages
      *
+     * @api
      * @uses PageFunction
      * @param string $relative_path The path relative to the {@see Context::getTargetRelativePath() target path}
      * @param callable $function The funciton that echo the content of the file
+     * @return string
      * @throws \Exception
      */
-    public function generateFromFunction(string $relative_path, callable $function)
+    public function generateFromFunction(string $relative_path, callable $function) : string
     {
         $page = new PageFunction($relative_path, $this->context, $function);
-        $page->generate();
+        return $page->generate();
     }
 }

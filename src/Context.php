@@ -185,7 +185,6 @@ class Context
      *
      * It is useful when regenerating pages.
      * @api
-     *
      */
     public function clearTarget() {
         exec(sprintf('rm -rf %s', $this->getTargetRootPath()));
@@ -216,6 +215,11 @@ class Context
 
 
     /**
+     * Register a cache.
+     *
+     * Cache must be registered to be {@see Template::getCache() retrieved} and {@see CacheManager::update() used} by template instances
+     *
+     * @api
      * @param CacheManager $cache
      * @return Context
      * @throws exception\CacheAlreadyRegisteredException
@@ -223,6 +227,7 @@ class Context
     public function registerCache(CacheManager $cache) : Context {
         $web_path = $cache->getTargetWebPath();
         if ( isset($this->caches[$web_path]) ) {
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CacheAlreadyRegisteredException($web_path);
         } else {
             $cache->setContext($this);
@@ -233,6 +238,10 @@ class Context
 
 
     /**
+     * Get a cache.
+     *
+     * Retrieve a previously {@see Context::registerCache() registered cache} by {@see CacheManager::getTargetWebPath() web path}.
+     * @api
      * @param string $web_path
      * @return CacheManager
      * @throws exception\CacheDoesNotExists
@@ -240,8 +249,10 @@ class Context
     public function getCache(string $web_path) : CacheManager {
         if ( isset($this->caches[$web_path]) )
             return $this->caches[$web_path];
-        else
+        else {
+            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CacheDoesNotExists($web_path);
+        }
     }
 
     /**
@@ -249,6 +260,7 @@ class Context
      *
      * It is just a convenience function that clears all files in the {@see Context::getTargetRootPath() target}
      * and generates all from {@see Context::getSourceRootPath() source}
+     * @api
      * @throws exception\InvalidTemplateClassException
      * @throws util\exception\IgnoredPageFileException
      */

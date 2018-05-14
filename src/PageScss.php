@@ -7,8 +7,20 @@ namespace edwrodrig\static_generator;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Formatter\Crunched;
 
+/**
+ * Class PageScss
+ *
+ * This page correspond a scss file that should be compiled to a css file
+ * @package edwrodrig\static_generator
+ */
 class PageScss extends PageFile
 {
+    /**
+     * Get the target relative path.
+     *
+     * In this case, the source final extension is replaced from scss to css
+     * @return string
+     */
     public function getTargetRelativePath() : string
     {
         $relative_path = preg_replace(
@@ -23,6 +35,8 @@ class PageScss extends PageFile
     /**
      * Generates the scss target.
      *
+     * The scss is generated {@see Crunched minified}.
+     * The included files should be in the {@see Context::getSourceRootPath() source root path}. Remember that their names should start with a underscore.
      * @uses Compiler
      * @return string An empty string.
      */

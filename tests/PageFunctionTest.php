@@ -20,6 +20,9 @@ class PageFunctionTest extends \PHPUnit\Framework\TestCase
     }
 
 
+    /**
+     * @throws \Exception
+     */
     function testGenerateString()
     {
         $logger = new TemporaryLogger;

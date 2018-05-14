@@ -55,10 +55,14 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     */
     public function testCreateTemplates()
     {
         /**
-         * @var $templates \edwrodrig\static_generator\PagePhp[]
+         * @var $templates \edwrodrig\static_generator\PagePhp[]|iterable
          */
         $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 
@@ -77,7 +81,7 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreatePages()
     {
         /**
-         * @var $pages \edwrodrig\static_generator\PageFile[]
+         * @var $pages \edwrodrig\static_generator\PageFile[]|iterable
          */
         $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 

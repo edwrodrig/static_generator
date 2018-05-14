@@ -27,6 +27,9 @@ class PageCopyTest extends TestCase
         $this->root = vfsStream::setup();
     }
 
+    /**
+     * @throws \edwrodrig\static_generator\exception\CopyException
+     */
     public function testGenerate()
     {
         $logger = new TemporaryLogger;

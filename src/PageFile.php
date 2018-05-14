@@ -3,9 +3,16 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-
 use edwrodrig\static_generator\cache\CacheManager;
 
+/**
+ * Class PageFile
+ *
+ * This is a base class for all files that generates from a source file.
+ * For example when you process a {@see PagePhp php file} then is transformed in and html text file, or just a {@see PageCopy plain copy}
+ * @package edwrodrig\static_generator
+ * @api
+ */
 abstract class PageFile extends Page
 {
 
@@ -15,13 +22,22 @@ abstract class PageFile extends Page
 
     /**
      * Get the absolute path of the source file.
-     * Reutnr null if the input file is not existant
-     * @return null|string
+     *
+     * Return null if the input file is not existant
+     * @api
+     * @return string
      */
     public function getSourceAbsolutePath() : string {
         return $this->context->getSourceRootPath() . DIRECTORY_SEPARATOR . $this->getSourceRelativePath();
     }
 
+    /**
+     * Get the source relative path.
+     *
+     * In most cases match the {Page::getTargetRelativePath() target relative path}
+     * @api
+     * @return string
+     */
     public function getSourceRelativePath() : string {
         return $this->relative_path;
     }
@@ -31,7 +47,7 @@ abstract class PageFile extends Page
      *
      * Return an empty string it the file does not exist.
      * The file should always exist.
-     * This case is considered for testing
+     * @api
      * @return string
      */
     public function getSourceFileContents() : string {
@@ -46,6 +62,8 @@ abstract class PageFile extends Page
     /**
      * Copy the source file to the target file.
      *
+     * This is used in {@see PageCopy} and in {@see PagePhp::isRaw() raw php pages}
+     * @api
      * @throws exception\CopyException
      */
     protected function copyPage() {
@@ -62,6 +80,16 @@ abstract class PageFile extends Page
         $this->getLogger()->end("DONE\n", false);
     }
 
+    /**
+     * Get the context cache.
+     *
+     * Retrieve the {@see Context::getCache() context cache} by {@see CacheManager::getTargetWebPath() web path}
+     *
+     * @api
+     * @param string $web_path
+     * @return CacheManager
+     * @throws exception\CacheDoesNotExists
+     */
     public function getCache(string $web_path) : CacheManager {
         return $this->getContext()->getCache($web_path);
     }
