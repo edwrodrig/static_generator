@@ -62,16 +62,16 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreateTemplates()
     {
         /**
-         * @var $templates \edwrodrig\static_generator\PagePhp[]|iterable
+         * @var $templates \edwrodrig\static_generator\template\Template[]|iterable
          */
         $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 
 
         $this->assertCount(3, $templates);
 
-        $this->assertEquals('template_test', $templates['template_test.php']->getTargetRelativePath());
-        $this->assertEquals('template_html_basic_test', $templates['template_html_basic_test.php']->getTargetRelativePath());
-        $this->assertEquals('hola', $templates['hola.php']->getTargetRelativePath());
+        $this->assertEquals('template_test', $templates['template_test.php']->getPageInfo()->getTargetRelativePath());
+        $this->assertEquals('template_html_basic_test', $templates['template_html_basic_test.php']->getPageInfo()->getTargetRelativePath());
+        $this->assertEquals('hola', $templates['hola.php']->getPageInfo()->getTargetRelativePath());
     }
 
     /**

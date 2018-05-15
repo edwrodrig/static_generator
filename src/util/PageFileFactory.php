@@ -123,7 +123,7 @@ class PageFileFactory
      *
      * @api
      * @param Context $context
-     * @return \Generator|\edwrodrig\static_generator\PagePhp[]
+     * @return \Generator|\edwrodrig\static_generator\template\Template[]
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @throws exception\IgnoredPageFileException
      */
@@ -132,7 +132,7 @@ class PageFileFactory
         foreach ( self::createPages($context) as $sub_path => $page ) {
 
             if ( $page instanceof PagePhp && $page->isTemplate() ) {
-                yield $sub_path => $page;
+                yield $sub_path => $page->getTemplate();
             }
         }
     }

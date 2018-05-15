@@ -277,6 +277,19 @@ class Context
     }
 
     /**
+     * Get the templates of the context
+     *
+     * Just a convenience function to call {@see PageFileFactory::createTemplates() }
+     * @api
+     * @return \edwrodrig\static_generator\template\Template[]|\Generator
+     * @throws exception\InvalidTemplateClassException
+     * @throws util\exception\IgnoredPageFileException
+     */
+    public function getTemplates() {
+        yield from PageFileFactory::createTemplates($this);
+    }
+
+    /**
      * Get a url with absolute target path if needed.
      *
      * It is useful when the target web folder is not /, when you have different version of a site in different folder, for example, by languages

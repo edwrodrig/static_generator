@@ -3,10 +3,22 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
 class ContextTest extends TestCase
 {
+
+    /**
+     * @var vfsStreamDirectory
+     */
+    private $root;
+
+    public function setUp() {
+        $this->root = vfsStream::setup();
+    }
+
     /**
      * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
      */
@@ -67,6 +79,20 @@ class ContextTest extends TestCase
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
         $s->tr('');
+    }
+
+    /**
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     */
+    public function testGetTemplates() {
+        /**
+         * @var $templates \edwrodrig\static_generator\template\Template[]|iterable
+         */
+        $templates = (new Context(__DIR__ . '/files/test_dir', $this->root->url()))->getTemplates();
+
+
+        $this->assertCount(3, $templates);
     }
 
 
