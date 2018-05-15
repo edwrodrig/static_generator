@@ -71,6 +71,7 @@ class PagePhp extends PageFile
         if ( $doc_block = $this->getDocBlock() ) {
             $this->loadDataFromDoc($doc_block);
             $this->loadTypeDataFromDoc($doc_block);
+            $this->loadTemplateDataFromDoc($doc_block);
         }
     }
 
@@ -90,13 +91,49 @@ class PagePhp extends PageFile
     }
 
     /**
+     * Parse template annotation
+     *
+     * Determine the template class of the processing
+     * @param DocBlock $doc_block
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     */
+    private function loadTemplateDataFromDoc(DocBlock $doc_block)
+    {
+        $template_class = '';
+
+        $vars = $doc_block->getTagsByName('var');
+        /** @var $var DocBlock\Tags\Var_ */
+        foreach ($vars as $var) {
+
+            if ($var->getVariableName() == 'this') {
+                if ($description = $var->getDescription()) {
+                    /** @var $type DocBlock\Description */
+                    $template_class = strval($description);
+                    $template_class = preg_replace("/^\\\\/", '', $template_class);
+                    break;
+                }
+            }
+        }
+
+        if (empty($template_class) || $template_class == Template::class) {
+            $this->template_class = Template::class;
+
+        } else if (class_exists($template_class) && is_subclass_of($template_class, Template::class)) {
+            $this->template_class = $template_class;
+
+        } else {
+            /** @noinspection PhpInternalEntityUsedInspection */
+            throw new InvalidTemplateClassException($template_class);
+
+        }
+    }
+
+    /**
      * Parse type annotations.
      *
      * Type annotations determine the type of processing of the php file.
-     * Also this determine the template class of the processing
      * @see PagePhp::$mode
      * @param DocBlock $doc_block
-     * @throws InvalidTemplateClassException
      */
     private function loadTypeDataFromDoc(DocBlock $doc_block){
         if ( $doc_block->hasTag('raw') ) {
@@ -108,36 +145,8 @@ class PagePhp extends PageFile
         } else if ( $doc_block->hasTag('template') ) {
             $this->mode = self::MODE_TEMPLATE;
 
-            $template_class = '';//strval($doc_block->getTagsByName('template')[0]);
-
-            $vars = $doc_block->getTagsByName('var');
-            /** @var $var DocBlock\Tags\Var_ */
-            foreach ( $vars as $var ) {
-
-                if ( $var->getVariableName() == 'this' ) {
-                    if ( $description = $var->getDescription() ) {
-                        /** @var $type DocBlock\Description*/
-                        $template_class = strval($description);
-                        break;
-                    }
-                }
-            }
-
-            if ( empty($template_class) || $template_class == Template::class ) {
-                $this->template_class = Template::class;
-
-            } else if ( class_exists($template_class) && is_subclass_of($template_class,Template::class) )  {
-                $this->template_class = $template_class;
-
-            } else {
-                /** @noinspection PhpInternalEntityUsedInspection */
-                throw new InvalidTemplateClassException($template_class);
-
-            }
-
         } else {
             $this->mode = self::MODE_TEMPLATE;
-            $this->template_class = Template::class;
         }
     }
 
@@ -274,10 +283,11 @@ class PagePhp extends PageFile
      * @throws Exception
      */
     private function processSilent() : string {
+
         $content = Util::outputBufferSafe(function () {
-            /** @noinspection PhpIncludeInspection */
-            require($this->getSourceAbsolutePath());
+            $this->getTemplate()->print();
         });
+
         return $content;
     }
 

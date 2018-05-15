@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this \edwrodrig\static_generator\template\Template
+ * @var $this edwrodrig\static_generator\template\Template
  */
 
 echo $this->tr(['es'=> 'hola', 'en' => 'hello']);

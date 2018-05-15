@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this \edwrodrig\static_generator\template\Template
+ * @var $this edwrodrig\static_generator\template\Template
  */
 
 

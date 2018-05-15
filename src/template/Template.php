@@ -176,4 +176,17 @@ class Template
         return $this->page_info->getCache($web_path);
     }
 
+    /**
+     * Generate a page from function.
+     *
+     * just call {@see PagePhp::generateFromFunction()}
+     * @param string $relative_path
+     * @param callable $function
+     * @return string
+     * @throws \Exception
+     */
+    public function generateFromFunction(string $relative_path, callable $function) : string {
+        return $this->page_info->generateFromFunction($relative_path, $function);
+    }
+
 }
