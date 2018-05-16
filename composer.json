@@ -11,7 +11,8 @@
     "license" : "MIT",
     "minimum-stability" : "stable",
     "suggest": {
-        "edwrodrig/image": "To work with images"
+        "edwrodrig/image": "To work with images",
+        "edwrodrig/contento" : "To manage types and collections"
     },
     "require": {
         "php" : "^7.2",
@@ -22,7 +23,8 @@
     "require-dev" : {
         "phpunit/phpunit" : "^7.0",
         "edwrodrig/image" : "^2.0",
-        "mikey179/vfsStream": "^1.6"
+        "mikey179/vfsStream": "^1.6",
+        "edwrodrig/contento" : "dev-master"
     },
     "autoload" : {
         "psr-4" : {
