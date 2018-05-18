@@ -137,7 +137,7 @@ class Template
      * @return string
      * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
      */
-    public function tr($translatable, ?string $default = null, ?string $default_error) : string {
+    public function tr($translatable, ?string $default = null, ?string $default_error = null) : string {
        return $this->page_info->getContext()->tr($translatable, $default, $default_error);
     }
 
