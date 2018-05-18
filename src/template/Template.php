@@ -5,7 +5,11 @@ namespace edwrodrig\static_generator\template;
 
 
 use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\static_generator\html\AAttributes;
+use edwrodrig\static_generator\html\Attributes;
+use edwrodrig\static_generator\html\ImgAttributes;
 use edwrodrig\static_generator\PagePhp;
+use edwrodrig\static_generator\Repository;
 use edwrodrig\static_generator\util\Logger;
 
 /**
@@ -129,11 +133,24 @@ class Template
      * @uses Context::tr() Is the function finally called.
      * @param $translatable
      * @param null|string $default
+     * @param null|string $default_error
      * @return string
      * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
      */
-    public function tr($translatable, ?string $default = null) : string {
-       return $this->page_info->getContext()->tr($translatable, $default);
+    public function tr($translatable, ?string $default = null, ?string $default_error) : string {
+       return $this->page_info->getContext()->tr($translatable, $default, $default_error);
+    }
+
+    /**
+     * Has translation
+     *
+     * @api
+     * @uses Context::hasTr() Is the funciton finally called
+     * @param $translatable
+     * @return bool
+     */
+    public function hasTr($translatable) : bool {
+        return $this->page_info->getContext()->hasTr($translatable);
     }
 
     /**
@@ -187,6 +204,42 @@ class Template
      */
     public function generateFromFunction(string $relative_path, callable $function) : string {
         return $this->page_info->generateFromFunction($relative_path, $function);
+    }
+
+    /**
+     * Get the current context repository.
+     *
+     * @return Repository
+     */
+    public function getRepository() : Repository {
+        return $this->page_info->getContext()->getRepository();
+    }
+
+    /**
+     * Attributes of <a> tag
+     * @param array $attributes
+     * @return AAttributes
+     */
+    public function attrA(array $attributes) : AAttributes {
+        return AAttributes::create($attributes);
+    }
+
+    /**
+     * Attributes of <img> tag
+     * @param array $attributes
+     * @return ImgAttributes
+     */
+    public function attrImg(array $attributes) : ImgAttributes {
+        return ImgAttributes::create($attributes);
+    }
+
+    /**
+     * Attributes of tag
+     * @param array $attributes
+     * @return Attributes
+     */
+    public function attr(array $attributes) : Attributes {
+        return Attributes::create($attributes);
     }
 
 }
