@@ -30,7 +30,7 @@ class Repository
     /**
      * @var Context
      */
-    private $context;
+    protected $context;
 
     /**
      * Set context.
