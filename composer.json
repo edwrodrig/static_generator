@@ -12,7 +12,8 @@
     "minimum-stability" : "stable",
     "suggest": {
         "edwrodrig/image": "To work with images",
-        "edwrodrig/contento" : "To manage types and collections"
+        "edwrodrig/contento" : "To manage types and collections",
+        "edwrodrig/js": "To add some common javascript utils"
     },
     "require": {
         "php" : "^7.2",
@@ -42,7 +43,8 @@
             "/.gitignore",
             "/.travis.yml",
             "/phpunit.xml.dist",
-            "/examples"
+            "/examples",
+            "/.idea"
         ]
     }
 }
