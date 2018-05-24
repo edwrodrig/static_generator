@@ -27,9 +27,11 @@ class ContextTest extends TestCase
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
         $this->assertEquals('es', $s->tr(['es' => 'es', 'en' => 'en']));
+        $this->assertTrue($s->hasTr(['es' => 'es', 'en' => 'en']));
 
         setlocale(LC_ALL, 'en_US.utf-8');
         $this->assertEquals('en', $s->tr(['es' => 'es', 'en' => 'en']));
+        $this->assertTrue($s->hasTr(['es' => 'es', 'en' => 'en']));
     }
 
     /**
@@ -43,6 +45,7 @@ class ContextTest extends TestCase
     {
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
+        $this->assertFalse($s->hasTr([]));
         $s->tr([]);
     }
 
@@ -54,7 +57,9 @@ class ContextTest extends TestCase
     {
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
-        $this->assertequals('hola', $s->tr([], 'hola'));
+        $this->assertFalse($s->hasTr([]));
+        $this->assertEquals('hola', $s->tr([], 'hola'));
+
     }
 
     /**
@@ -66,6 +71,7 @@ class ContextTest extends TestCase
     {
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
+        $this->assertFalse($s->hasTr(null));
         $s->tr(null);
     }
 

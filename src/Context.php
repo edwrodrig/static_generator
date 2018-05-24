@@ -58,6 +58,13 @@ class Context
      */
     private $caches = [];
 
+
+    /**
+     * Repository object
+     * @var Repository
+     */
+    private $repository = null;
+
     /**
      * Context constructor.
      * @api
@@ -198,14 +205,17 @@ class Context
      * @api
      * @param mixed $translatable A translatable object.
      * @param null|string $default The defaulf string if the translation is not present.
+     * @param null|string $default_message if is a string then is printed a log message when default is used.
      * @return string
      * @throws exception\NoTranslationAvailableException
      */
-    public function tr($translatable, ?string $default = null) : string
+    public function tr($translatable, ?string $default = null, ?string $default_message = null) : string
     {
         if (isset($translatable[$this->getLang()]))
             return $translatable[$this->getLang()];
         else if (is_string($default)) {
+            if ( !empty($default_message) )
+                $this->getLogger()->log(sprintf("ERROR_TR[%s]", $default_message));
             return $default;
         } else {
             /** @noinspection PhpInternalEntityUsedInspection */
@@ -213,6 +223,18 @@ class Context
         }
     }
 
+    /**
+     * Resolve is a translation exists
+     *
+     * Check if the translatable has a translation in the current lang.
+     * @api
+     * @param $translatable
+     * @return bool
+     *
+     */
+    public function hasTr($translatable) : bool {
+        return isset($translatable[$this->getLang()]);
+    }
 
     /**
      * Register a cache.
@@ -305,6 +327,27 @@ class Context
         }
 
         return $path;
+    }
 
+    /**
+     * Set a repository
+     *
+     *
+     * @param Repository $repository
+     * @return Context
+     */
+    public function setRepository(Repository $repository) : Context {
+        $this->repository = $repository;
+        $this->repository->setContext($this);
+        return $this;
+    }
+
+    /**
+     * Return a repository object.
+     * @api
+     * @return Repository
+     */
+    public function getRepository() : Repository {
+        return $this->repository;
     }
 }

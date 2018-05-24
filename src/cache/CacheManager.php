@@ -169,9 +169,12 @@ class CacheManager
      * @uses CacheManamger::getTargetWebPath()
      */
     public function linkToTarget() {
+        $link = $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath();
+        mkdir(dirname($link), 0777, true);
+
         symlink(
             $this->getTargetAbsolutePath(),
-            $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath()
+            $link
         );
     }
 }
