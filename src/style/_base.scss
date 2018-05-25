@@ -1,3 +1,6 @@
+/**
+  Main container
+ */
 @mixin main-container($width) {
   max-width: $width;
   margin: 0 auto;
@@ -49,7 +52,7 @@
 /**
  Used by mixin
  */
-%responsive-container {
+%responsive-wrapper {
   position: relative;
   height: 0;
 
@@ -82,73 +85,9 @@
   </div>
  ```
  */
-@mixin responsive-container($width, $height) {
-  @extend %responsive-container;
+@mixin responsive-wrapper($width, $height) {
+  @extend %responsive-wrapper;
   width: 100%;
   padding-bottom: 100% * $height / $width;
 }
 
-
-/*
-style('.layout-grid-3-1', [
-'> *' => [
-'box-sizing' => 'border-box',
-'width' => "calc(33% - $this->default_padding)",
-'@media ( max-width : 850px )' => [
-'width' => '100%'
-]
-]
-]);
-
-style('.layout-grid-3-2-1', [
-'> *' => [
-'box-sizing' => 'border-box',
-'width' => "calc(33% - $this->default_padding)",
-'@media ( max-width : 900px )' => [
-'width' => "calc(50% - $this->default_padding)"
-],
-'@media ( max-width : 600px )' => [
-'width' => '100%'
-]
-]
-]);
-
-style('.layout-grid-2-1', [
-'> *' => [
-'box-sizing' => 'border-box',
-'width' => "calc(50% - $this->default_padding)",
-'@media ( max-width : 700px )' => [
-'width' => '100%'
-]
-]
-]);
-
-style('.layout-grid-4-2-1', [
-'> *' => [
-'box-sizing' => 'border-box',
-'width' => "calc(25% - $this->default_padding)",
-'@media ( max-width : 1100px )' => [
-'width' => "calc(50% - $this->default_padding)"
-],
-'@media ( max-width : 500px )' => [
-'width' => '100%'
-]
-]
-]);
-
-style('.layout-grid-4-3-2-1', [
-'> *' => [
-'box-sizing' => 'border-box',
-'width' => "calc(25% - $this->default_padding)",
-'@media ( max-width : 1100px )' => [
-'width' => "calc(33% - $this->default_padding)"
-],
-'@media ( max-width : 850px )' => [
-'width' => "calc(50% - $this->default_padding)"
-],
-'@media ( max-width : 500px )' => [
-'width' => '100%'
-]
-]
-]);
-*/

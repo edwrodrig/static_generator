@@ -14,15 +14,15 @@ $padding : 1em;
 
 
 .responsive-square {
-  @include responsive-container(1, 1);
+  @include responsive-wrapper(1, 1);
 }
 
 .responsive-4-3 {
-  @include responsive-container(4, 3);
+  @include responsive-wrapper(4, 3);
 }
 
 .responsive-16-9 {
-  @include responsive-container(16, 9);
+  @include responsive-wrapper(16, 9);
 }
 
 .grid-fixed {
