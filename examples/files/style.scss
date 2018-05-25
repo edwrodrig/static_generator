@@ -1,10 +1,31 @@
+@import 'base/base';
+
 body {
   margin:0;
   padding:0;
 }
 
-body{
-  background-color:#CCC;
+$padding : 1em;
+
+.grid {
+  @include grid($padding);
+  justify-content: center;
 }
 
-@import 'base';
+
+.responsive-square {
+  @include responsive-container(1, 1);
+}
+
+.responsive-4-3 {
+  @include responsive-container(4, 3);
+}
+
+.responsive-16-9 {
+  @include responsive-container(16, 9);
+}
+
+.grid-fixed {
+  justify-content: center;
+  @include grid-fixed((6: 100%, 5: 900px, 4: 800px, 3: 700px, 2: 600px, 1: 500px), $padding);
+}

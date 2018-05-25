@@ -1,6 +1,5 @@
 <?php
 /**
- * @template
  * @data {
  *   "title" : "title1"
  * }

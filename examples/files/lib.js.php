@@ -1,6 +1,5 @@
 <?php
 /**
- * @template
  * @var $this edwrodrig\static_generator\template\TemplateJs
  */
 

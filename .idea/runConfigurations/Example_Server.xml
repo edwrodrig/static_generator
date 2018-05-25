@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Example Server" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" folderName="Example" singleton="true" document_root="$PROJECT_DIR$/examples/output" port="8080">
+    <method />
+  </configuration>
+</component>

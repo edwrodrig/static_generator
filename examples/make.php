@@ -21,8 +21,8 @@ class Template extends \edwrodrig\static_generator\template\Template {
 };
 
 
-$cache  = new CacheManager(__DIR__ . '/output/cache');
-$cache->setTargetWebPath('cache');
+$cache  = new CacheManager(__DIR__ . '/cache/images');
+    $cache->setTargetWebPath('cache/images');
 
 $context = new Context(__DIR__ . '/files', __DIR__ . '/output/es');
 $context->registerCache($cache);

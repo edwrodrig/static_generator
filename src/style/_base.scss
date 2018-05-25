@@ -1,0 +1,154 @@
+@mixin main-container($width) {
+  max-width: $width;
+  margin: 0 auto;
+}
+
+/**
+ Mixin to generate container grids with padding.
+
+ This makes natural to generate some padding of objects.
+ It sets the margins of the container and the padding. So you need to set a outer container for the container or the
+ objects if you want to set the margins
+ */
+@mixin grid($padding) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -$padding;
+  margin-left: -$padding;
+  & > * {
+    margin-top: $padding;
+    margin-left: $padding;
+  }
+}
+
+/**
+  Grid with fixed column number with max-width with padding
+
+  $elements is a assoc array with numbers as key and max-width as values.
+  Use a value of 100% for the default value.
+
+ */
+@mixin grid-fixed($elements, $padding) {
+  @include grid($padding);
+
+  & > * {
+    @each $number, $max-width in $elements {
+
+      @if $max-width == 100% {
+        width: calc(#{100% / $number} - #{$padding});
+      }
+      @else {
+        @media (max-width: $max-width) {
+          width: calc(#{100% / $number} - #{$padding});
+        }
+      }
+    }
+  }
+}
+
+/**
+ Used by mixin
+ */
+%responsive-container {
+  position: relative;
+  height: 0;
+
+  & > * {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+/**
+  Responsive container.
+
+ This mixin is use to construct container classes for divs that keeps aspect ratio of it contents contents.
+ The content is automatically fills the container.
+ ```
+ <div class="responsive-container">
+   <some_element></some_element>
+ </div>
+ ```
+
+  The container uses their width attributes. So if you want to set the size of the element you need to put an outer div for this propuse.
+  ```
+  <div style="width:43%">
+    <div class="responsive-container">
+      <some_element></some_element>
+    </div>
+  </div>
+ ```
+ */
+@mixin responsive-container($width, $height) {
+  @extend %responsive-container;
+  width: 100%;
+  padding-bottom: 100% * $height / $width;
+}
+
+
+/*
+style('.layout-grid-3-1', [
+'> *' => [
+'box-sizing' => 'border-box',
+'width' => "calc(33% - $this->default_padding)",
+'@media ( max-width : 850px )' => [
+'width' => '100%'
+]
+]
+]);
+
+style('.layout-grid-3-2-1', [
+'> *' => [
+'box-sizing' => 'border-box',
+'width' => "calc(33% - $this->default_padding)",
+'@media ( max-width : 900px )' => [
+'width' => "calc(50% - $this->default_padding)"
+],
+'@media ( max-width : 600px )' => [
+'width' => '100%'
+]
+]
+]);
+
+style('.layout-grid-2-1', [
+'> *' => [
+'box-sizing' => 'border-box',
+'width' => "calc(50% - $this->default_padding)",
+'@media ( max-width : 700px )' => [
+'width' => '100%'
+]
+]
+]);
+
+style('.layout-grid-4-2-1', [
+'> *' => [
+'box-sizing' => 'border-box',
+'width' => "calc(25% - $this->default_padding)",
+'@media ( max-width : 1100px )' => [
+'width' => "calc(50% - $this->default_padding)"
+],
+'@media ( max-width : 500px )' => [
+'width' => '100%'
+]
+]
+]);
+
+style('.layout-grid-4-3-2-1', [
+'> *' => [
+'box-sizing' => 'border-box',
+'width' => "calc(25% - $this->default_padding)",
+'@media ( max-width : 1100px )' => [
+'width' => "calc(33% - $this->default_padding)"
+],
+'@media ( max-width : 850px )' => [
+'width' => "calc(50% - $this->default_padding)"
+],
+'@media ( max-width : 500px )' => [
+'width' => '100%'
+]
+]
+]);
+*/
