@@ -40,4 +40,20 @@ class Util
         }
     }
 
+    /**
+     * sprintf if all args are not null, empty string otherwise.
+     *
+     * @see sprintf()
+     * @param $str
+     * @param string|null ...$args
+     * @return string
+     */
+    public static function sprintfOrEmpty($str, ...$args) : string {
+        foreach ( $args as &$arg ) {
+            if ( is_null($arg) ) return "";
+            $arg = htmlentities($arg);
+        }
+        return sprintf($str, ...$args);
+    }
+
 }

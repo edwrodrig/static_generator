@@ -78,6 +78,7 @@ class AAttributes
      * * tag – a keyword (tag) for the current document
      *
      * @see https://www.w3schools.com/tags/att_a_rel.asp
+     * @see https://support.google.com/webmasters/answer/96569
      * @param string $rel
      * @return AAttributes
      */
