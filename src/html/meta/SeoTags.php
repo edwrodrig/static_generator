@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 9:51
  */
 
-namespace edwrodrig\static_generator\html;
+namespace edwrodrig\static_generator\html\meta;
 
 use edwrodrig\static_generator\util\Util;
 

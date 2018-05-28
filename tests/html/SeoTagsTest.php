@@ -8,14 +8,14 @@
 
 namespace test\edwrodrig\static_generator\html;
 
-use edwrodrig\static_generator\html\SeoTags;
+use edwrodrig\static_generator\html\meta\SeoTags;
 use PHPUnit\Framework\TestCase;
 
 class SeoTagsTest extends TestCase
 {
 
     public function testHappy() {
-        $s = new SeoTags;
+        $s = new \edwrodrig\static_generator\html\meta\SeoTags;
         $s->setDescription('hola');
 
         ob_start();
@@ -27,7 +27,7 @@ class SeoTagsTest extends TestCase
     }
 
     public function testNull() {
-        $s = new SeoTags;
+        $s = new \edwrodrig\static_generator\html\meta\SeoTags;
         $s->setDescription(null);
 
         ob_start();

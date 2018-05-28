@@ -7,32 +7,22 @@ declare(strict_types=1);
  * Time: 10:27
  */
 
-namespace edwrodrig\static_generator\html;
+namespace edwrodrig\static_generator\html\meta;
 use edwrodrig\static_generator\util\Util;
 
 /**
- * Class TwitterCard
+ * Class TwitterCard Summary
  * @package edwrodrig\static_generator\htmlt
  * @see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/troubleshooting-cards
  * @see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image
  */
-class TwitterCardSummary
+class TwitterCardSummary extends TwitterCardBase
 {
 
     /**
      * @var null|string
      */
-    private $site = null;
-
-    /**
-     * @var null|string
-     */
     private $title = null;
-
-    /**
-     * @var null|string
-     */
-    private $description = null;
 
     /**
      * @var null|string
@@ -54,26 +44,6 @@ class TwitterCardSummary
      * @var bool
      */
     private $is_large_image = false;
-
-    /**
-     * Set the twitter username of the card should be attributed to
-     *
-     * Should add the leading @
-     * Website Attribution:
-     * Indicates the Twitter account for the website or platform on which the content was published.
-     * Note that a service may set separate Twitter accounts for different pages/sections of their website,
-     * and the most appropriate Twitter account should be used to provide the best context for the user.
-     * For example, nytimes.com may set the the website attribution to “@nytimes” for front page articles, and “@NYTArts”
-     * for articles in the Arts & Entertainment section.
-     * @api
-     * @param null|string $user
-     * @return $this
-     */
-    public function setSite(?string $user) : TwitterCardSummary {
-        $this->site = $user;
-        return $this;
-
-    }
 
     /**
      * Set if this summary is large image.
@@ -118,22 +88,6 @@ class TwitterCardSummary
     }
 
     /**
-     * A description that concisely summarizes the content as appropriate for presentation within a Tweet.
-     *
-     * You should not re-use the title as the description or use this field to describe the general services provided by the website.
-     * Platform specific behaviors:
-     * * iOS, Android: Not displayed
-     * * Web: Truncated to three lines in timeline and expanded Tweet
-     * When not set, fallbacks to {@see OpenGraph::setDescription()}
-     * @param null|string $description
-     * @return $this
-     */
-    public function setDescription(?string $description) : TwitterCardSummary {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
      * A URL to a unique image representing the content of the page.
      *
      * You should not use a generic image such as your website logo, author photo, or other image that spans multiple pages.
@@ -166,6 +120,9 @@ class TwitterCardSummary
     }
 
 
+    /**
+     * Print the image to HTML.
+     */
     public function print() {
         if ( $this->is_large_image ) {
             echo Util::sprintfOrEmpty('<meta name="twitter:card" content="summary_large_image"/>');
@@ -174,9 +131,8 @@ class TwitterCardSummary
             echo Util::sprintfOrEmpty('<meta name="twitter:card" content="summary"/>');
         }
 
-        echo Util::sprintfOrEmpty('<meta name="twitter:site" content="%s"/>', $this->site);
+        parent::print();
         echo Util::sprintfOrEmpty('<meta name="twitter:title" content="%s"/>', $this->title);
-        echo Util::sprintfOrEmpty('<meta name="twitter:description" content="%s"/>', $this->description);
         echo Util::sprintfOrEmpty('<meta name="twitter:image" content="%s"/>', $this->image);
 
         if ( !is_null($this->image) ) {
@@ -184,4 +140,6 @@ class TwitterCardSummary
         }
 
     }
+
+
 }
