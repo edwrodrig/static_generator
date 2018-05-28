@@ -65,6 +65,7 @@ class PagePhp extends PageFile
      * @param string $source_path
      * @param Context $context The generation context
      * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function __construct(string $source_path, Context $context) {
         parent::__construct($source_path, $context);
@@ -82,12 +83,14 @@ class PagePhp extends PageFile
      *
      * @see PagePhp::$data
      * @param DocBlock $doc_block
+     * @throws InvalidTemplateMetadataException
      */
     private function loadDataFromDoc(DocBlock $doc_block) {
         if ( $doc_block->hasTag('data') ) {
             $data = strval($doc_block->getTagsByName('data')[0]);
             $parsed_data = @json_decode($data, true);
             if ( is_null($parsed_data) ) {
+                /** @noinspection PhpInternalEntityUsedInspection */
                 throw new InvalidTemplateMetadataException($parsed_data);
             }
             $this->data = $parsed_data;
