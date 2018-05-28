@@ -67,6 +67,7 @@ class OpenGraph
      * Find out the type of your object in the Action Type section of App Dashboard.
      * Select the object and find its og:type under Advanced.
      * Once an object is published in a story its type can't be changed.
+     * Most commit type is 'website'
      * @param string $type
      * @return OpenGraph
      */
@@ -198,13 +199,15 @@ class OpenGraph
     }
 
     public function print() {
+        echo Util::sprintfOrEmpty('<meta property="og:type" content="%s"/>', $this->type);
         echo Util::sprintfOrEmpty('<meta property="og:url" content="%s"/>', $this->url);
         echo Util::sprintfOrEmpty('<meta property="og:title" content="%s"/>', $this->title);
         echo Util::sprintfOrEmpty('<meta property="og:description" content="%s"/>', $this->description);
         echo Util::sprintfOrEmpty('<meta property="og:image" content="%s"/>', $this->image);
         echo Util::sprintfOrEmpty('<meta property="og:locale" content="%s"/>', $this->locale);
         echo Util::sprintfOrEmpty('<meta property="og:determiner" content="%s"/>', $this->determiner);
-        echo Util::sprintfOrEmpty('<meta property="og:update_time" content="%s"/>', strval($this->update_time));
+        if ( !is_null($this->update_time))
+            echo Util::sprintfOrEmpty('<meta property="og:update_time" content="%s"/>', strval($this->update_time));
         echo Util::sprintfOrEmpty('<meta property="og:see_also" content="%s"/>', $this->see_also);
         echo Util::sprintfOrEmpty('<meta property="og:ttl" content="%s"/>', $this->time_to_live);
 

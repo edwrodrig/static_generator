@@ -6,7 +6,7 @@
  * Time: 23:06
  */
 
-namespace test\edwrodrig\static_generator\html;
+namespace test\edwrodrig\static_generator\html\meta;
 
 use edwrodrig\static_generator\html\meta\SeoTags;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class SeoTagsTest extends TestCase
 {
 
     public function testHappy() {
-        $s = new \edwrodrig\static_generator\html\meta\SeoTags;
+        $s = new SeoTags;
         $s->setDescription('hola');
 
         ob_start();
@@ -27,7 +27,7 @@ class SeoTagsTest extends TestCase
     }
 
     public function testNull() {
-        $s = new \edwrodrig\static_generator\html\meta\SeoTags;
+        $s = new SeoTags;
         $s->setDescription(null);
 
         ob_start();

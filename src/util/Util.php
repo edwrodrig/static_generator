@@ -51,7 +51,8 @@ class Util
     public static function sprintfOrEmpty($str, ...$args) : string {
         foreach ( $args as &$arg ) {
             if ( is_null($arg) ) return "";
-            $arg = htmlentities($arg);
+            if ( is_string($arg))
+                $arg = htmlentities($arg);
         }
         return sprintf($str, ...$args);
     }

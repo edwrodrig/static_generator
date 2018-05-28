@@ -23,7 +23,7 @@ class AppleWebApplication
     /**
      * @var string[]
      */
-    private $icons = null;
+    private $icons = [];
 
     /**
      * @var string|null
@@ -156,9 +156,9 @@ class AppleWebApplication
         echo Util::sprintfOrEmpty('<link rel="apple-touch-startup-image" href="%s">', $this->startup_image);
 
 
-        foreach ( $this->icons as $size => $href ) :?>
-            <link rel="apple-touch-icon" sizes="<?=$size?>x<?=$size?>" href="<?=$href?>">
-        <?php endforeach;
+        foreach ( $this->icons as $size => $href )  {
+            printf('<link rel="apple-touch-icon" sizes="%dx%d" href="%s">', $size, $size, $href);
+        }
 
     }
 

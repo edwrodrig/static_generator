@@ -94,10 +94,11 @@ class Favicon
      * Print the favicons links
      * @api
      */
-    public function print() {
-        foreach ( $this->icons as $size => $href ) :?>
-            <link rel="shortcut icon" sizes="<?=$size?>x<?=$size?>" href="<?=$href?>">
-        <?php endforeach;
+    public function print()
+    {
+        foreach ($this->icons as $size => $href) {
+            printf('<link rel="shortcut icon" sizes="%dx%d" href="%s">', $size, $size, $href);
+        }
     }
 
 }
