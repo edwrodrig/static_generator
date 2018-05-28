@@ -91,7 +91,7 @@ class PagePhp extends PageFile
             $parsed_data = @json_decode($data, true);
             if ( is_null($parsed_data) ) {
                 /** @noinspection PhpInternalEntityUsedInspection */
-                throw new InvalidTemplateMetadataException($parsed_data);
+                throw new InvalidTemplateMetadataException($data);
             }
             $this->data = $parsed_data;
         }
