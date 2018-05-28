@@ -7,6 +7,7 @@ use edwrodrig\static_generator\exception\InvalidTemplateClassException;
 use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\Util;
 use Exception;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 
@@ -85,8 +86,11 @@ class PagePhp extends PageFile
     private function loadDataFromDoc(DocBlock $doc_block) {
         if ( $doc_block->hasTag('data') ) {
             $data = strval($doc_block->getTagsByName('data')[0]);
-            $data = @json_decode($data, true);
-            $this->data = $data;
+            $parsed_data = @json_decode($data, true);
+            if ( is_null($parsed_data) ) {
+                throw new InvalidTemplateMetadataException($parsed_data);
+            }
+            $this->data = $parsed_data;
         }
     }
 
