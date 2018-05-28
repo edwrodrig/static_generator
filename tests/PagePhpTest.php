@@ -56,6 +56,7 @@ LOG;
      * @expectedException \edwrodrig\static_generator\exception\InvalidTemplateClassException
      * @expectedExceptionMessage UnexistantTemplate
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testUnexistantTemplate()
     {

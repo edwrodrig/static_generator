@@ -52,6 +52,7 @@ LOG;
 
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testUrl()
     {
@@ -67,6 +68,7 @@ LOG;
 
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testUrlEmptyTargetWebPath()
     {
@@ -81,6 +83,7 @@ LOG;
 
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testCurrentUrl()
     {
@@ -93,6 +96,7 @@ LOG;
 
     /**
      * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testCurrentUrlEmptyTargetWebPat()
     {
