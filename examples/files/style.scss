@@ -29,3 +29,14 @@ $padding : 1em;
   justify-content: center;
   @include grid-fixed((6: 100%, 5: 900px, 4: 800px, 3: 700px, 2: 600px, 1: 500px), $padding);
 }
+
+.popup-menu-vertical {
+  @extend %popup-menu;
+  display: flex;
+  flex-direction: row;
+}
+
+.popup-menu-horizontal {
+  @extend %popup-menu;
+}
+

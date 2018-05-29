@@ -91,3 +91,35 @@
   padding-bottom: 100% * $height / $width;
 }
 
+/**
+  Popup menu
+
+  This is the style for a element that pop up some thing while hover and hide when the cursor move out.
+  You must use in the following way
+  ```
+  <div class="popup-menu">
+    <span class="parent">Some content</span>
+    <menu>
+      <div class="child">
+        <span>Some inner content</span>
+      </div>
+    </menu>
+  </div>
+  ```
+  The item with class parent is the inner content is the always visible element.
+  The item with class children is the inner content that will popup.
+  Menu item should always be and it is not stylable.
+  the menu > div item shoudl be present but is stylable, except by the position property because is always position:absolute
+ */
+%popup-menu {
+  & > menu { display: none; }
+  &:hover > menu { display: block; }
+
+  & > menu {
+    padding:0;
+    margin:0;
+    position: relative;
+    & > div { position: absolute; }
+  }
+}
+
