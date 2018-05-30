@@ -1,5 +1,6 @@
 {
     "name": "edwrodrig/static_generator",
+    "description": "Library to generate static sites",
     "authors": [
         {
             "name": "Edwin Rodríguez León",
@@ -7,6 +8,9 @@
             "homepage": "http://www.edwin.cl",
             "role": "Developer"
         }
+    ],
+    "keywords" : [
+        "static-site-generator"
     ],
     "license" : "MIT",
     "minimum-stability" : "stable",
@@ -41,11 +45,13 @@
     "archive": {
         "exclude": [
             "/tests",
-            "/.gitignore",
+            ".git",
+            ".gitignore",
             "/.travis.yml",
             "/phpunit.xml.dist",
             "/examples",
-            "/.idea"
+            "/.idea",
+            "README.md"
         ]
     }
 }
