@@ -62,7 +62,7 @@ foreach ( $files as $file ) {
   ob_start();
   include $file;
   $content = ob_get_clean();
-  file_put_contents('output/path/suitable/for/copy/paste/in/httpd/' . $file);
+  file_put_contents('output/path/suitable/for/copy/to/httpd/' . $file, $content);
 }
 ```
 This is what a static generator does but handling with border cases and easily creating addons. It's not a very complicated system.
