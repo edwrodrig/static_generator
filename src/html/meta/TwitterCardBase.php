@@ -15,6 +15,7 @@ use edwrodrig\static_generator\util\Util;
  * @package edwrodrig\static_generator\htmlt
  * @see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/troubleshooting-cards
  * @see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
+ * @see https://cards-dev.twitter.com/validator Validator
  */
 abstract class TwitterCardBase
 {
