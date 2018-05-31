@@ -45,6 +45,7 @@ class ImageItemTest extends TestCase
         $item = new ImageItem(__DIR__ . '/../files/image', 'rei.jpg');
         $item->resizeCover(100, 100);
         $this->assertEquals('rei_100x100_cover.jpg', $item->getTargetRelativePath());
+        $this->assertEquals([ 'width' => 100, 'height' => 100], $item->getAdditionalData());
 
         $manager->update($item);
         $manager->update($item);
@@ -54,6 +55,7 @@ class ImageItemTest extends TestCase
         $item = new ImageItem(__DIR__ . '/../files/image', 'rei.jpg');
         $item->resizeContain(200, 100);
         $this->assertEquals('rei_200x100_contain.jpg', $item->getTargetRelativePath());
+        $this->assertEquals([ 'width' => 200, 'height' => 100], $item->getAdditionalData());
 
         $manager->update($item);
         $this->assertFileExists($this->root->url() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $item->getTargetRelativePath());

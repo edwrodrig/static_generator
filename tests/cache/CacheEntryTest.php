@@ -95,6 +95,7 @@ LOG;
 
         $this->assertEquals('abc', $entry->getKey());
         $this->assertEquals('abc_salt_3', $entry->getTargetRelativePath());
+        $this->assertEquals(['hola' => 1, 'chao' => 2], $entry->getAdditionalData());
 
 
         $manager->update($item);

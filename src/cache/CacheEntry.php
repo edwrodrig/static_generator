@@ -48,6 +48,14 @@ class CacheEntry implements JsonSerializable
     protected $manager;
 
     /**
+     * Cache Additional data.
+     *
+     * @see CacheableItem::getAdditionalData()
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * CacheEntry constructor.
      *
      * To create a entry you must use {@see CacheEntry::createFromItem}
@@ -98,6 +106,7 @@ class CacheEntry implements JsonSerializable
         $entry->relative_path = $data['relative_path'];
         $entry->last_modification_time = new DateTime();
         $entry->last_modification_time->setTimestamp((int)$data['last_modification_time']);
+        $entry->additional_data = $data['data'];
         return $entry;
     }
 
@@ -108,6 +117,19 @@ class CacheEntry implements JsonSerializable
      */
     public function getTargetRelativePath() : string {
         return $this->relative_path;
+    }
+
+    /**
+     * Get addition data of this entry.
+     *
+     * This can vary depend on the original CacheableItem
+     *
+     * @api
+     * @see CacheableItem::getAdditionalData()
+     * @return array
+     */
+    public function getAdditionalData() : array {
+        return $this->data;
     }
 
     /**
@@ -205,6 +227,7 @@ class CacheEntry implements JsonSerializable
         $this->removeCachedFile();
         $this->last_modification_time = $item->getLastModificationTime();
         $this->relative_path = $item->getTargetRelativePath();
+        $this->data = $item->getAdditionalData();
 
         $this->manager->getLogger()->begin(sprintf('Generating cache file [%s]...', $item->getTargetRelativePath()));
             $item->generate($this->manager);
@@ -222,7 +245,8 @@ class CacheEntry implements JsonSerializable
         return [
             'key' => $this->key,
             'last_modification_time' => $this->last_modification_time->getTimestamp(),
-            'relative_path' => $this->relative_path
+            'relative_path' => $this->relative_path,
+            'data' => $this->data
         ];
     }
 

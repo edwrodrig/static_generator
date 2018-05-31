@@ -67,4 +67,15 @@ interface CacheableItem
      * @param CacheManager $manager to retrieve the {@see CacheManager::prepareCacheFile() target root path}
      */
     public function generate(CacheManager $manager);
+
+
+    /**
+     * Get additional data.
+     *
+     * Cache stored information is limited. It only stores modification dates and source target file paths.
+     * Sometimes other information are needed according the nature of the cache. For example, for a image cache is useful to have the width and height of the cached image.
+     * This function is used to store arbitrary information in the cache in the form of an array.
+     * @return array
+     */
+    public function getAdditionalData() : array;
 }

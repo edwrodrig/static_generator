@@ -82,6 +82,26 @@ class ImageItem extends FileItem
     }
 
     /**
+     * Get the image width.
+     *
+     * Is safe to call this after {@see ImageItem::generate()}
+     * @return int
+     */
+    public function getWidth() : int {
+        return $this->width;
+    }
+
+    /**
+     * Get the image height.
+     *
+     * Is safe to call this after {@see ImageItem::generate()}
+     * @return int
+     */
+    public function getHeight() : int {
+        return $this->height;
+    }
+
+    /**
      * Command to resize contain the image
      *
      * Uses the behavior of (@see Image::contain()}.
@@ -162,8 +182,25 @@ class ImageItem extends FileItem
             $img->optimize();
         }
 
+        $this->width = $img->getImagickImage()->getImageWidth();
+        $this->height = $img->getImagickImage()->getImageHeight();
+
 
         $img->writeImage($manager->prepareCacheFile($this));
+    }
+
+    /**
+     * Stores additional data
+     *
+     * Stores the dimension of the image as an array with width and height
+     * @return array
+     */
+    public function getAdditionalData(): array
+    {
+        return [
+            'width' => $this->width,
+            'height' => $this->height
+        ];
     }
 
 }

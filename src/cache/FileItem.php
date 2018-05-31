@@ -226,4 +226,13 @@ class FileItem implements CacheableItem
         // filename has the name of the file without the last extension
         return $info['dirname'] . $info['filename'];
     }
+
+    /**
+     * This class does not store additional data.
+     * @return array
+     */
+    public function getAdditionalData(): array
+    {
+        return [];
+    }
 }

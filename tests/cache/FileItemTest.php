@@ -57,6 +57,7 @@ class FileItemTest extends TestCase
 
         $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
         $this->assertEquals('FileItemTest_rojo.php', $item->getTargetRelativePath());
+        $this->assertEquals([], $item->getAdditionalData());
 
         $manager->update($item);
         $manager->update($item);

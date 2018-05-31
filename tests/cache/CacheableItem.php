@@ -37,5 +37,13 @@ class CacheableItem implements BaseCacheableItem
     public function getTargetRelativePath() : string {
         return $this->key .'_' . $this->salt;
     }
+
+    public function getAdditionalData(): array
+    {
+        return [
+            'hola' => 1,
+            'chao' => 2
+        ];
+    }
 };
 
