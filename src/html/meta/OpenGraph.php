@@ -207,7 +207,7 @@ class OpenGraph
         echo Util::sprintfOrEmpty('<meta property="og:locale" content="%s"/>', $this->locale);
         echo Util::sprintfOrEmpty('<meta property="og:determiner" content="%s"/>', $this->determiner);
         if ( !is_null($this->update_time))
-            echo Util::sprintfOrEmpty('<meta property="og:update_time" content="%s"/>', strval($this->update_time));
+            echo Util::sprintfOrEmpty('<meta property="og:update_time" content="%s"/>', $this->update_time->format(DateTime::ISO8601));
         echo Util::sprintfOrEmpty('<meta property="og:see_also" content="%s"/>', $this->see_also);
         echo Util::sprintfOrEmpty('<meta property="og:ttl" content="%s"/>', $this->time_to_live);
 
@@ -268,7 +268,11 @@ class OpenGraph
 
 
     /**
+     * Must be in ISO8601 format
+     *
      * @var DateTime|null
+     * @see http://ogp.me/#data_types For format info
+     * @see https://stackoverflow.com/questions/26525584/facebook-open-graph-date-format Question about date format
      */
     private $update_time;
 
