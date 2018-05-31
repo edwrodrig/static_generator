@@ -70,5 +70,30 @@ LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
     }
 
+    function testNoTransformation() {
+        $logger = new TemporaryLogger;
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $context->setLogger($logger);
+
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
+
+        $item = new ImageItem(__DIR__ . '/../files/image', 'rei.jpg');
+        $this->assertEquals('rei.jpg', $item->getTargetRelativePath());
+
+        $manager->update($item);
+
+        $this->assertEquals([ 'width' => 630, 'height' => 474], $item->getAdditionalData());
+
+        $this->assertFileExists($this->root->url() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $item->getTargetRelativePath());
+
+        $expected_log = <<<LOG
+New cache entry [rei]
+  Generating cache file [rei.jpg]...GENERATED
+LOG;
+
+        $this->assertEquals($expected_log, $logger->getTargetData());
+    }
+
 
 }

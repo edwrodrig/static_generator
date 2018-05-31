@@ -225,13 +225,17 @@ class CacheEntry implements JsonSerializable
      */
     protected function generate(CacheableItem $item) {
         $this->removeCachedFile();
-        $this->last_modification_time = $item->getLastModificationTime();
-        $this->relative_path = $item->getTargetRelativePath();
-        $this->data = $item->getAdditionalData();
 
         $this->manager->getLogger()->begin(sprintf('Generating cache file [%s]...', $item->getTargetRelativePath()));
+            //generate must be the first action
             $item->generate($this->manager);
+
+            //because other must depend on data generated there, specially getAdditional data
+            $this->last_modification_time = $item->getLastModificationTime();
+            $this->relative_path = $item->getTargetRelativePath();
+            $this->data = $item->getAdditionalData();
         $this->manager->getLogger()->end('GENERATED', false);
+
     }
 
     /**

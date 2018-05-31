@@ -198,8 +198,8 @@ class ImageItem extends FileItem
     public function getAdditionalData(): array
     {
         return [
-            'width' => $this->width,
-            'height' => $this->height
+            'width' => $this->getWidth(),
+            'height' => $this->getHeight()
         ];
     }
 
