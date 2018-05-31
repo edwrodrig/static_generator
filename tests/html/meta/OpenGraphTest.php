@@ -41,6 +41,6 @@ class OpenGraphTest extends TestCase
 
         $output = ob_get_clean();
 
-        $this->assertEquals('<meta property="og:type" content="website"/><meta property="og:description" content="hola"/><meta property="og:update_time" content="2018-01-01T00:00:00+0000"/>', $output);
+        $this->assertEquals('<meta property="og:type" content="website"/><meta property="og:description" content="hola"/><meta property="og:updated_time" content="2018-01-01T00:00:00+0000"/>', $output);
     }
 }

@@ -85,7 +85,7 @@ class OpenGraph
      * Game icons should be square and at least 600x600 pixels.
      * You can include multiple og:image tags if you have multiple resolutions available.
      * If you update the image after publishing, use a new URL because images are cached based on the URL and might not update otherwise.
-     * MUST BE A ABSOLUTE URL {@see https://stackoverflow.com/questions/9858577/open-graph-can-resolve-relative-url}
+     * @see https://stackoverflow.com/questions/9858577/open-graph-can-resolve-relative-url MUST BE A ABSOLUTE URL
      * @param null|string $image
      * @return OpenGraph
      */

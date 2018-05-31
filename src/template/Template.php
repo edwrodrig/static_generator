@@ -90,12 +90,27 @@ class Template
      *
      * It is useful when the target web folder is not /, when you have different version of a site in different folder, for example, by languages
      * @api
+     * @uses Context::getUrl()
+     * @see Template::getFullUrl() for full url path
      * @param string $path
      * @return string
      */
     public function url(string $path) : string {
         return $this->page_info->getContext()->getUrl($path);
 
+    }
+
+    /**
+     * Get a full url.
+     *
+     * Useful when you need a url with the domain of the site
+     * @uses Context::getFullUrl() More important information
+     * @param string $path
+     * @return string
+     * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
+     */
+    public function fullUrl(string $path) : string {
+        return $this->page_info->getContext()->getFullUrl($path);
     }
 
     /**

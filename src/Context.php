@@ -38,10 +38,18 @@ class Context
      *
      * It is the base path that is used in the web side. It is different from {@see Context::$target_root_path}
      * in the way that this one is displayed when the site is deployed (if this is the site)
-     * @see Context::url()
+     * @see Context::getUrl()
      * @var string
      */
     private $target_web_path = "";
+
+    /**
+     * The target domain.
+     *
+     * For example. http://www.edwin.cl or something. Useful to generate {@see Context::getFullUrl() full urls}
+     * @var string
+     */
+    private $target_web_domain = "";
 
     /**
      * The source root path of the generation
@@ -134,6 +142,18 @@ class Context
      */
     public function setTargetWebPath(string $target_web_path) : Context {
         $this->target_web_path = preg_replace('/\/$/', '', trim($target_web_path));
+        return $this;
+    }
+
+    /**
+     * Set the target web domain
+     * @uses Context::$target_web_domain
+     * @see Context::getFullUrl()
+     * @param string $target_web_domain
+     * @return Context
+     */
+    public function setTargetWebDomain(string $target_web_domain) : Context {
+        $this->target_web_domain = $target_web_domain;
         return $this;
     }
 
@@ -327,6 +347,28 @@ class Context
         }
 
         return $path;
+    }
+
+    /**
+     * Get the full url.
+     *
+     * Includes the {@see Context::$target_web_domain domain}.
+     * Useful when you need a canonical URL for some resources. For example {@see OpenGraph::setImage() open graph meta tags images}
+     * @param string $path
+     * @return string
+     * @throws exception\RelativePathCanNotBeFullException
+     */
+    public function getFullUrl(string $path) : string {
+        $url = $this->getUrl($path);
+        if ( strpos($url, '/') !== 0 ) {
+
+            /** @noinspection PhpInternalEntityUsedInspection */
+            throw new exception\RelativePathCanNotBeFullException($path);
+        }
+        if ( empty($this->target_web_domain) )
+            return $url;
+        else
+            return $this->target_web_domain . $url;
     }
 
     /**

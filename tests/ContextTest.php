@@ -102,5 +102,45 @@ class ContextTest extends TestCase
     }
 
 
+    public function testFullUrlSimple() {
+        $s = new Context('', '');
+        $s->setTargetWebDomain('http://www.edwin.cl');
+        $this->assertEquals('/hola', $s->getUrl('/hola'));
+        $this->assertEquals('http://www.edwin.cl/hola', $s->getFullUrl('/hola'));
+    }
+
+    public function testFullUrlSimpleEmptyDomain() {
+        $s = new Context('', '');
+        $this->assertEquals('/hola', $s->getUrl('/hola'));
+        $this->assertEquals('/hola', $s->getFullUrl('/hola'));
+    }
+
+    public function testFullUrlSimpleEmptyDomainTargetWebPath() {
+        $s = new Context('', '');
+        $s->setTargetWebPath('base');
+        $this->assertEquals('/base/hola', $s->getUrl('/hola'));
+        $this->assertEquals('/base/hola', $s->getFullUrl('/hola'));
+    }
+
+    public function testFullUrlSimpleTargetWebPath() {
+        $s = new Context('', '');
+        $s->setTargetWebPath('base');
+        $s->setTargetWebDomain('http://www.edwin.cl');
+        $this->assertEquals('/base/hola', $s->getUrl('/hola'));
+        $this->assertEquals('http://www.edwin.cl/base/hola', $s->getFullUrl('/hola'));
+    }
+
+    /**
+     * @expectedException \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
+     * @expectedExceptionMessage hola
+     * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
+     */
+    public function testFullUrlSimpleException() {
+        $s = new Context('', '');
+        $this->assertEquals('hola', $s->getUrl('hola'));
+        $s->getFullUrl('hola');
+    }
+
+
 }
 
