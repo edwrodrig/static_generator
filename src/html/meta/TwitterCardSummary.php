@@ -97,6 +97,7 @@ class TwitterCardSummary extends TwitterCardBase
      * The image will be cropped to a square on all platforms. JPG, PNG, WEBP and GIF formats are supported.
      * Only the first frame of an animated GIF will be used. SVG is not supported.
      * When not set, Fallbacks to {@see OpenGraph::setImage()}
+     * MUST BE AN ABSOLUTE URL {@see https://stackoverflow.com/questions/45915720/relative-image-paths-for-twitter-cards-in-blogdown}
      * @api
      * @param null|string $image
      * @return $this

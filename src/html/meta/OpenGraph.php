@@ -85,6 +85,7 @@ class OpenGraph
      * Game icons should be square and at least 600x600 pixels.
      * You can include multiple og:image tags if you have multiple resolutions available.
      * If you update the image after publishing, use a new URL because images are cached based on the URL and might not update otherwise.
+     * MUST BE A ABSOLUTE URL {@see https://stackoverflow.com/questions/9858577/open-graph-can-resolve-relative-url}
      * @param null|string $image
      * @return OpenGraph
      */
@@ -207,7 +208,7 @@ class OpenGraph
         echo Util::sprintfOrEmpty('<meta property="og:locale" content="%s"/>', $this->locale);
         echo Util::sprintfOrEmpty('<meta property="og:determiner" content="%s"/>', $this->determiner);
         if ( !is_null($this->update_time))
-            echo Util::sprintfOrEmpty('<meta property="og:update_time" content="%s"/>', $this->update_time->format(DateTime::ISO8601));
+            echo Util::sprintfOrEmpty('<meta property="og:updated_time" content="%s"/>', $this->update_time->format(DateTime::ISO8601));
         echo Util::sprintfOrEmpty('<meta property="og:see_also" content="%s"/>', $this->see_also);
         echo Util::sprintfOrEmpty('<meta property="og:ttl" content="%s"/>', $this->time_to_live);
 
