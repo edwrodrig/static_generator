@@ -109,17 +109,13 @@ class ContextTest extends TestCase
         $this->assertEquals('http://www.edwin.cl/hola', $s->getFullUrl('/hola'));
     }
 
+    /**
+     * @expectedException \edwrodrig\static_generator\exception\UnregisteredWebDomainException
+     */
     public function testFullUrlSimpleEmptyDomain() {
         $s = new Context('', '');
         $this->assertEquals('/hola', $s->getUrl('/hola'));
-        $this->assertEquals('/hola', $s->getFullUrl('/hola'));
-    }
-
-    public function testFullUrlSimpleEmptyDomainTargetWebPath() {
-        $s = new Context('', '');
-        $s->setTargetWebPath('base');
-        $this->assertEquals('/base/hola', $s->getUrl('/hola'));
-        $this->assertEquals('/base/hola', $s->getFullUrl('/hola'));
+        $s->getFullUrl('/hola');
     }
 
     public function testFullUrlSimpleTargetWebPath() {
@@ -134,9 +130,11 @@ class ContextTest extends TestCase
      * @expectedException \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
      * @expectedExceptionMessage hola
      * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
+     * @throws \edwrodrig\static_generator\exception\UnregisteredWebDomainException
      */
     public function testFullUrlSimpleException() {
         $s = new Context('', '');
+        $s->setTargetWebDomain('http://www.edwin.cl');
         $this->assertEquals('hola', $s->getUrl('hola'));
         $s->getFullUrl('hola');
     }

@@ -357,8 +357,12 @@ class Context
      * @param string $path
      * @return string
      * @throws exception\RelativePathCanNotBeFullException
+     * @throws exception\UnregisteredWebDomainException
      */
     public function getFullUrl(string $path) : string {
+        if ( empty($this->target_web_domain) )
+            throw new exception\UnregisteredWebDomainException;
+
         $url = $this->getUrl($path);
         if ( strpos($url, '/') !== 0 ) {
 

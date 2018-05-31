@@ -108,6 +108,7 @@ class Template
      * @param string $path
      * @return string
      * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
+     * @throws \edwrodrig\static_generator\exception\UnregisteredWebDomainException
      */
     public function fullUrl(string $path) : string {
         return $this->page_info->getContext()->getFullUrl($path);
