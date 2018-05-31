@@ -106,7 +106,7 @@ class CacheEntry implements JsonSerializable
         $entry->relative_path = $data['relative_path'];
         $entry->last_modification_time = new DateTime();
         $entry->last_modification_time->setTimestamp((int)$data['last_modification_time']);
-        $entry->additional_data = $data['data'];
+        $entry->data = $data['data'];
         return $entry;
     }
 

@@ -63,6 +63,7 @@ LOG;
         $manager->setContext($context);
 
         $item = new CacheableItem('abc', new DateTime('2015-01-01'), 'salt');
+        $this->assertEquals(['hola' => 1, 'chao' => 2], $item->getAdditionalData());
         $manager->update($item);
 
         $expected_log = <<<LOG
@@ -79,7 +80,8 @@ LOG;
         $manager = new CacheManager( $this->root->url() . '/cache');
         $manager->setContext($context);
 
-        $manager->update($item);
+        $cache_item = $manager->update($item);
+        $this->assertEquals(['hola' => 1, 'chao' => 2], $cache_item->getAdditionalData());
 
         $item = new CacheableItem('abc', new DateTime('2016-01-01'), 'salt');
 
