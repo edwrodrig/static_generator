@@ -5,7 +5,7 @@ php:
   - nightly
 
 before_install:
-    - pecl install imagick
+    - printf "\n" | pecl install imagick
 
 
 install:
