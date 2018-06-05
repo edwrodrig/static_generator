@@ -5,6 +5,9 @@ A php library to generate static generated sites
 [![Latest Stable Version](https://poser.pugx.org/edwrodrig/static_generator/v/stable)](https://packagist.org/packages/edwrodrig/static_generator)
 [![Total Downloads](https://poser.pugx.org/edwrodrig/static_generator/downloads)](https://packagist.org/packages/edwrodrig/static_generator)
 [![License](https://poser.pugx.org/edwrodrig/static_generator/license)](https://packagist.org/packages/edwrodrig/static_generator)
+[![Build Status](https://travis-ci.org/edwrodrig/static_generator.svg?branch=master)](https://travis-ci.org/edwrodrig/static_generator)
+[![codecov.io Code Coverage](https://codecov.io/gh/edwrodrig/static_generator/branch/master/graph/badge.svg)](https://codecov.io/github/edwrodrig/static_generator?branch=master)
+[![Code Climate](https://codeclimate.com/github/edwrodrig/static_generator/badges/gpa.svg)](https://codeclimate.com/github/edwrodrig/static_generator)
 
 ## Motivational rant
 
