@@ -8,36 +8,36 @@ A php library to generate static generated sites
 
 ## Motivational rant
 
-I am some sort of full stack engineer that have to handle a lot of web sites. My are of expertise is back-end so I want to deal the least with front-end technologies.
+I am some sort of full stack engineer that have to handle a lot of websites. My area of expertise is back-end so I want to deal the least with front-end technologies.
 The easiest solutions are implemented in some popular systems like [Wordpress](https://wordpress.com), [Drupal](https://www.drupal.org) or other [LAMP](https://en.wikipedia.org/wiki/LAMP) based systems.
-These are ok for most cases but have a problem. Generally theses sites are requirements of some optimistic clients that want create the best blog of the history, full of notices, interactions, good images, etc.
-Unfortunately these expectations always are truncated by reality.
+These are ok for most cases but have a problem. Generally, these sites are requirements of some optimistic clients that want to create the best blog of the history, full of notices, interactions, good images, etc.
+Unfortunately, these expectations always are truncated by reality.
 This dreamed site ends with an outdated incomplete blog with at most 3 posts that none wants to read.
-Also users do not remember their password so you become part of the login system recovering password every time that these users want to add some thing.
+Also, users do not remember their password so you become part of the login system recovering password every time that these users want to add something.
 And sysadmins have to deal with insecure, configuration sensitive systems that make difficult to do updates of their current infrastructure machines.
 This is pure nonsense, It is so full of BS that it is doesn't even funny.
 
-New language technologies for web like [nodejs](https://nodejs.org/), [django](https://www.djangoproject.com), [rails](https://rubyonrails.org/) do not improve the situation, just make it worst.
+New language websites technologies like [nodejs](https://nodejs.org/), [django](https://www.djangoproject.com), [rails](https://rubyonrails.org/) do not improve the situation, just make it worst.
 Now instead to deal with [PHP](http://www.php.net), you have to deal with a shitload of new crappy languages.
-I don't want install new interpreters or compilers in my machines. It is the opposite, I want the less. It is just painful to deal with OS configurations alone to also deal with the configuration of particular apps.
+I don't want to install new interpreters or compilers in my machines. It is the opposite, I want the less. It is just painful to deal with OS configurations alone to also deal with the configuration of particular apps.
 If you want to deal with tools then that is for development machines, not production.
 
 I figure out the best approach is to don't contaminate my pristine machines is the [static web page](https://en.wikipedia.org/wiki/Static_web_page).
-In this approach you only need to copy the static site files (html, css, js, images) to some folder pointed by an [HTTP server](https://en.wikipedia.org/wiki/Web_server)
+In this approach, you only need to copy the static site files (HTML, CSS, JS, images) to some folder pointed by an [HTTP server](https://en.wikipedia.org/wiki/Web_server)
 and that is all, very easy and clean.
 
-I discovered that system to aid static page generators are very popular, and there are a lot of options, like [jekyll](https://jekyllrb.com/), [sculpin](https://sculpin.io/) and [metalsmith](http://www.metalsmith.io/).
+I discovered that system to aid static page generators are very popular, and there are a lot of options like [jekyll](https://jekyllrb.com/), [sculpin](https://sculpin.io/), and [metalsmith](http://www.metalsmith.io/).
 I discovered that event [github pages](https://pages.github.com/) integrates [jekyll](https://jekyllrb.com/) which is very convenient, so I started to use it.
-With a little time I figured out the convenience of the static site approach, but at the same time how wrong the actual implementations are.
+With a little time, I figured out the convenience of the static site approach, but at the same time how wrong the actual implementations are.
 
 I found that they are focusing in easy blogging and concise notation, and that can be resumed in the usage of some trendy data file formats like [markdown](https://en.wikipedia.org/wiki/Markdown), [yaml](https://en.wikipedia.org/wiki/YAML), and some [templating file format](http://shopify.github.io/liquid/).
-Ok, their are concise and may be convenient, but in my honest opinion, web development have enough technologies to create new ones just for convenience.
+Ok, they are concise and may be convenient, but in my honest opinion, web development has enough technologies to create new ones just for convenience.
 You have to deal with [HTML](https://en.wikipedia.org/wiki/HTML), [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets), [Javascript](https://en.wikipedia.org/wiki/JavaScript) and if you also do some backend stuff, then add a server-side language and [SQL](https://en.wikipedia.org/wiki/SQL). We don't need more languages, we need less.
-Write html [header tags](https://www.w3schools.com/tags/tag_hn.asp) instead of [underlining with #](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers) is not a big deal that will change your life.
-Also because of the usage of these convenient languages, they try to reinvent the wheel in their own form ([conditionals](http://shopify.github.io/liquid/tags/control-flow/) and [loops](http://shopify.github.io/liquid/tags/iteration/)), and in some way in a painful form ([functions](http://hamishwillee.github.io/2014/11/13/jekyll-includes-are-functions)). Please stop this nosense.
+Write HTML [header tags](https://www.w3schools.com/tags/tag_hn.asp) instead of [underlining with #](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers) is not a big deal that will change your life.
+Also because of the usage of these convenient languages, they try to reinvent the wheel in their own form ([conditionals](http://shopify.github.io/liquid/tags/control-flow/) and [loops](http://shopify.github.io/liquid/tags/iteration/)), and in some way in a painful form ([functions](http://hamishwillee.github.io/2014/11/13/jekyll-includes-are-functions)). Please stop this nonsense.
 
-I want to generate pages that is not tied with these new dialects. Just with a pair of concepts, configuration stuff plus plain vanilla PHP and that's all to start using your pages.
-I build this for me so I don't focus in a totally ignorant basic user, I am a software engineering that have experience in programming, OOP, and design patterns. I'm not going to cry is I have to create functions, subclass objects or put semicolons after every statements
+I want to generate pages that are not tied to these new dialects. Just with a pair of concepts, configuration stuff plus plain vanilla PHP and that's all to start using your pages.
+I build this for me so I don't focus on a totally ignorant basic user, I am a software engineering that has experience in programming, OOP, and design patterns. I'm not going to cry is I have to create functions, subclass objects or put semicolons after every statement.
 
 So that. More simple, less BS.
 
