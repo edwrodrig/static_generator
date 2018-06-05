@@ -12,6 +12,7 @@ before_script:
     # make sure git tests do not complain about user/email not being set
     - git config --global user.name travis-ci
     - git config --global user.email travis@example.com
+    - pecl install imagick
 
 script:
     # run test suite directories in parallel using GNU parallel
