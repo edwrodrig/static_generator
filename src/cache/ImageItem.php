@@ -178,6 +178,8 @@ class ImageItem extends FileItem
 
         if ( $this->target_extension == 'jpg') {
             $img->optimizePhoto();
+        } else if ( $this->target_extension == 'png' ) {
+            $img->optimizeLossless();
         } else {
             $img->optimize();
         }
