@@ -160,4 +160,16 @@ LOG;
 
     }
 
+    public function testManagerNoEntries() {
+        $logger = new TemporaryLogger;
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $context->setLogger($logger);
+
+        $manager = new CacheManager( $this->root->url() . '/cache');
+        $manager->setContext($context);
+        $manager->save();
+
+        $this->assertFileExists($manager->getTargetAbsolutePath());
+    }
+
 }

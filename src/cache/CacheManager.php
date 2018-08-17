@@ -157,6 +157,9 @@ class CacheManager
      * @uses CacheIndex::save()
      */
     public function save() {
+        $absolute_path = $this->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . 'dummy_file';
+        @mkdir(dirname($absolute_path), 0777, true);
+
         $this->index->save();
     }
 
