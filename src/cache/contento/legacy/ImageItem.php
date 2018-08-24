@@ -68,9 +68,4 @@ class ImageItem extends BaseImageItem
         return $this->last_modification_date;
     }
 
-    public function get_cached_file() : string {
-        $this->get_source_filename();
-        return parent::get_cached_file();
-    }
-
 }
