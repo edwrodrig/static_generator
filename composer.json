@@ -17,6 +17,7 @@
     "suggest": {
         "edwrodrig/image": "To work with images",
         "edwrodrig/contento" : "To manage types and collections",
+        "edwrodrig/google_utils" : "To interact with Google Drive data",
         "edwrodrig/js": "To add some common javascript utils"
     },
     "require": {

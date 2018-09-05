@@ -6,14 +6,14 @@ namespace edwrodrig\static_generator\cache\contento\legacy;
 
 use DateTime;
 use edwrodrig\contento\collection\legacy\Collection;
-use edwrodrig\static_generator\cache\ImageItem as BaseImageItem;
+use edwrodrig\static_generator\cache\FileItem as BaseFileItem;
 
 /**
  * Class ImageItem
  * @package edwrodrig\static_generator\cache\contento\legacy
  * @deprecated
  */
-class ImageItem extends BaseImageItem
+class FileItem extends BaseFileItem
 {
     /**
      * @var Collection
@@ -32,9 +32,9 @@ class ImageItem extends BaseImageItem
      */
     private $source_filename = null;
 
-    public function __construct(Collection $server, array $data, int $width = 1000) {
+    public function __construct(Collection $server, array $data) {
 
-        parent::__construct('', '', $width);
+        parent::__construct('', '', '');
         $this->server = $server;
         $this->last_modification_date = new DateTime($data['time']);
         $this->id = $data['id'];
@@ -53,13 +53,7 @@ class ImageItem extends BaseImageItem
     public function getSourceFilename() : string {
         if ( is_null($this->source_filename) ) {
             $this->source_filename = tempnam(sys_get_temp_dir(),'li_');
-            file_put_contents($this->source_filename, $this->server->getImage($this->id));
-
-            $type = mime_content_type($this->source_filename);
-            if ( $type == 'image/jpeg')
-                $this->setTargetExtension('jpg');
-            else if ( $type = 'image/png' )
-                $this->setTargetExtension('png');
+            file_put_contents($this->source_filename, $this->server->getFile($this->id));
         }
         return $this->source_filename;
     }
