@@ -158,7 +158,9 @@ class CacheManager
      */
     public function save() {
         $absolute_path = $this->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . 'dummy_file';
-        @mkdir(dirname($absolute_path), 0777, true);
+        $dir_name = dirname($absolute_path);
+        if ( !file_exists($dir_name) )
+            mkdir($dir_name, 0777, true);
 
         $this->index->save();
     }
@@ -173,7 +175,10 @@ class CacheManager
      */
     public function linkToTarget() {
         $link = $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath();
-        mkdir(dirname($link), 0777, true);
+
+        $dir_name = dirname($link);
+        if ( !file_exists($dir_name) )
+            mkdir($dir_name, 0777, true);
 
         symlink(
             $this->getTargetAbsolutePath(),

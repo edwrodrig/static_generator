@@ -172,4 +172,22 @@ LOG;
         $this->assertFileExists($manager->getTargetAbsolutePath());
     }
 
+    public function testManagerMultipleCaches() {
+        $logger = new TemporaryLogger;
+        $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
+        $context->setLogger($logger);
+
+        $manager1 = new CacheManager( $this->root->url() . '/cache');
+        $manager1->setContext($context);
+
+        $manager2 = new CacheManager( $this->root->url() . '/cache');
+        $manager2->setContext($context);
+
+        $manager1->save();
+        $manager2->save();
+
+        $this->assertFileExists($manager1->getTargetAbsolutePath());
+        $this->assertFileExists($manager2->getTargetAbsolutePath());
+    }
+
 }
