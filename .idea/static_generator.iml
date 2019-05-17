@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/js" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/query" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mikey179/vfsStream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

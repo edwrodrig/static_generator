@@ -54,7 +54,7 @@ class Template
     /**
      * Get the template type.
      *
-     * This function is useful when you want to classificate by types
+     * This function is useful when you want to classify by types
      * @api
      * @return string
      */
