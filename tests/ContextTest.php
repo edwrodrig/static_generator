@@ -4,6 +4,7 @@ namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use edwrodrig\static_generator\exception\NoTranslationAvailableException;
 use edwrodrig\static_generator\exception\RelativePathCanNotBeFullException;
 use edwrodrig\static_generator\exception\UnregisteredWebDomainException;
@@ -96,7 +97,7 @@ class ContextTest extends TestCase
     /**
      * @throws IgnoredPageFileException
      * @throws InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateMetadataException
      */
     public function testGetTemplates() {
         /**

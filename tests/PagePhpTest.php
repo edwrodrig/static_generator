@@ -11,6 +11,7 @@ use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class PagePhpTest extends TestCase
 {
@@ -24,7 +25,7 @@ class PagePhpTest extends TestCase
     /**
      * @throws InvalidTemplateClassException
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     function testGenerateString()
     {

@@ -60,6 +60,7 @@ class AppleWebApplication
     /**
      * Set a icon of 152x152
      *
+     * @api
      * @param string $icon
      * @return AppleWebApplication
      */

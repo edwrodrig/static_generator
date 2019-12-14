@@ -16,6 +16,7 @@ use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\Repository;
 use edwrodrig\static_generator\util\Logger;
 use Exception;
+use Throwable;
 
 /**
  * Class Template
@@ -222,7 +223,7 @@ class Template
      * @param callable $function
      * @return string
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function generateFromFunction(string $relative_path, callable $function) : string {
         return $this->page_info->generateFromFunction($relative_path, $function);

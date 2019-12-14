@@ -50,6 +50,12 @@ class FileItem extends BaseFileItem
 
     }
 
+    /**
+     * @param Collection $server
+     * @param array $data
+     * @return FileItem
+     * @throws Exception
+     */
     public static function createFromArray(Collection $server, array $data) {
         return new self($server, $data);
     }

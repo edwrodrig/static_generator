@@ -9,6 +9,7 @@
 namespace test\edwrodrig\static_generator\cache;
 
 use DateTime;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\Context;
@@ -29,6 +30,9 @@ class CacheEntryTest extends TestCase
     }
 
 
+    /**
+     * @throws Exception
+     */
     function testCacheEntryUpdateSameEntry() {
 
         $logger = new TemporaryLogger;
@@ -62,6 +66,9 @@ LOG;
     }
 
 
+    /**
+     * @throws Exception
+     */
     function testCacheEntryUpdateRemovedCachedFile() {
 
         $logger = new TemporaryLogger;
@@ -111,6 +118,9 @@ LOG;
     }
 
 
+    /**
+     * @throws Exception
+     */
     function testCacheEntryUpdateModifiedFile() {
 
         $logger = new TemporaryLogger;

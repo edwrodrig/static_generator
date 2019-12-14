@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\cache;
 
 use DateTime;
+use Exception;
 use JsonSerializable;
 
 /**
@@ -97,7 +98,7 @@ class CacheEntry implements JsonSerializable
      * @param array $data
      * @param CacheManager $manager
      * @return CacheEntry
-     * @throws \Exception
+     * @throws Exception
      * @internal
      * @internal this method must always be created by the index
      */

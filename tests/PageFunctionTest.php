@@ -9,6 +9,7 @@ use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class PageFunctionTest extends TestCase
 {
@@ -22,7 +23,7 @@ class PageFunctionTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     function testGenerateString()
     {

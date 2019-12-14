@@ -6,6 +6,7 @@ namespace edwrodrig\static_generator\cache;
 
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\Logger;
+use Exception;
 
 /**
  * Class CacheManager
@@ -45,8 +46,8 @@ class CacheManager
     /**
      * CacheManager constructor.
      * @param string $target_root_path {@see CacheManager::$target_root_path}
-     * @throws \Exception
-     * @throws \Exception
+     * @throws Exception
+     * @throws Exception
      * @api
      */
     public function __construct(string $target_root_path) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\cache;
 
 use DateTime;
+use Exception;
 
 /**
  * Class FileItem
@@ -153,7 +154,7 @@ class FileItem implements CacheableItem
      *
      * It is the modification time in the system
      * @return DateTime
-     * @throws \Exception
+     * @throws Exception
      * @api
      * @see filemtime()
      */
