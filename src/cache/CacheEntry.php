@@ -155,7 +155,7 @@ class CacheEntry implements JsonSerializable
      * @return string
      */
     public function getUrl() : string {
-        return $this->manager->getContext()->getUrl('/' . $this->manager->getTargetWebPath() . DIRECTORY_SEPARATOR . $this->getTargetRelativePath());
+        return $this->manager->getContext()->getUrl('/' . $this->manager->getTargetWebPath() . '/' . $this->getTargetRelativePath());
     }
 
     /**
