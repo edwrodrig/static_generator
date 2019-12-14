@@ -21,7 +21,7 @@ class Logger
      * @see Logger::printIndentation()
      * @var int
      */
-    private $current_nesting_level = 0;
+    private int $current_nesting_level = 0;
 
     /**
      * The nesting level of the last log.
@@ -30,14 +30,14 @@ class Logger
      * @see Logger::log()
      * @var int
      */
-    private $last_nesting_level = 0;
+    private int $last_nesting_level = 0;
 
     /**
      * When anything is written, the last char is considered a new line
      *
      * @return string
      */
-    private $last_character_written = "\n";
+    private string $last_character_written = "\n";
 
     /**
      * Logger constructor.
