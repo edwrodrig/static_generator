@@ -32,6 +32,9 @@ class ImageItem extends BaseImageItem
      */
     private $source_filename = null;
 
+
+    private string $id;
+
     public function __construct(Collection $server, array $data, int $width = 1000) {
 
         parent::__construct('', '', $width);

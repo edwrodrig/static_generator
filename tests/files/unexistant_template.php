@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUndefinedClassInspection
  * @template
  * @var $this UnexistantTemplate
  * @data {
