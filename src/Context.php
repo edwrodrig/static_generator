@@ -22,7 +22,7 @@ class Context
      * @see Context::getLogger()
      * @var Logger
      */
-    private $logger;
+    private Logger $logger;
 
     /**
      * The target root path of the generation
@@ -31,7 +31,7 @@ class Context
      * @see Context::getTargetRootPath()
      * @var string
      */
-    private $target_root_path;
+    private string $target_root_path;
 
     /**
      * The target web path of the generation.
@@ -41,7 +41,7 @@ class Context
      * @see Context::getUrl()
      * @var string
      */
-    private $target_web_path = "";
+    private string $target_web_path = "";
 
     /**
      * The target domain.
@@ -49,29 +49,29 @@ class Context
      * For example. http://www.edwin.cl or something. Useful to generate {@see Context::getFullUrl() full urls}
      * @var string
      */
-    private $target_web_domain = "";
+    private string $target_web_domain = "";
 
     /**
      * The source root path of the generation
      *
      * All sources should be inside this root path
      * @see Context::getSourceRootPath()
-     * @var Logger
+     * @var string
      */
-    private $source_root_path;
+    private string $source_root_path;
 
     /**
      * Registered caches
      * @var CacheManager[]
      */
-    private $caches = [];
+    private array $caches = [];
 
 
     /**
      * Repository object
      * @var Repository
      */
-    private $repository = null;
+    private Repository $repository;
 
     /**
      * Context constructor.

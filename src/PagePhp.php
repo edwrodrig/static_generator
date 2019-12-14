@@ -42,12 +42,12 @@ class PagePhp extends PageFile
      * @see PagePhp::MODE_SILENT process but not generate target
      * @var int
      */
-    private $mode = self::MODE_TEMPLATE;
+    private int $mode = self::MODE_TEMPLATE;
 
     /**
      * @var string
      */
-    private $template_class = Template::class;
+    private string $template_class = Template::class;
 
     /**
      * The additional data of the php page.
@@ -56,7 +56,7 @@ class PagePhp extends PageFile
      * The content of the data anotation must be a valid json string.
      * @var array
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * PagePhp constructor.

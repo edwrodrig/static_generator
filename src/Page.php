@@ -19,7 +19,7 @@ abstract class Page
      * The relative path of this page to the {@see Context::getTargetAbsolutePath()}
      * @var string
      */
-    protected $relative_path;
+    protected string $relative_path;
 
     /**
      * The generation context of the page.
@@ -27,7 +27,7 @@ abstract class Page
      * This is mandatory because contains path information required for generation
      * @var Context
      */
-    protected $context;
+    protected Context $context;
 
     /**
      * Page constructor.
