@@ -7,6 +7,7 @@ namespace edwrodrig\static_generator\cache\contento\legacy;
 use DateTime;
 use edwrodrig\contento\collection\legacy\Collection;
 use edwrodrig\static_generator\cache\ImageItem as BaseImageItem;
+use Exception;
 
 /**
  * Class ImageItem
@@ -35,6 +36,13 @@ class ImageItem extends BaseImageItem
 
     private string $id;
 
+    /**
+     * ImageItem constructor.
+     * @param Collection $server
+     * @param array $data
+     * @param int $width
+     * @throws Exception
+     */
     public function __construct(Collection $server, array $data, int $width = 1000) {
 
         parent::__construct('', '', $width);

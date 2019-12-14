@@ -12,6 +12,7 @@ use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\cache\ImageItem;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,9 @@ class ImageItemTest extends TestCase
         $this->assertEquals('hola.jpg', $f->getTargetRelativePath());
     }
 
+    /**
+     * @throws Exception
+     */
     function testHappy() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
@@ -68,6 +72,9 @@ LOG;
         $this->assertEquals($expected_log, $logger->getTargetData());
     }
 
+    /**
+     * @throws Exception
+     */
     function testNoTransformation() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
