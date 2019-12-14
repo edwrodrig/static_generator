@@ -152,9 +152,10 @@ class FileItem implements CacheableItem
      * Get the last modification of the file.
      *
      * It is the modification time in the system
+     * @return DateTime
+     * @throws \Exception
      * @api
      * @see filemtime()
-     * @return DateTime
      */
     public function getLastModificationTime() : DateTime {
         $date = new DateTime();

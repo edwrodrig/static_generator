@@ -91,8 +91,9 @@ class ContextTest extends TestCase
     }
 
     /**
-     * @throws InvalidTemplateClassException
      * @throws IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
      */
     public function testGetTemplates() {
         /**

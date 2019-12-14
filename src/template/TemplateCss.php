@@ -46,8 +46,8 @@ class TemplateCss extends Template
 
     /**
      * Echoes a minified css
+     * @throws \Throwable
      * @api
-     * @throws Exception
      */
     public function print() {
         $output = Util::outputBufferSafe(function() {

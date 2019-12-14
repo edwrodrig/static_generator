@@ -260,9 +260,10 @@ class PagePhp extends PageFile
      * Generates the output of the file
      *
      * The generation is according the {@see PagePhp::$mode mode}
-     * @api
-     * @throws Exception
      * @return string
+     * @throws CopyException
+     * @throws Throwable
+     * @api
      */
     public function generate() : string
     {
@@ -313,9 +314,9 @@ class PagePhp extends PageFile
      * Process this file as a Template.
      *
      * The file {@see Page::writePage() generates an output} but the content generation is delegated to the {@see PagePhp::getTemplate() template}
-     * @see PagePhp::isTemplate()
      * @return string
-     * @throws Exception
+     * @throws Throwable
+     * @see PagePhp::isTemplate()
      */
     private function processTemplate() : string {
 

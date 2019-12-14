@@ -45,8 +45,8 @@ class TemplateJs extends Template
 
     /**
      * Echoes a minified javascript
+     * @throws \Throwable
      * @api
-     * @throws Exception
      */
     public function print() {
         $output = Util::outputBufferSafe(function() {

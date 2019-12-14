@@ -302,7 +302,9 @@ class Context
      * It is just a convenience function that clears all files in the {@see Context::getTargetRootPath() target}
      * and generates all from {@see Context::getSourceRootPath() source}
      * @throws exception\InvalidTemplateClassException
-     * @throws util\exception\IgnoredPageFileException*@throws exception\InvalidTemplateMetadataException
+     * @throws exception\InvalidTemplateMetadataException
+     * @throws util\exception\IgnoredPageFileException
+     * @throws exception\InvalidTemplateMetadataException
      * @api
      */
     public function generate() {

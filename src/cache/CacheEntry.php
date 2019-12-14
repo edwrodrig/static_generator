@@ -94,10 +94,11 @@ class CacheEntry implements JsonSerializable
 
     /**
      * Creates a cache entry from an recovered {@see CacheEntry::jsonSerialize() array entry}
-     * @internal
      * @param array $data
      * @param CacheManager $manager
      * @return CacheEntry
+     * @throws \Exception
+     * @internal
      * @internal this method must always be created by the index
      */
     public static function createFromArray(array $data, CacheManager $manager) {

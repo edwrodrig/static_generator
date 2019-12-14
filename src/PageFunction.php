@@ -43,8 +43,9 @@ class PageFunction extends Page
      * Generates the page.
      *
      * In simple works it capture the output of {@see PageFunction::$function the function} and {@see Page::writePage() write} into a file
+     * @return string
+     * @throws \Throwable
      * @api
-     * @throws Exception
      */
     public function generate() : string
     {

@@ -20,6 +20,9 @@ class UtilTest extends TestCase
      *              ["hola1", "hola%s", ["1"]]
      *              [null, "hola%s", [null]]
      *              ["hola'", "hola%s", ["'"]]
+     * @param $expected
+     * @param $pattern
+     * @param $args
      */
 
     public function testSprintfOrEmpty($expected, $pattern, $args)

@@ -41,7 +41,6 @@ class ImgAttributes
     private $height = null;
 
 
-
     /**
      * Specifies the URL of the image source
      *
@@ -51,9 +50,9 @@ class ImgAttributes
      * * telephone call – tel:0036012345678
      * * absolute url – https://edwin.cl
      * * relative url –'edwin/index.html
-     * @param $src
+     * @param string|null $src
+     * @return ImgAttributes
      * @see https://www.w3schools.com/tags/att_a_href.asp
-     * @return AAttributes
      */
     public function setSrc(?string $src) : ImgAttributes {
         $this->src = $src;
