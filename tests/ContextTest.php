@@ -37,6 +37,9 @@ class ContextTest extends TestCase
         $this->assertTrue($s->hasTr(['es' => 'es', 'en' => 'en']));
     }
 
+    /**
+     * @throws NoTranslationAvailableException
+     */
     public function testTranslateNoTranslation()
     {
         $this->expectException(NoTranslationAvailableException::class);
@@ -106,6 +109,10 @@ class ContextTest extends TestCase
     }
 
 
+    /**
+     * @throws RelativePathCanNotBeFullException
+     * @throws UnregisteredWebDomainException
+     */
     public function testFullUrlSimple() {
         $s = new Context('', '');
         $s->setTargetWebDomain('http://www.edwin.cl');
@@ -113,6 +120,10 @@ class ContextTest extends TestCase
         $this->assertEquals('http://www.edwin.cl/hola', $s->getFullUrl('/hola'));
     }
 
+    /**
+     * @throws RelativePathCanNotBeFullException
+     * @throws UnregisteredWebDomainException
+     */
     public function testFullUrlSimpleEmptyDomain() {
         $this->expectException(UnregisteredWebDomainException::class);
 
@@ -121,6 +132,10 @@ class ContextTest extends TestCase
         $s->getFullUrl('/hola');
     }
 
+    /**
+     * @throws RelativePathCanNotBeFullException
+     * @throws UnregisteredWebDomainException
+     */
     public function testFullUrlSimpleTargetWebPath() {
         $s = new Context('', '');
         $s->setTargetWebPath('base');

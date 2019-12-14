@@ -7,6 +7,7 @@ namespace edwrodrig\static_generator\cache\contento\legacy;
 use DateTime;
 use edwrodrig\contento\collection\legacy\Collection;
 use edwrodrig\static_generator\cache\FileItem as BaseFileItem;
+use Exception;
 
 /**
  * Class ImageItem
@@ -33,6 +34,12 @@ class FileItem extends BaseFileItem
 
     private string $id;
 
+    /**
+     * FileItem constructor.
+     * @param Collection $server
+     * @param array $data
+     * @throws Exception
+     */
     public function __construct(Collection $server, array $data) {
 
         parent::__construct('', '', '');

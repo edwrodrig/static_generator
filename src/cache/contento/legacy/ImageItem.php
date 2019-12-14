@@ -53,6 +53,12 @@ class ImageItem extends BaseImageItem
 
     }
 
+    /**
+     * @param Collection $server
+     * @param array $data
+     * @return ImageItem
+     * @throws Exception
+     */
     public static function createFromArray(Collection $server, array $data) {
         return new self($server, $data);
     }

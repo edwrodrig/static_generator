@@ -7,6 +7,7 @@ use DateTime;
 use edwrodrig\static_generator\cache\CacheManager;
 use edwrodrig\static_generator\Context;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,9 @@ class CacheManagerTest extends TestCase
     }
 
 
-
+    /**
+     * @throws Exception
+     */
     public function testManager() {
 
         $logger = new TemporaryLogger;
@@ -52,6 +55,9 @@ LOG;
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function testManagerSaveAndRestored() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
@@ -97,6 +103,9 @@ LOG;
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function testManagerUnused() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
@@ -158,6 +167,9 @@ LOG;
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function testManagerNoEntries() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
@@ -170,6 +182,9 @@ LOG;
         $this->assertFileExists($manager->getTargetAbsolutePath());
     }
 
+    /**
+     * @throws Exception
+     */
     public function testManagerMultipleCaches() {
         $logger = new TemporaryLogger;
         $context = new Context(__DIR__ . '/../files/test_dir', $this->root->url());
