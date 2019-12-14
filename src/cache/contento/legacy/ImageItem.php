@@ -18,13 +18,13 @@ class ImageItem extends BaseImageItem
     /**
      * @var Collection
      */
-    private $server;
+    private Collection $server;
 
     /**
      * The last modification time
      * @var DateTime
      */
-    private $last_modification_date;
+    private DateTime $last_modification_date;
 
     /**
      * Contains the temporary filename

@@ -20,17 +20,17 @@ class TwitterCardApplication extends TwitterCardBase {
     /**
      * @var string|null
      */
-    private $app_id_iphone;
+    private ?string $app_id_iphone;
 
     /**
      * @var string|null
      */
-    private $app_id_ipad;
+    private ?string $app_id_ipad;
 
     /**
      * @var string|null
      */
-    private $app_id_google_play;
+    private ?string $app_id_google_play;
 
 
     /**
@@ -91,9 +91,9 @@ class TwitterCardApplication extends TwitterCardBase {
 
         echo Util::sprintfOrEmpty('<meta name="twitter:card" content="app"/>');
 
-        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:iphone" content="%s"/>', $this->app_id_iphone);
-        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:ipad" content="%s"/>', $this->app_id_ipad);
-        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:googleplay" content="%s"/>', $this->app_id_google_play);
+        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:iphone" content="%s"/>', $this->app_id_iphone ?? null);
+        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:ipad" content="%s"/>', $this->app_id_ipad ?? null);
+        echo Util::sprintfOrEmpty('<meta name="twitter:app:id:googleplay" content="%s"/>', $this->app_id_google_play ?? null);
 
     }
 

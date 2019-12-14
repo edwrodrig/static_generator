@@ -17,7 +17,7 @@ class CacheIndex
      * The cache entries in the form of an associative array where the {@see CacheEntry::getKey() key} references the {@see CacheEntry}
      * @var CacheEntry[]
      */
-    private $data = [];
+    private array $data = [];
 
 
     /**
@@ -28,7 +28,7 @@ class CacheIndex
      * If a key is not present in this array at the end of a generation means that it is {@see CacheIndex::removeUnusedEntries() unused}.
      * @var array
      */
-    private $hits = [];
+    private array $hits = [];
 
     /**
      * The cache manager.
@@ -36,7 +36,7 @@ class CacheIndex
      * Important to retrieve some pass it to cache entries
      * @var CacheManager
      */
-    private $manager;
+    private CacheManager $manager;
 
     /**
      * CacheIndex constructor.

@@ -28,7 +28,7 @@ class TemplateJs extends Template
      * The internally minifier object
      * @var JS
      */
-    private $minifier;
+    private JS $minifier;
 
     /**
      * Template constructor.

@@ -23,12 +23,12 @@ abstract class TwitterCardBase
     /**
      * @var null|string
      */
-    private $site = null;
+    private ?string $site = null;
 
     /**
      * @var null|string
      */
-    private $description = null;
+    private ?string $description = null;
 
 
     /**

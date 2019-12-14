@@ -21,25 +21,25 @@ class CacheManager
      * The generation context of this cache
      * @var Context
      */
-    private $context = null;
+    private ?Context $context = null;
 
     /**
      * @var CacheIndex
      */
-    private $index;
+    private CacheIndex $index;
 
     /**
      * The cache target root path absolute.
      * @var string
      */
-    protected $target_root_path;
+    protected string $target_root_path;
 
     /**
      * The target web path of the cache relative to the {@see Context::getTargetWebRoot() web root} of the context.
      * This value must be unique between caches in a {@see Context::registerContext() context}.
      * @var string
      */
-    protected $target_web_path = "cache";
+    protected string $target_web_path = "cache";
 
 
     /**

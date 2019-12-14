@@ -38,7 +38,7 @@ class FileItem implements CacheableItem
      *
      * @var string
      */
-    private $root_path;
+    private string $root_path;
 
     /**
      * The filename
@@ -48,7 +48,7 @@ class FileItem implements CacheableItem
      *
      * @var string
      */
-    protected $filename;
+    protected string $filename;
 
     /**
      * The version of the file.
@@ -57,7 +57,7 @@ class FileItem implements CacheableItem
      * This variable is a way to differentiate them. This value are used to generate a the {@see FileItem::getKey() key}
      * @var string
      */
-    protected $version;
+    protected string $version;
 
     /**
      * Target extension.
@@ -66,7 +66,7 @@ class FileItem implements CacheableItem
      * For example and bmp source should generate a jpg target
      * @var string
      */
-    protected $target_extension = '';
+    protected string $target_extension = '';
 
     /**
      * Salt added to the target relative path.
@@ -75,7 +75,7 @@ class FileItem implements CacheableItem
      * It is useful for advanced {@see https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating_and_updating_cached_responses caching techniques}.
      * @var string
      */
-    protected $salt = '';
+    protected string $salt = '';
 
     /**
      * FileItem constructor.

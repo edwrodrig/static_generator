@@ -18,7 +18,7 @@ class ImgAttributes
     /**
      * @var string|null
      */
-    private $src = null;
+    private ?string $src = null;
 
     /**
      * @var null|string
@@ -28,17 +28,17 @@ class ImgAttributes
     /**
      * @var null|string
      */
-    private $title = null;
+    private ?string $title = null;
 
     /**
      * @var null|int
      */
-    private $width = null;
+    private ?int $width = null;
 
     /**
      * @var null|int
      */
-    private $height = null;
+    private ?int $height = null;
 
 
     /**

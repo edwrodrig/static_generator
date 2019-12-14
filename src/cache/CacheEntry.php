@@ -26,13 +26,13 @@ class CacheEntry implements JsonSerializable
      * Internally this date should be always equals to the {@see CacheableItem::getLastModificationDate()}
      * @var DateTime
      */
-    protected $last_modification_time;
+    protected DateTime $last_modification_time;
 
     /**
      * The relative path filename that where cached.
      * @var string
      */
-    protected $relative_path;
+    protected string $relative_path;
 
     /**
      * The very identifier of this cache entry.
@@ -40,12 +40,12 @@ class CacheEntry implements JsonSerializable
      * It must be unique between all entries in the {@see CacheIndex index}
      * @var string
      */
-    protected $key;
+    protected string $key;
 
     /**
      * @var CacheManager $manager
      */
-    protected $manager;
+    protected CacheManager $manager;
 
     /**
      * Cache Additional data.
@@ -53,7 +53,7 @@ class CacheEntry implements JsonSerializable
      * @see CacheableItem::getAdditionalData()
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * CacheEntry constructor.
@@ -164,7 +164,7 @@ class CacheEntry implements JsonSerializable
      * @return bool
      */
     protected function cachedFileExists() : bool {
-        return !is_null($this->relative_path) && file_exists($this->getTargetAbsolutePath());
+        return isset($this->relative_path) && file_exists($this->getTargetAbsolutePath());
     }
 
     /**

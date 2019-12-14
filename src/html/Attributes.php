@@ -19,7 +19,7 @@ class Attributes
     /**
      * @var array
      */
-    protected $attributes;
+    protected array $attributes;
 
     /**
      * Attributes constructor.

@@ -23,27 +23,27 @@ class AppleWebApplication
     /**
      * @var string[]
      */
-    private $icons = [];
+    private array $icons = [];
 
     /**
      * @var string|null
      */
-    private $startup_image = null;
+    private ?string $startup_image = null;
 
     /**
      * @var string|null
      */
-    private $status_bar_style = null;
+    private ?string $status_bar_style = null;
 
     /**
      * @var bool
      */
-    private $web_capable = false;
+    private bool $web_capable = false;
 
     /**
      * @var string|null
      */
-    private $title = null;
+    private ?string $title = null;
 
 
     /**

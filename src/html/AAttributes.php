@@ -18,7 +18,7 @@ class AAttributes
     /**
      * @var string|null
      */
-    private $href = null;
+    private ?string $href = null;
 
     /**
      * @var bool|string
@@ -28,17 +28,17 @@ class AAttributes
     /**
      * @var null|string
      */
-    private $rel = null;
+    private ?string $rel = null;
 
     /**
      * @var null|string
      */
-    private $title = null;
+    private ?string $title = null;
 
     /**
      * @var null|string
      */
-    private $target = null;
+    private ?string $target = null;
 
 
     /**

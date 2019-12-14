@@ -17,7 +17,7 @@ class GoogleTrackingSnippet
      * A google tracking Id
      * @var GoogleTrackingId
      */
-    private $tracking_id;
+    private GoogleTrackingId $tracking_id;
 
     /**
      * GoogleTrackingId constructor.

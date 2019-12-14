@@ -9,11 +9,11 @@ use edwrodrig\static_generator\cache\CacheManager;
 
 class CacheableItem implements BaseCacheableItem
 {
-    private $key;
+    private string $key;
 
-    private $date;
+    private DateTime $date;
 
-    private $salt;
+    private string $salt;
 
     public function __construct(string $key, DateTime $date, string $salt) {
         $this->key = $key;

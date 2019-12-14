@@ -35,7 +35,7 @@ class ImageItem extends FileItem
      * This is used in the context or {@see ImageItem::resizeContain() resizes}
      * @var int
      */
-    protected $width;
+    protected int $width;
 
     /**
      * The height of the image.
@@ -51,7 +51,7 @@ class ImageItem extends FileItem
      * What resize mode will be executed in {@see ImageItem::generate() generation}.
      * @var int
      */
-    protected $resize_mode = self::RESIZE_MODE_COPY;
+    protected int $resize_mode = self::RESIZE_MODE_COPY;
 
     /**
      * The image should not be resized.
