@@ -33,7 +33,6 @@ class ImageItem extends FileItem
      * The width of the image
      *
      * This is used in the context or {@see ImageItem::resizeContain() resizes}
-     * @var int
      */
     protected int $width;
 

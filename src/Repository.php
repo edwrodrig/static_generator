@@ -27,10 +27,12 @@ namespace edwrodrig\static_generator;
  */
 class Repository
 {
-    /**
-     * @var Context
-     */
+
     protected Context $context;
+
+    public function getContext() : Context {
+        return $this->context;
+    }
 
     /**
      * Set context.

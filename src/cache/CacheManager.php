@@ -22,7 +22,7 @@ class CacheManager
      * The generation context of this cache
      * @var Context
      */
-    private ?Context $context = null;
+    private Context $context;
 
     /**
      * @var CacheIndex
@@ -46,7 +46,6 @@ class CacheManager
     /**
      * CacheManager constructor.
      * @param string $target_root_path {@see CacheManager::$target_root_path}
-     * @throws Exception
      * @throws Exception
      * @api
      */
@@ -174,7 +173,7 @@ class CacheManager
      * If you don't do this the cached files will be not visible in the target output.
      *
      * @api
-     * @uses CacheManamger::getTargetWebPath()
+     * @uses CacheManager::getTargetWebPath()
      */
     public function linkToTarget() {
         $link = $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath();
