@@ -301,9 +301,9 @@ class Context
      *
      * It is just a convenience function that clears all files in the {@see Context::getTargetRootPath() target}
      * and generates all from {@see Context::getSourceRootPath() source}
-     * @api
      * @throws exception\InvalidTemplateClassException
-     * @throws util\exception\IgnoredPageFileException
+     * @throws util\exception\IgnoredPageFileException*@throws exception\InvalidTemplateMetadataException
+     * @api
      */
     public function generate() {
         $this->clearTarget();
@@ -324,7 +324,8 @@ class Context
      * @return Template[]|Generator
      * @throws exception\InvalidTemplateClassException
      * @throws util\exception\IgnoredPageFileException
-     *@api
+     * @throws exception\InvalidTemplateMetadataException
+     * @api
      */
     public function getTemplates() {
         yield from PageFileFactory::createTemplates($this);
