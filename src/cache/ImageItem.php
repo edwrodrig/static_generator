@@ -80,7 +80,7 @@ class ImageItem extends FileItem
         $this->width = $width;
 
         if (pathinfo($file, PATHINFO_EXTENSION) == 'svg')
-            $this->target_extension = 'png';
+            $this->setTargetExtension('png');
 
     }
 
@@ -179,9 +179,10 @@ class ImageItem extends FileItem
             $img->cover(new Size($this->width, $this->height));
         }
 
-        if ( $this->target_extension == 'jpg') {
+        $target_extension = $this->getTargetExtension();
+        if ( $target_extension == 'jpg') {
             $img->optimizePhoto();
-        } else if ( $this->target_extension == 'png' ) {
+        } else if ( $target_extension == 'png' ) {
             $img->optimizeLossless();
         } else {
             $img->optimize();

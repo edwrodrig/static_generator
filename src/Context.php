@@ -44,7 +44,7 @@ class Context
      * @see Context::getUrl()
      * @var string
      */
-    private string $target_web_path = "";
+    private string $target_web_path;
 
     /**
      * The target domain.
@@ -52,7 +52,7 @@ class Context
      * For example. http://www.edwin.cl or something. Useful to generate {@see Context::getFullUrl() full urls}
      * @var string
      */
-    private string $target_web_domain = "";
+    private string $target_web_domain;
 
     /**
      * The source root path of the generation
@@ -132,7 +132,7 @@ class Context
      * @return string
      */
     public function getTargetWebPath() : string {
-        return $this->target_web_path;
+        return $this->target_web_path ?? "";
     }
 
     /**
@@ -362,7 +362,7 @@ class Context
      * @throws exception\UnregisteredWebDomainException
      */
     public function getFullUrl(string $path) : string {
-        if ( empty($this->target_web_domain) )
+        if ( !isset($this->target_web_domain) )
             throw new exception\UnregisteredWebDomainException;
 
         $url = $this->getUrl($path);

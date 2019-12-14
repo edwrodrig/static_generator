@@ -67,7 +67,7 @@ class FileItem implements CacheableItem
      * For example and bmp source should generate a jpg target
      * @var string
      */
-    protected string $target_extension = '';
+    private string $target_extension;
 
     /**
      * Salt added to the target relative path.
@@ -76,7 +76,7 @@ class FileItem implements CacheableItem
      * It is useful for advanced {@see https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#invalidating_and_updating_cached_responses caching techniques}.
      * @var string
      */
-    protected string $salt = '';
+    protected string $salt;
 
     /**
      * FileItem constructor.
@@ -84,12 +84,15 @@ class FileItem implements CacheableItem
      * @api
      * @param string $root_path {@see FileItem::$root_path}
      * @param string $filename {@see FileItem::$filename}
-     * @param string $version
      */
-    public function __construct(string $root_path, string $filename, string $version = '') {
+    public function __construct(string $root_path, string $filename) {
         $this->root_path = $root_path;
         $this->filename = $filename;
+    }
+
+    public function setVersion(string $version) : FileItem {
         $this->version = $version;
+        return $this;
     }
 
     /**
@@ -131,10 +134,11 @@ class FileItem implements CacheableItem
     public function getKey() : string {
         $base_name = self::getBasename($this->filename);
 
-        if ( empty($this->version) )
-            return $base_name;
-        else
+        if ( isset($this->version) )
             return $base_name . '_' . $this->version;
+        else
+            return $base_name;
+
     }
 
     /**
@@ -146,7 +150,7 @@ class FileItem implements CacheableItem
      * @return string
      */
     protected function getSourceFilename() : string{
-        return $this->root_path . DIRECTORY_SEPARATOR . $this->filename;
+        return $this->root_path . '/' . $this->filename;
     }
 
     /**
@@ -172,7 +176,7 @@ class FileItem implements CacheableItem
      * @return string
      */
     protected function getTargetExtension() : string {
-        return empty($this->target_extension) ? pathinfo($this->filename, PATHINFO_EXTENSION) : $this->target_extension;
+        return $this->target_extension ?? pathinfo($this->filename, PATHINFO_EXTENSION);
     }
 
     /**
@@ -185,7 +189,7 @@ class FileItem implements CacheableItem
     public function getTargetRelativePath() : string {
         $file = $this->getKey();
 
-        if ( !empty($this->salt) )
+        if ( isset($this->salt) )
             $file .= '_' . $this->salt;
 
         $extension = $this->getTargetExtension();

@@ -42,7 +42,8 @@ class FileItemTest extends TestCase
     }
 
     function testGetCachedFile() {
-        $f = new FileItem('http://edwin.cl', 'hola.jpg', 'rojo');
+        $f = new FileItem('http://edwin.cl', 'hola.jpg');
+        $f->setVersion('rojo');
         $this->assertEquals('hola_rojo.jpg', $f->getTargetRelativePath());
     }
 
@@ -57,7 +58,8 @@ class FileItemTest extends TestCase
         $manager = new CacheManager( $this->root->url() . '/cache');
         $manager->setContext($context);
 
-        $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
+        $item = new FileItem(__DIR__, 'FileItemTest.php');
+        $item->setVersion('rojo');
         $this->assertEquals('FileItemTest_rojo.php', $item->getTargetRelativePath());
         $this->assertEquals([], $item->getAdditionalData());
 
@@ -85,7 +87,8 @@ LOG;
         $manager = new CacheManager( $this->root->url() . '/cache');
         $manager->setContext($context);
 
-        $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
+        $item = new FileItem(__DIR__, 'FileItemTest.php');
+        $item->setVersion('rojo');
         $item->setTargetExtension('cpp');
         $this->assertEquals('FileItemTest_rojo.cpp', $item->getTargetRelativePath());
 
@@ -113,8 +116,10 @@ LOG;
         $manager = new CacheManager( $this->root->url() . '/cache');
         $manager->setContext($context);
 
-        $item = new FileItem(__DIR__, 'FileItemTest.php', 'rojo');
-            $item->setSalt();
+        $item = new FileItem(__DIR__, 'FileItemTest.php');
+            $item
+                ->setVersion('rojo')
+                ->setSalt();
 
         $manager->update($item);
         $manager->update($item);

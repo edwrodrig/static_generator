@@ -11,7 +11,7 @@ use Exception;
 /**
  * Class CacheManager
  *
- * This function contains works as an interface to {@see CacheManager::update() generate} cache entries from {@see CacheableItem cacheable items}.
+ * This class contains works as an interface to {@see CacheManager::update() generate} cache entries from {@see CacheableItem cacheable items}.
  * When caches are used in a context, they must be registered using {@see Context::registerContext()}
  * @api User must interact with this class
  * @package edwrodrig\static_generator\cache
@@ -75,7 +75,7 @@ class CacheManager
     }
 
     /**
-     * Get the target web path of the cacha manager.
+     * Get the target web path of the cache manager.
      *
      * @see CacheManager::$target_web_path
      * @return string
@@ -127,14 +127,14 @@ class CacheManager
      *
      * This functions should always be called before creating a cache file.
      * This create the respective folders if does not exist and return the absolute path to use.
-     * This function is intended to be uses in {@see CacheableItem::generate()}.
+     * This function is intended to be used in {@see CacheableItem::generate()}.
      *
      * @api
      * @param CacheableItem $item
      * @return string
      */
     public function prepareCacheFile(CacheableItem $item) : string {
-        $absolute_path = $this->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . $item->getTargetRelativePath();
+        $absolute_path = $this->getTargetAbsolutePath() . '/' . $item->getTargetRelativePath();
         @mkdir(dirname($absolute_path), 0777, true);
         return $absolute_path;
     }
@@ -159,7 +159,7 @@ class CacheManager
      * @uses CacheIndex::save()
      */
     public function save() {
-        $absolute_path = $this->getTargetAbsolutePath() . DIRECTORY_SEPARATOR . 'dummy_file';
+        $absolute_path = $this->getTargetAbsolutePath() . '/dummy_file';
         $dir_name = dirname($absolute_path);
         if ( !file_exists($dir_name) )
             mkdir($dir_name, 0777, true);
@@ -176,7 +176,7 @@ class CacheManager
      * @uses CacheManager::getTargetWebPath()
      */
     public function linkToTarget() {
-        $link = $this->context->getTargetRootPath() . DIRECTORY_SEPARATOR . $this->getTargetWebPath();
+        $link = $this->context->getTargetRootPath() . '/' . $this->getTargetWebPath();
 
         $dir_name = dirname($link);
         if ( !file_exists($dir_name) )
