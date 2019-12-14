@@ -19,7 +19,7 @@ class LoggerTest extends TestCase
     private $target;
 
 
-    public function setUp() {
+    public function setUp() : void {
         $this->target = fopen('php://memory', 'w+');
     }
 
@@ -28,7 +28,7 @@ class LoggerTest extends TestCase
         return stream_get_contents($this->target);
     }
 
-    public function tearDown() {
+    public function tearDown() : void {
         fclose($this->target);
     }
 

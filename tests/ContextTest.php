@@ -3,6 +3,12 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\NoTranslationAvailableException;
+use edwrodrig\static_generator\exception\RelativePathCanNotBeFullException;
+use edwrodrig\static_generator\exception\UnregisteredWebDomainException;
+use edwrodrig\static_generator\template\Template;
+use edwrodrig\static_generator\util\exception\IgnoredPageFileException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
@@ -10,17 +16,14 @@ use PHPUnit\Framework\TestCase;
 class ContextTest extends TestCase
 {
 
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
+     * @throws NoTranslationAvailableException
      */
     function testTranslate()
     {
@@ -34,15 +37,13 @@ class ContextTest extends TestCase
         $this->assertTrue($s->hasTr(['es' => 'es', 'en' => 'en']));
     }
 
-    /**
-     * @expectedException \edwrodrig\static_generator\exception\NoTranslationAvailableException
-     * @expectedExceptionMessage [Array
-     * (
-     * )
-     * ][es]
-     */
     public function testTranslateNoTranslation()
     {
+        $this->expectException(NoTranslationAvailableException::class);
+        $this->expectExceptionMessage("[Array
+(
+)
+][es]");
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
         $this->assertFalse($s->hasTr([]));
@@ -51,7 +52,7 @@ class ContextTest extends TestCase
 
 
     /**
-     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
+     * @throws NoTranslationAvailableException
      */
     public function testTranslateNoTranslationDefault()
     {
@@ -63,12 +64,13 @@ class ContextTest extends TestCase
     }
 
     /**
-     * @expectedException \edwrodrig\static_generator\exception\NoTranslationAvailableException
-     * @expectedExceptionMessage [][es]
-     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
+     * @throws NoTranslationAvailableException
      */
     public function testTranslateNoTranslation2()
     {
+        $this->expectException(NoTranslationAvailableException::class);
+        $this->expectExceptionMessage("[][es]");
+
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
         $this->assertFalse($s->hasTr(null));
@@ -76,24 +78,25 @@ class ContextTest extends TestCase
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
-     * @expectedException \edwrodrig\static_generator\exception\NoTranslationAvailableException
-     * @expectedExceptionMessage [][es]
+     * @throws NoTranslationAvailableException
      */
     public function testTranslateNoTranslation3()
     {
+        $this->expectException(NoTranslationAvailableException::class);
+        $this->expectExceptionMessage("[][es]");
+
         $s = new Context('', '');
         setlocale(LC_ALL, 'es_CL.utf-8');
         $s->tr('');
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws IgnoredPageFileException
      */
     public function testGetTemplates() {
         /**
-         * @var $templates \edwrodrig\static_generator\template\Template[]|iterable
+         * @var $templates Template[]|iterable
          */
         $templates = (new Context(__DIR__ . '/files/test_dir', $this->root->url()))->getTemplates();
 
@@ -109,10 +112,9 @@ class ContextTest extends TestCase
         $this->assertEquals('http://www.edwin.cl/hola', $s->getFullUrl('/hola'));
     }
 
-    /**
-     * @expectedException \edwrodrig\static_generator\exception\UnregisteredWebDomainException
-     */
     public function testFullUrlSimpleEmptyDomain() {
+        $this->expectException(UnregisteredWebDomainException::class);
+
         $s = new Context('', '');
         $this->assertEquals('/hola', $s->getUrl('/hola'));
         $s->getFullUrl('/hola');
@@ -127,12 +129,13 @@ class ContextTest extends TestCase
     }
 
     /**
-     * @expectedException \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
-     * @expectedExceptionMessage hola
-     * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
-     * @throws \edwrodrig\static_generator\exception\UnregisteredWebDomainException
+     * @throws RelativePathCanNotBeFullException
+     * @throws UnregisteredWebDomainException
      */
     public function testFullUrlSimpleException() {
+        $this->expectException(RelativePathCanNotBeFullException::class);
+        $this->expectExceptionMessage("hola");
+
         $s = new Context('', '');
         $s->setTargetWebDomain('http://www.edwin.cl');
         $this->assertEquals('hola', $s->getUrl('hola'));

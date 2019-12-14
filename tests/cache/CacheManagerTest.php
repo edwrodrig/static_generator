@@ -13,12 +13,10 @@ use PHPUnit\Framework\TestCase;
 
 class CacheManagerTest extends TestCase
 {
-    /**
-     * @var  vfsStreamDirectory
-     */
-    private $root;
 
-    public function setUp() {
+    private vfsStreamDirectory $root;
+
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 

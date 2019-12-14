@@ -22,8 +22,8 @@ class SeoTagsTest extends TestCase
         $s->print();
 
         $output = ob_get_clean();
-        $this->assertContains('<meta', $output);
-        $this->assertContains('hola', $output);
+        $this->assertStringContainsString('<meta', $output);
+        $this->assertStringContainsString('hola', $output);
     }
 
     public function testNull() {

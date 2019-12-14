@@ -18,12 +18,10 @@ use PHPUnit\Framework\TestCase;
 
 class ImageItemTest extends TestCase
 {
-    /**
-     * @var  vfsStreamDirectory
-     */
-    private $root;
 
-    public function setUp() {
+    private vfsStreamDirectory $root;
+
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 

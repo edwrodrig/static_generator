@@ -9,6 +9,7 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\CopyException;
 use edwrodrig\static_generator\PageCopy;
 use edwrodrig\static_generator\util\TemporaryLogger;
 use org\bovigo\vfs\vfsStream;
@@ -18,17 +19,14 @@ use PHPUnit\Framework\TestCase;
 class PageCopyTest extends TestCase
 {
 
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\CopyException
+     * @throws CopyException
      */
     public function testGenerate()
     {

@@ -22,6 +22,6 @@ class GoogleTrackingSnippetTest extends TestCase
         /**
          * Thats all I want to test because implementation could change
          */
-        $this->assertContains(strval($tracking_id), ob_get_clean());
+        $this->assertStringContainsString($tracking_id, ob_get_clean());
     }
 }

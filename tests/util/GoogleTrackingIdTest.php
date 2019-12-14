@@ -18,10 +18,10 @@ class GoogleTrackingIdTest extends TestCase
     /**
      * @param string $tracking_id An invalid tracking id
      * @throws InvalidGoogleTrackingIdException
-     * @expectedException \edwrodrig\static_generator\util\exception\InvalidGoogleTrackingIdException
      * @testWith    ["AB-123123-12"]
      */
     public function testInvalidTrackingId(string $tracking_id) {
+        $this->expectException(InvalidGoogleTrackingIdException::class);
         new GoogleTrackingId($tracking_id);
     }
 }
