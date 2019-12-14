@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\exception\CopyException;
 use edwrodrig\static_generator\exception\InvalidTemplateClassException;
 use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\Util;
@@ -102,7 +103,7 @@ class PagePhp extends PageFile
      *
      * Determine the template class of the processing
      * @param DocBlock $doc_block
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws InvalidTemplateClassException
      */
     private function loadTemplateDataFromDoc(DocBlock $doc_block)
     {
@@ -301,7 +302,7 @@ class PagePhp extends PageFile
      * When is considered a raw file then this page is {@see Page::copyPage() copied}, works the same as {@see PageCopy}
      * @see PagePhp::isRaw()
      * @return string
-     * @throws \edwrodrig\static_generator\exception\CopyException
+     * @throws CopyException
      */
     private function processRaw() : string {
         $this->copyPage();
@@ -333,12 +334,12 @@ class PagePhp extends PageFile
      * Useful when php scripts generates a set of files like post entries.
      * This function is mean to be used {@see PagePhp::isSilent() silent} php pages but is ok to use in other php pages
      *
-     * @api
-     * @uses PageFunction
      * @param string $relative_path The path relative to the {@see Context::getTargetRelativePath() target path}
      * @param callable $function The funciton that echo the content of the file
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     *@api
+     * @uses PageFunction
      */
     public function generateFromFunction(string $relative_path, callable $function) : string
     {

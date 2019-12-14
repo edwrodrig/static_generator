@@ -30,7 +30,7 @@ class GoogleTrackingId
      * GoogleTrackingId constructor.
      * @api
      * @param string $tracking_id {@see GoogleTrackingId::$tracking_id }
-     * @throws \edwrodrig\static_generator\util\exception\InvalidGoogleTrackingIdException when the tracking_id is invalid
+     * @throws InvalidGoogleTrackingIdException when the tracking_id is invalid
      */
     public function __construct(string $tracking_id)
     {

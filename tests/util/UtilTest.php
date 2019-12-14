@@ -9,6 +9,8 @@
 namespace test\edwrodrig\static_generator\util;
 
 use edwrodrig\static_generator\util\Util;
+use Error;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class UtilTest extends TestCase
@@ -46,10 +48,10 @@ class UtilTest extends TestCase
         try {
             $return = Util::outputBufferSafe(function () {
                 echo 'hola';
-                throw new \Exception;
+                throw new Exception;
             });
-        } catch ( \Exception $e ) {
-            $this->assertInstanceOf(\Exception::class, $e);
+        } catch ( Exception $e ) {
+            $this->assertInstanceOf(Exception::class, $e);
         }
         $this->assertEquals('', $return);
 
@@ -63,8 +65,8 @@ class UtilTest extends TestCase
                 echo 'hola';
                 eval('$hola = null; $hola->get();');
             });
-        } catch ( \Error $e ) {
-            $this->assertInstanceOf(\Error::class, $e);
+        } catch ( Error $e ) {
+            $this->assertInstanceOf(Error::class, $e);
         }
         $this->assertEquals('', $return);
 

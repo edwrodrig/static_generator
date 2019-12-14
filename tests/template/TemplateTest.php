@@ -3,12 +3,16 @@
 namespace test\edwrodrig\static_generator\template;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 
-class TemplateTest extends \PHPUnit\Framework\TestCase
+class TemplateTest extends TestCase
 {
 
     private vfsStreamDirectory $root;
@@ -19,8 +23,8 @@ class TemplateTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \Exception
+     * @throws InvalidTemplateClassException
+     * @throws Exception
      */
     public function testGenerateTemplate()
     {
@@ -49,8 +53,8 @@ LOG;
 
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testUrl()
     {
@@ -65,8 +69,8 @@ LOG;
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testUrlEmptyTargetWebPath()
     {
@@ -80,8 +84,8 @@ LOG;
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testCurrentUrl()
     {
@@ -93,8 +97,8 @@ LOG;
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testCurrentUrlEmptyTargetWebPat()
     {

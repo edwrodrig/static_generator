@@ -45,5 +45,5 @@ class CacheableItem implements BaseCacheableItem
             'chao' => 2
         ];
     }
-};
+}
 

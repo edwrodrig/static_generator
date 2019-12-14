@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\template;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\Util;
+use Exception;
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
 
@@ -46,7 +47,7 @@ class TemplateCss extends Template
     /**
      * Echoes a minified css
      * @api
-     * @throws \Exception
+     * @throws Exception
      */
     public function print() {
         $output = Util::outputBufferSafe(function() {

@@ -3,12 +3,15 @@
 namespace test\edwrodrig\static_generator\template;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 
-class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
+class TemplateHtmlBasicTest extends TestCase
 {
 
     private vfsStreamDirectory $root;
@@ -19,8 +22,8 @@ class TemplateHtmlBasicTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \Exception
+     * @throws InvalidTemplateClassException
+     * @throws Exception
      */
     public function testGenerateTemplate()
     {

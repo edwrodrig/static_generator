@@ -3,6 +3,7 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\PageFunction;
 use edwrodrig\static_generator\util\TemporaryLogger;
 use Exception;
 use org\bovigo\vfs\vfsStream;
@@ -29,7 +30,7 @@ class PageFunctionTest extends TestCase
         $context = new Context('', $this->root->url());
             $context->setLogger($logger);
 
-        $page = new \edwrodrig\static_generator\PageFunction(
+        $page = new PageFunction(
             'out',
             $context,
             function () {
