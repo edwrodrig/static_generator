@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\template;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\Util;
-use Exception;
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
 

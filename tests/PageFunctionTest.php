@@ -22,6 +22,7 @@ class PageFunctionTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws \Throwable
      */
     function testGenerateString()
     {

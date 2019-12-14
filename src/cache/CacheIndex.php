@@ -42,6 +42,7 @@ class CacheIndex
      * CacheIndex constructor.
      * Creates a cache index object
      * @param CacheManager $manager
+     * @throws \Exception
      */
     public function __construct(CacheManager $manager) {
 

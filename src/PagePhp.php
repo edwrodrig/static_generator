@@ -339,7 +339,8 @@ class PagePhp extends PageFile
      * @param callable $function The funciton that echo the content of the file
      * @return string
      * @throws Exception
-     *@api
+     * @throws Throwable
+     * @api
      * @uses PageFunction
      */
     public function generateFromFunction(string $relative_path, callable $function) : string

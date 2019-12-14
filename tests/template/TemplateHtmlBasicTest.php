@@ -24,6 +24,7 @@ class TemplateHtmlBasicTest extends TestCase
     /**
      * @throws InvalidTemplateClassException
      * @throws Exception
+     * @throws \Throwable
      */
     public function testGenerateTemplate()
     {

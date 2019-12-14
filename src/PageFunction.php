@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\util\Util;
-use Exception;
 
 /**
  * Class PageFunction
