@@ -12,6 +12,7 @@ use edwrodrig\static_generator\util\Util;
 use Error;
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class UtilTest extends TestCase
 {
@@ -53,7 +54,7 @@ class UtilTest extends TestCase
                 echo 'hola';
                 throw new Exception;
             });
-        } catch ( Exception $e ) {
+        } catch ( Throwable $e ) {
             $this->assertInstanceOf(Exception::class, $e);
         }
         $this->assertEquals('', $return);
@@ -68,7 +69,7 @@ class UtilTest extends TestCase
                 echo 'hola';
                 eval('$hola = null; /** @noinspection PhpUndefinedMethodInspection */$hola->get();');
             });
-        } catch ( Error $e ) {
+        } catch ( Throwable $e ) {
             $this->assertInstanceOf(Error::class, $e);
         }
         $this->assertEquals('', $return);

@@ -44,8 +44,10 @@ class CacheManager
 
     /**
      * CacheManager constructor.
-     * @api
      * @param string $target_root_path {@see CacheManager::$target_root_path}
+     * @throws \Exception
+     * @throws \Exception
+     * @api
      */
     public function __construct(string $target_root_path) {
         $this->target_root_path = $target_root_path;

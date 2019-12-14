@@ -222,6 +222,7 @@ class Template
      * @param callable $function
      * @return string
      * @throws Exception
+     * @throws \Throwable
      */
     public function generateFromFunction(string $relative_path, callable $function) : string {
         return $this->page_info->generateFromFunction($relative_path, $function);
