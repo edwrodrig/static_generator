@@ -17,7 +17,7 @@ class GoogleTrackingId
      * Generally something like {@see GoogleTrackingId::TRACKING_ID_REGEX UA-1234567-1}
      * @var string
      */
-    private $tracking_id;
+    private string $tracking_id;
 
     /**
      * Regular expression that validated and tracking id.

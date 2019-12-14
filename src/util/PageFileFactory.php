@@ -5,11 +5,17 @@ namespace edwrodrig\static_generator\util;
 
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use edwrodrig\static_generator\PageCopy;
 use edwrodrig\static_generator\PageFile;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\PageScss;
+use edwrodrig\static_generator\template\Template;
 use FilesystemIterator;
+use Generator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Class PageFileFactory
@@ -70,12 +76,13 @@ class PageFileFactory
     /**
      * Create a page generation object for a filename.
      *
-     * @api
      * @param string $filename
      * @param Context $context The generation context
      * @return PageFile A Class name for the generator
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws InvalidTemplateClassException
      * @throws exception\IgnoredPageFileException
+     * @throws InvalidTemplateMetadataException
+     * @api
      */
     public static function createPage(string $filename, Context $context) : PageFile {
         if ( self::isPhp($filename) ) {
@@ -83,7 +90,6 @@ class PageFileFactory
         } else if ( self::isScss($filename) ) {
             return new PageScss($filename, $context);
         } else if ( self::isIgnore($filename) ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\IgnoredPageFileException($filename);
         } else {
             return new PageCopy($filename, $context);
@@ -96,21 +102,23 @@ class PageFileFactory
      * It iterates an the {@see Context::setSourceRootPath() source root path} of the context and yields every  processable file as a {@see PageFile}.
      * The key of tevery element is their sub path ( the path of the file relative the {@see Context::setSourceRootPath() source root path}
      * so it's safe to {@see iterator_to_array() convert the generator to an array} using keys
-     * @api
      * @param Context $context
-     * @return \Generator|\edwrodrig\static_generator\PageFile[]
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @return Generator|PageFile[]
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      * @throws exception\IgnoredPageFileException
+     * @api
      */
     public static function createPages(Context $context) {
 
-        /** @var $file \SplFileInfo */
-        $iterator = new \RecursiveDirectoryIterator(
+
+        $iterator = new RecursiveDirectoryIterator(
             $context->getSourceRootPath(),
             FilesystemIterator::CURRENT_AS_SELF
         );
 
-        foreach ( new \RecursiveIteratorIterator($iterator) as $file ) {
+        /** @var $file RecursiveDirectoryIterator */
+        foreach ( new RecursiveIteratorIterator($iterator) as $file ) {
             if ( !$file->isFile() ) continue;
             if ( self::isIgnore($file->getSubPathName()) ) continue;
 
@@ -121,11 +129,12 @@ class PageFileFactory
     /**
      * The same as {@see PageFileFactory::createPages()} but only considering {@see PagePhp::isTemplate() templates}
      *
-     * @api
      * @param Context $context
-     * @return \Generator|\edwrodrig\static_generator\template\Template[]
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @return Generator|Template[]
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      * @throws exception\IgnoredPageFileException
+     * @api
      */
     public static function createTemplates(Context $context) {
 
