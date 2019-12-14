@@ -5,8 +5,11 @@ namespace edwrodrig\static_generator;
 
 
 use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\Logger;
 use edwrodrig\static_generator\util\PageFileFactory;
+use Generator;
+use function setlocale;
 
 /**
  * Class Context
@@ -182,7 +185,7 @@ class Context
      * @return string
      */
     public function getLang() : string {
-        $locale = \setlocale(LC_ALL, "0");
+        $locale = setlocale(LC_ALL, "0");
         return substr($locale,0, 2);
     }
 
@@ -201,7 +204,6 @@ class Context
         $available_langs = explode("\n", shell_exec('locale -a'));
 
         if (!in_array($lang, $available_langs)) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\UnavailableLocaleException($lang);
         }
         return true;
@@ -238,7 +240,6 @@ class Context
                 $this->getLogger()->log(sprintf("ERROR_TR[%s]", $default_message));
             return $default;
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\NoTranslationAvailableException($translatable, $this->getLang());
         }
     }
@@ -269,7 +270,6 @@ class Context
     public function registerCache(CacheManager $cache) : Context {
         $web_path = $cache->getTargetWebPath();
         if ( isset($this->caches[$web_path]) ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CacheAlreadyRegisteredException($web_path);
         } else {
             $cache->setContext($this);
@@ -292,7 +292,6 @@ class Context
         if ( isset($this->caches[$web_path]) )
             return $this->caches[$web_path];
         else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CacheDoesNotExists($web_path);
         }
     }
@@ -322,10 +321,10 @@ class Context
      * Get the templates of the context
      *
      * Just a convenience function to call {@see PageFileFactory::createTemplates() }
-     * @api
-     * @return \edwrodrig\static_generator\template\Template[]|\Generator
+     * @return Template[]|Generator
      * @throws exception\InvalidTemplateClassException
      * @throws util\exception\IgnoredPageFileException
+     *@api
      */
     public function getTemplates() {
         yield from PageFileFactory::createTemplates($this);
@@ -366,7 +365,6 @@ class Context
         $url = $this->getUrl($path);
         if ( strpos($url, '/') !== 0 ) {
 
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\RelativePathCanNotBeFullException($path);
         }
         if ( empty($this->target_web_domain) )

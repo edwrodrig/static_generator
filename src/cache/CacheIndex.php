@@ -52,7 +52,6 @@ class CacheIndex
         $index_data = file_get_contents($filename);
         if ( $index_data = json_decode($index_data, true) ) {
             foreach ( $index_data as $cache_key => $entry_data ) {
-                /** @noinspection PhpInternalEntityUsedInspection */
                 $this->data[$cache_key] = CacheEntry::createFromArray($entry_data, $this->manager);
             }
         }
@@ -71,7 +70,6 @@ class CacheIndex
         if ( isset($this->data[$item->getKey()]) ) {
             $entry = $this->data[$item->getKey()];
 
-            /** @noinspection PhpInternalEntityUsedInspection */
             $entry->update($item);
             return $entry;
 

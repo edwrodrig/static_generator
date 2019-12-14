@@ -76,7 +76,7 @@
  </div>
  ```
 
-  The container uses their width attributes. So if you want to set the size of the element you need to put an outer div for this propuse.
+  The container uses their width attributes. So if you want to set the size of the element you need to put an outer div for this purpose.
   ```
   <div style="width:43%">
     <div class="responsive-container">
@@ -109,7 +109,7 @@
   The item with class parent is the inner content is the always visible element.
   The item with class children is the inner content that will popup.
   Menu item should always be and it is not stylable.
-  the menu > div item shoudl be present but is stylable, except by the position property because is always position:absolute
+  the menu > div item should be present but is stylable, except by the position property because is always position:absolute
  */
 %popup-menu {
   & > menu { display: none; }

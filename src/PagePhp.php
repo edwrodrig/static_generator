@@ -10,6 +10,7 @@ use Exception;
 use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
+use Throwable;
 
 /**
  * Class PagePhp
@@ -90,7 +91,6 @@ class PagePhp extends PageFile
             $data = strval($doc_block->getTagsByName('data')[0]);
             $parsed_data = @json_decode($data, true);
             if ( is_null($parsed_data) ) {
-                /** @noinspection PhpInternalEntityUsedInspection */
                 throw new InvalidTemplateMetadataException($data);
             }
             $this->data = $parsed_data;
@@ -129,7 +129,6 @@ class PagePhp extends PageFile
             $this->template_class = $template_class;
 
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new InvalidTemplateClassException($template_class);
 
         }
@@ -285,17 +284,15 @@ class PagePhp extends PageFile
      * Process the file silently.
      *
      * Does not generate a {@see Page::writeFile() file}, but the output is returned as a string.
-     * @see PagePhp::isSilent()
      * @return string
-     * @throws Exception
+     * @throws Throwable
+     * @see PagePhp::isSilent()
      */
     private function processSilent() : string {
 
-        $content = Util::outputBufferSafe(function () {
+        return Util::outputBufferSafe(function () {
             $this->getTemplate()->print();
         });
-
-        return $content;
     }
 
     /**

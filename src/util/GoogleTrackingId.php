@@ -38,7 +38,6 @@ class GoogleTrackingId
         if ( preg_match(self::TRACKING_ID_REGEX, $tracking_id) ) {
             $this->tracking_id = $tracking_id;
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new InvalidGoogleTrackingIdException($tracking_id);
         }
     }

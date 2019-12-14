@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator\cache;
 
+use edwrodrig\image\exception\ConvertingSvgException;
+use edwrodrig\image\exception\InvalidImageException;
+use edwrodrig\image\exception\InvalidSizeException;
+use edwrodrig\image\exception\WrongFormatException;
 use edwrodrig\image\Image;
 use edwrodrig\image\Size;
+use ImagickException;
 
 /**
  * Class ImageItem
@@ -156,11 +161,11 @@ class ImageItem extends FileItem
      * then the generated image is {@see Image::optimizePhoto() optimized as photo}/
      * @api
      * @param CacheManager $manager
-     * @throws \ImagickException
-     * @throws \edwrodrig\image\exception\ConvertingSvgException
-     * @throws \edwrodrig\image\exception\InvalidImageException
-     * @throws \edwrodrig\image\exception\InvalidSizeException
-     * @throws \edwrodrig\image\exception\WrongFormatException
+     * @throws ImagickException
+     * @throws ConvertingSvgException
+     * @throws InvalidImageException
+     * @throws InvalidSizeException
+     * @throws WrongFormatException
      * @uses ImageItem::process()
      */
     public function generate(CacheManager $manager) {

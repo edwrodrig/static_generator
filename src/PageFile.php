@@ -73,7 +73,6 @@ abstract class PageFile extends Page
         $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getTargetRelativePath()));
 
         if ( !copy($source, $target) ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CopyException('Error at copying');
         }
 

@@ -23,13 +23,11 @@ class PageScss extends PageFile
      */
     public function getTargetRelativePath() : string
     {
-        $relative_path = preg_replace(
+        return preg_replace(
             '/\.scss/',
             '.css',
             parent::getTargetRelativePath()
         );
-
-        return $relative_path;
     }
 
     /**

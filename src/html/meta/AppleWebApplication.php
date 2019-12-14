@@ -119,7 +119,7 @@ class AppleWebApplication
     /**
      * Set the status bar style
      *
-     * The style generaly is a color, for example 'black'
+     * The style generally is a color, for example 'black'
      * @see https://developer.apple.com/documentation/uikit/uinavigationbar
      * @param string $style
      * @return AppleWebApplication
