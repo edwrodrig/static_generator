@@ -41,9 +41,8 @@ class ImageItem extends FileItem
      * The height of the image.
      *
      * This is used in the context or {@see ImageItem::resizeContain() resizes}
-     * @var
      */
-    protected $height;
+    protected int $height;
 
     /**
      * Resize mode.

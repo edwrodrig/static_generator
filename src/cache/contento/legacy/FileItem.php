@@ -28,9 +28,10 @@ class FileItem extends BaseFileItem
 
     /**
      * Contains the temporary filename
-     * @var null
      */
-    private $source_filename = null;
+    private string $source_filename;
+
+    private string $id;
 
     public function __construct(Collection $server, array $data) {
 
@@ -51,7 +52,7 @@ class FileItem extends BaseFileItem
     }
 
     public function getSourceFilename() : string {
-        if ( is_null($this->source_filename) ) {
+        if ( !isset($this->source_filename) ) {
             $this->source_filename = tempnam(sys_get_temp_dir(),'li_');
             file_put_contents($this->source_filename, $this->server->getFile($this->id));
         }

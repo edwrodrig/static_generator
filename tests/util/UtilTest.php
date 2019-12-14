@@ -66,7 +66,7 @@ class UtilTest extends TestCase
         try {
             $return = Util::outputBufferSafe(function () {
                 echo 'hola';
-                eval('$hola = null; $hola->get();');
+                eval('$hola = null; /** @noinspection PhpUndefinedMethodInspection */$hola->get();');
             });
         } catch ( Error $e ) {
             $this->assertInstanceOf(Error::class, $e);
