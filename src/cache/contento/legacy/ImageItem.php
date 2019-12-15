@@ -6,7 +6,7 @@ namespace edwrodrig\static_generator\cache\contento\legacy;
 
 use DateTime;
 use edwrodrig\contento\collection\legacy\Collection;
-use edwrodrig\static_generator\cache\ImageItem as BaseImageItem;
+use edwrodrig\file_cache\ImageItem as BaseImageItem;
 use Exception;
 
 /**

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
 
 /**
  * Class PageFile

@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator;
 
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
+use edwrodrig\static_generator\cache\Context as CacheContext;
 use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\Logger;
 use edwrodrig\static_generator\util\PageFileFactory;
@@ -272,7 +273,7 @@ class Context
         if ( isset($this->caches[$web_path]) ) {
             throw new exception\CacheAlreadyRegisteredException($web_path);
         } else {
-            $cache->setContext($this);
+            $cache->setContext(new CacheContext($this));
             $this->caches[$web_path] = $cache;
         }
         return $this;
@@ -315,7 +316,7 @@ class Context
         }
 
         foreach ( $this->caches as $cache ) {
-            $cache->linkToTarget();
+            $cache->linkToTarget($this->getTargetRootPath());
         }
     }
 

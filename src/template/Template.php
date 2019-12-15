@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\template;
 
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
 use edwrodrig\static_generator\exception\CacheDoesNotExists;
 use edwrodrig\static_generator\exception\NoTranslationAvailableException;
 use edwrodrig\static_generator\exception\RelativePathCanNotBeFullException;
