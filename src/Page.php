@@ -90,13 +90,14 @@ abstract class Page
         $this->getLogger()->begin(sprintf("Generating file [%s]...", $this->getTargetRelativePath()));
 
         if ( empty($content) ) {
-          $this->getLogger()->end("Empty! SKIPPED");
+          $this->getLogger()->end("Empty! SKIPPED\n");
         } else {
             $file_name = $this->getTargetAbsolutePath();
             @mkdir(dirname($file_name), 0777, true);
             file_put_contents($file_name, $content);
 
-            $this->getLogger()->end("DONE");
+            $this->getContext()->registerGeneratedPage($this->getTargetRelativePath());
+            $this->getLogger()->end("DONE\n");
         }
     }
 

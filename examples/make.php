@@ -41,6 +41,8 @@ $context->generate();
 
 $cache->save();
 
+print_r($context->getGeneratedPages());
+
 
 
 

@@ -77,6 +77,9 @@ class Context
      */
     private Repository $repository;
 
+
+    private array $generated_pages;
+
     /**
      * Context constructor.
      * @api
@@ -397,5 +400,13 @@ class Context
      */
     public function getRepository() : Repository {
         return $this->repository;
+    }
+
+    public function registerGeneratedPage(string $pageUrl) {
+        $this->generated_pages[] = $pageUrl;
+    }
+
+    public function getGeneratedPages() : array {
+        return $this->generated_pages;
     }
 }

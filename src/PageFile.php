@@ -75,7 +75,7 @@ abstract class PageFile extends Page
         if ( !copy($source, $target) ) {
             throw new exception\CopyException('Error at copying');
         }
-
+        $this->getContext()->registerGeneratedPage($this->getTargetRelativePath());
         $this->getLogger()->end("DONE\n");
     }
 
