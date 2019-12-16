@@ -7,7 +7,7 @@ namespace edwrodrig\static_generator;
 use edwrodrig\file_cache\CacheManager;
 use edwrodrig\static_generator\cache\Context as CacheContext;
 use edwrodrig\static_generator\template\Template;
-use edwrodrig\static_generator\util\Logger;
+use edwrodrig\logger\Logger;
 use edwrodrig\static_generator\util\PageFileFactory;
 use Generator;
 use function setlocale;

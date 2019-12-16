@@ -47,9 +47,9 @@ class PageScss extends PageFile
             $scss->setImportPaths($this->context->getSourceRootPath());
             $scss->setFormatter(Crunched::class);
             $compiled_scss = $scss->compile($this->getSourceFileContents());
-            $this->getLogger()->end("DONE\n", false);
+            $this->getLogger()->end("DONE\n");
             $this->writePage($compiled_scss);
-        $this->getLogger()->end("DONE\n", false);
+        $this->getLogger()->end("DONE\n");
         return '';
     }
 

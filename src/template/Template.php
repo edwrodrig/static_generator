@@ -14,7 +14,7 @@ use edwrodrig\static_generator\html\Attributes;
 use edwrodrig\static_generator\html\ImgAttributes;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\Repository;
-use edwrodrig\static_generator\util\Logger;
+use edwrodrig\logger\Logger;
 use Exception;
 use Throwable;
 

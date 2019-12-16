@@ -277,7 +277,7 @@ class PagePhp extends PageFile
         else if ( $this->mode == self::MODE_RAW )
             $content = $this->processRaw();
 
-        $this->getLogger()->end("DONE\n", false);
+        $this->getLogger()->end("DONE\n");
 
         return $content;
     }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator\cache;
 
-use edwrodrig\static_generator\util\Logger;
+use edwrodrig\logger\Logger;
 
 class Context implements \edwrodrig\file_cache\Context
 {
@@ -24,7 +24,7 @@ class Context implements \edwrodrig\file_cache\Context
 
     public function logEnd(string $message)
     {
-        $this->logger->end($message, false);
+        $this->logger->end($message);
     }
 
     /**

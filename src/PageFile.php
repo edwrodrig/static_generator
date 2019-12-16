@@ -76,7 +76,7 @@ abstract class PageFile extends Page
             throw new exception\CopyException('Error at copying');
         }
 
-        $this->getLogger()->end("DONE\n", false);
+        $this->getLogger()->end("DONE\n");
     }
 
     /**
