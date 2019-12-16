@@ -92,7 +92,7 @@ This is a very convenient way to deal and in my opinion is the best way because:
  * Optimize and cache some assets like images and large file.
  * I want to maintain the things as [simple as possible](https://en.wikipedia.org/wiki/KISS_principle)  
 
-My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.2__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php).
+My infrastructure is targeted to __Ubuntu 16.04__ machines with last __php7.4__ installed from [ppa:ondrej/php](https://launchpad.net/~ondrej/+archive/ubuntu/php).
 I use some unix commands for some process like __cp__ or __ln__.
 I'm sure that there are way to make it compatible with windows but I don't have time to program it and testing,
 but I'm open for pull requests to make it more compatible.
