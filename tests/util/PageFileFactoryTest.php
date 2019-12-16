@@ -3,19 +3,22 @@
 namespace test\edwrodrig\static_generator\util;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
+use edwrodrig\static_generator\PageFile;
+use edwrodrig\static_generator\template\Template;
+use edwrodrig\static_generator\util\exception\IgnoredPageFileException;
 use edwrodrig\static_generator\util\PageFileFactory;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 
-class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
+class PageFileFactoryTest extends TestCase
 {
 
-    /**
-     * @var  vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
@@ -23,8 +26,9 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $expected
      * @param string $input_file
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws IgnoredPageFileException
+     * @throws InvalidTemplateMetadataException
      * @testWith    ["edwrodrig\\static_generator\\PagePhp", "h.php"]
      *              ["edwrodrig\\static_generator\\PageCopy", "h.jpg"]
      *              ["edwrodrig\\static_generator\\PageScss", "hola.scss"]
@@ -42,13 +46,15 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @param string $input_file
-     * @expectedException \edwrodrig\static_generator\util\exception\IgnoredPageFileException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      * @testWith    ["_hola.scss"]
      *              ["hola.swp"]
      *              [".cache_index.json"]
      */
     function testCreateIgnored(string $input_file) {
+        $this->expectException(IgnoredPageFileException::class);
         PageFileFactory::createPage(
             $input_file,
             new Context('', $this->root->url())
@@ -56,13 +62,14 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     * @throws IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testCreateTemplates()
     {
         /**
-         * @var $templates \edwrodrig\static_generator\template\Template[]|iterable
+         * @var $templates Template[]|iterable
          */
         $templates = iterator_to_array(PageFileFactory::createTemplates(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 
@@ -75,13 +82,14 @@ class PageFileFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\util\exception\IgnoredPageFileException
+     * @throws IgnoredPageFileException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testCreatePages()
     {
         /**
-         * @var $pages \edwrodrig\static_generator\PageFile[]|iterable
+         * @var $pages PageFile[]|iterable
          */
         $pages = iterator_to_array(PageFileFactory::createPages(new Context(__DIR__ . '/../files/test_dir', $this->root->url())));
 

@@ -12,6 +12,7 @@ use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\Util;
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
+use Throwable;
 
 
 /**
@@ -45,8 +46,8 @@ class TemplateCss extends Template
 
     /**
      * Echoes a minified css
+     * @throws Throwable
      * @api
-     * @throws \Exception
      */
     public function print() {
         $output = Util::outputBufferSafe(function() {

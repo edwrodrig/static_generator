@@ -17,7 +17,7 @@ class GoogleTrackingId
      * Generally something like {@see GoogleTrackingId::TRACKING_ID_REGEX UA-1234567-1}
      * @var string
      */
-    private $tracking_id;
+    private string $tracking_id;
 
     /**
      * Regular expression that validated and tracking id.
@@ -30,7 +30,7 @@ class GoogleTrackingId
      * GoogleTrackingId constructor.
      * @api
      * @param string $tracking_id {@see GoogleTrackingId::$tracking_id }
-     * @throws \edwrodrig\static_generator\util\exception\InvalidGoogleTrackingIdException when the tracking_id is invalid
+     * @throws InvalidGoogleTrackingIdException when the tracking_id is invalid
      */
     public function __construct(string $tracking_id)
     {
@@ -38,7 +38,6 @@ class GoogleTrackingId
         if ( preg_match(self::TRACKING_ID_REGEX, $tracking_id) ) {
             $this->tracking_id = $tracking_id;
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new InvalidGoogleTrackingIdException($tracking_id);
         }
     }

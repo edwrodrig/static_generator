@@ -17,17 +17,17 @@ class GeoPoint
     /**
      * @var string|null
      */
-    private $longitude = null;
+    private ?string $longitude = null;
 
     /**
      * @var string|null
      */
-    private $latitude = null;
+    private ?string $latitude = null;
 
     /**
      * @var string|null
      */
-    private $altitude = null;
+    private ?string $altitude = null;
 
     /**
      * longitude

@@ -1,6 +1,6 @@
 <?php
 
-use edwrodrig\static_generator\cache\ImageItem;
+use edwrodrig\file_cache\ImageItem;
 ?>
 <!DOCTYPE html>
 <html>

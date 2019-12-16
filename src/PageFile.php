@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
 
 /**
  * Class PageFile
@@ -73,11 +73,10 @@ abstract class PageFile extends Page
         $this->getLogger()->begin(sprintf("Copying file [%s]...", $this->getTargetRelativePath()));
 
         if ( !copy($source, $target) ) {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new exception\CopyException('Error at copying');
         }
 
-        $this->getLogger()->end("DONE\n", false);
+        $this->getLogger()->end("DONE\n");
     }
 
     /**

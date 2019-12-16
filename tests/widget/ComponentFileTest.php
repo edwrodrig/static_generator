@@ -2,17 +2,16 @@
 
 namespace test\edwrodrig\static_generator\widget;
 
+use edwrodrig\static_generator\widget\ComponentFile;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 
-class ComponentFileTest extends \PHPUnit\Framework\TestCase
+class ComponentFileTest extends TestCase
 {
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
@@ -22,7 +21,7 @@ class ComponentFileTest extends \PHPUnit\Framework\TestCase
         file_put_contents($file, '@@@ @@@ @@@');
 
         ob_start();
-        (new \edwrodrig\static_generator\widget\ComponentFile($file, 'id'))->print();
+        (new ComponentFile($file, 'id'))->print();
         $this->assertEquals('id id id', ob_get_clean());
 
     }

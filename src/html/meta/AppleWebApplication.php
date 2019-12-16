@@ -23,27 +23,27 @@ class AppleWebApplication
     /**
      * @var string[]
      */
-    private $icons = [];
+    private array $icons = [];
 
     /**
      * @var string|null
      */
-    private $startup_image = null;
+    private ?string $startup_image = null;
 
     /**
      * @var string|null
      */
-    private $status_bar_style = null;
+    private ?string $status_bar_style = null;
 
     /**
      * @var bool
      */
-    private $web_capable = false;
+    private bool $web_capable = false;
 
     /**
      * @var string|null
      */
-    private $title = null;
+    private ?string $title = null;
 
 
     /**
@@ -60,6 +60,7 @@ class AppleWebApplication
     /**
      * Set a icon of 152x152
      *
+     * @api
      * @param string $icon
      * @return AppleWebApplication
      */
@@ -119,7 +120,7 @@ class AppleWebApplication
     /**
      * Set the status bar style
      *
-     * The style generaly is a color, for example 'black'
+     * The style generally is a color, for example 'black'
      * @see https://developer.apple.com/documentation/uikit/uinavigationbar
      * @param string $style
      * @return AppleWebApplication

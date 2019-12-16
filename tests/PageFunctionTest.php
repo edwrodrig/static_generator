@@ -3,25 +3,27 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
-use edwrodrig\static_generator\util\TemporaryLogger;
+use edwrodrig\static_generator\PageFunction;
+use edwrodrig\logger\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
+use Throwable;
 
-class PageFunctionTest extends \PHPUnit\Framework\TestCase
+class PageFunctionTest extends TestCase
 {
 
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
+     * @throws Throwable
      */
     function testGenerateString()
     {
@@ -30,7 +32,7 @@ class PageFunctionTest extends \PHPUnit\Framework\TestCase
         $context = new Context('', $this->root->url());
             $context->setLogger($logger);
 
-        $page = new \edwrodrig\static_generator\PageFunction(
+        $page = new PageFunction(
             'out',
             $context,
             function () {

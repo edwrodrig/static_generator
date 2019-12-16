@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
-use edwrodrig\static_generator\util\Logger;
+use edwrodrig\logger\Logger;
 
 /**
  * Class Page
@@ -19,7 +19,7 @@ abstract class Page
      * The relative path of this page to the {@see Context::getTargetAbsolutePath()}
      * @var string
      */
-    protected $relative_path;
+    protected string $relative_path;
 
     /**
      * The generation context of the page.
@@ -27,7 +27,7 @@ abstract class Page
      * This is mandatory because contains path information required for generation
      * @var Context
      */
-    protected $context;
+    protected Context $context;
 
     /**
      * Page constructor.
@@ -90,13 +90,13 @@ abstract class Page
         $this->getLogger()->begin(sprintf("Generating file [%s]...", $this->getTargetRelativePath()));
 
         if ( empty($content) ) {
-          $this->getLogger()->end("Empty! SKIPPED", false);
+          $this->getLogger()->end("Empty! SKIPPED");
         } else {
             $file_name = $this->getTargetAbsolutePath();
             @mkdir(dirname($file_name), 0777, true);
             file_put_contents($file_name, $content);
 
-            $this->getLogger()->end("DONE", false);
+            $this->getLogger()->end("DONE");
         }
     }
 

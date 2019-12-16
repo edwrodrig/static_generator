@@ -11,6 +11,7 @@ namespace edwrodrig\static_generator\template;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\util\Util;
 use MatthiasMullie\Minify\JS;
+use Throwable;
 
 
 /**
@@ -27,7 +28,7 @@ class TemplateJs extends Template
      * The internally minifier object
      * @var JS
      */
-    private $minifier;
+    private JS $minifier;
 
     /**
      * Template constructor.
@@ -44,8 +45,8 @@ class TemplateJs extends Template
 
     /**
      * Echoes a minified javascript
+     * @throws Throwable
      * @api
-     * @throws \Exception
      */
     public function print() {
         $output = Util::outputBufferSafe(function() {

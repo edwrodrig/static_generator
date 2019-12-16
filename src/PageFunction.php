@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator;
 
 use edwrodrig\static_generator\util\Util;
+use Throwable;
 
 /**
  * Class PageFunction
@@ -42,8 +43,9 @@ class PageFunction extends Page
      * Generates the page.
      *
      * In simple works it capture the output of {@see PageFunction::$function the function} and {@see Page::writePage() write} into a file
+     * @return string
+     * @throws Throwable
      * @api
-     * @throws \Exception
      */
     public function generate() : string
     {

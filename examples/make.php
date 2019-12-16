@@ -2,7 +2,7 @@
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
 use edwrodrig\static_generator\Context;
 
 class Template extends \edwrodrig\static_generator\template\Template {

@@ -5,10 +5,14 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="test\edwrodrig\static_generator\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="edwrodrig\static_generator\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/contento" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/file_cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/image" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/js" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/logger" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/edwrodrig/query" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mikey179/vfsStream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mikey179/vfsstream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
     </content>
     <orderEntry type="inheritedJdk" />

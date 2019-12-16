@@ -2,12 +2,15 @@
 
 namespace test\edwrodrig\static_generator\widget;
 
-class ComponentTest extends \PHPUnit\Framework\TestCase
+use edwrodrig\static_generator\widget\Component;
+use PHPUnit\Framework\TestCase;
+
+class ComponentTest extends TestCase
 {
 
     function testPrint1()
     {
-        $obj = new class extends \edwrodrig\static_generator\widget\Component
+        $obj = new class extends Component
         {
             function content()
             {
@@ -24,7 +27,7 @@ class ComponentTest extends \PHPUnit\Framework\TestCase
 
     function testPrint2()
     {
-        $obj = new class extends \edwrodrig\static_generator\widget\Component
+        $obj = new class extends Component
         {
             function content()
             {

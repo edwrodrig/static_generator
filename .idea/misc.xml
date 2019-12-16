@@ -3,4 +3,12 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
+  <component name="PhpEntryPointsManager">
+    <entry_point>
+      <entry_point TYPE="phpMethod" FQNAME="\edwrodrig\static_generator\Context checkLocale" />
+      <entry_point TYPE="phpMethod" FQNAME="\edwrodrig\static_generator\html\meta\AppleWebApplication setIcon152x125" />
+    </entry_point>
+    <pattern value="\edwrodrig\static_generator\Context" member="checkLocale" />
+    <pattern value="\edwrodrig\static_generator\html\meta\AppleWebApplication" member="setIcon152x125" />
+  </component>
 </project>

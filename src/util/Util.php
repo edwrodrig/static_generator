@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator\util;
 
-use Error;
-use Exception;
+use Throwable;
 
 /**
  * Class Util
@@ -16,11 +15,10 @@ class Util
     /**
      * This function nicely closes a {@see ob_get_clean() output buffer} context in the case of an Error.
      *
-     * @api
      * @param $content
      * @return string
-     * @throws Exception
-     * @throws Error
+     * @throws Throwable
+     * @api
      */
     public static function outputBufferSafe($content) : string
     {
@@ -34,7 +32,7 @@ class Util
             $content();
             return ob_get_clean();
 
-        } catch ( Exception | Error $e) {
+        } catch ( Throwable $e) {
             while (ob_get_level() > $level) ob_get_clean();
             throw $e;
         }

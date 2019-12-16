@@ -21,14 +21,14 @@ abstract class Component
      * @see Component::setPattern()
      * @var string
      */
-    protected $pattern;
+    protected string $pattern;
 
     /**
      * The prefix that will replace the {@see Component::$prefix_pattern prefix pattern}
      * @var string
      * @see Component::setReplacement()
      */
-    protected $replacement;
+    protected string $replacement;
 
     /**
      * Component constructor.

@@ -22,28 +22,28 @@ class TwitterCardSummary extends TwitterCardBase
     /**
      * @var null|string
      */
-    private $title = null;
+    private ?string $title = null;
 
     /**
      * @var null|string
      */
-    private $image = null;
+    private ?string $image = null;
 
     /**
      * @var null|string
      */
-    private $image_alt = null;
+    private ?string $image_alt = null;
 
 
     /**
      * @var null|string
      */
-    private $creator = null;
+    private ?string $creator = null;
 
     /**
      * @var bool
      */
-    private $is_large_image = false;
+    private bool $is_large_image = false;
 
     /**
      * Set if this summary is large image.

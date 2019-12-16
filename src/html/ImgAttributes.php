@@ -18,7 +18,7 @@ class ImgAttributes
     /**
      * @var string|null
      */
-    private $src = null;
+    private ?string $src = null;
 
     /**
      * @var null|string
@@ -28,18 +28,17 @@ class ImgAttributes
     /**
      * @var null|string
      */
-    private $title = null;
+    private ?string $title = null;
 
     /**
      * @var null|int
      */
-    private $width = null;
+    private ?int $width = null;
 
     /**
      * @var null|int
      */
-    private $height = null;
-
+    private ?int $height = null;
 
 
     /**
@@ -51,9 +50,9 @@ class ImgAttributes
      * * telephone call – tel:0036012345678
      * * absolute url – https://edwin.cl
      * * relative url –'edwin/index.html
-     * @param $src
+     * @param string|null $src
+     * @return ImgAttributes
      * @see https://www.w3schools.com/tags/att_a_href.asp
-     * @return AAttributes
      */
     public function setSrc(?string $src) : ImgAttributes {
         $this->src = $src;

@@ -9,7 +9,10 @@
 namespace test\edwrodrig\static_generator\util;
 
 use edwrodrig\static_generator\util\Util;
+use Error;
+use Exception;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class UtilTest extends TestCase
 {
@@ -18,6 +21,9 @@ class UtilTest extends TestCase
      *              ["hola1", "hola%s", ["1"]]
      *              [null, "hola%s", [null]]
      *              ["hola'", "hola%s", ["'"]]
+     * @param $expected
+     * @param $pattern
+     * @param $args
      */
 
     public function testSprintfOrEmpty($expected, $pattern, $args)
@@ -46,10 +52,10 @@ class UtilTest extends TestCase
         try {
             $return = Util::outputBufferSafe(function () {
                 echo 'hola';
-                throw new \Exception;
+                throw new Exception;
             });
-        } catch ( \Exception $e ) {
-            $this->assertInstanceOf(\Exception::class, $e);
+        } catch ( Throwable $e ) {
+            $this->assertInstanceOf(Exception::class, $e);
         }
         $this->assertEquals('', $return);
 
@@ -61,10 +67,10 @@ class UtilTest extends TestCase
         try {
             $return = Util::outputBufferSafe(function () {
                 echo 'hola';
-                eval('$hola = null; $hola->get();');
+                eval('$hola = null; /** @noinspection PhpUndefinedMethodInspection */$hola->get();');
             });
-        } catch ( \Error $e ) {
-            $this->assertInstanceOf(\Error::class, $e);
+        } catch ( Throwable $e ) {
+            $this->assertInstanceOf(Error::class, $e);
         }
         $this->assertEquals('', $return);
 

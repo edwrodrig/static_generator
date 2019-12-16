@@ -24,7 +24,7 @@ class SeoTags
     /**
      * @var string|null
      */
-    private $description = null;
+    private ?string $description = null;
 
     /**
      * Set the description meta tag

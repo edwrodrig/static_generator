@@ -17,7 +17,7 @@ class ComponentFile extends Component
      *
      * @var string
      */
-    protected $source_filename;
+    protected string $source_filename;
 
     /**
      * ComponentFile constructor.

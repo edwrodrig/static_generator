@@ -22,47 +22,47 @@ class BusinessContactData
     /**
      * @var string
      */
-    private $street_address;
+    private string $street_address;
 
     /**
      * @var string
      */
-    private $locality;
+    private string $locality;
 
     /**
      * @var string
      */
-    private $postal_code;
+    private string $postal_code;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $region;
+    private string $region;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $country_name;
+    private string $country_name;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $email;
+    private string $email;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $phone_number;
+    private string $phone_number;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $website;
+    private string $website;
 
     /**
-     * @var null|string
+     * @var string
      */
-    private $fax_number;
+    private string $fax_number;
 
     /**
      * street_address (string, required)
@@ -82,7 +82,7 @@ class BusinessContactData
      *
      *
      * The city (or locality) line of the postal address for this business.
-     * @param null|string $locality
+     * @param string $locality
      * @return BusinessContactData
      */
     public function setLocality(string $locality) : BusinessContactData
@@ -97,7 +97,7 @@ class BusinessContactData
      *
      * The postcode (or ZIP code) of the postal address for this business.
      * The postcode of concepcion is 4030000
-     * @param null|string $postal_code
+     * @param string $postal_code
      * @return BusinessContactData
      */
     public function setPostalCode(string $postal_code) : BusinessContactData
@@ -110,10 +110,10 @@ class BusinessContactData
      * region (string)
      *
      * The state (or region) line of the postal address for this business.
-     * @param null|string $region
+     * @param string $region
      * @return BusinessContactData
      */
-    public function setRegion(?string $region) : BusinessContactData
+    public function setRegion(string $region) : BusinessContactData
     {
         $this->region = $region;
         return $this;
@@ -123,10 +123,10 @@ class BusinessContactData
      * country_name (string, required)
      *
      * The country of the postal address for this business.
-     * @param null|string $country_name
+     * @param string $country_name
      * @return BusinessContactData
      */
-    public function setCountryName(?string $country_name) : BusinessContactData
+    public function setCountryName(string $country_name) : BusinessContactData
     {
         $this->country_name = $country_name;
         return $this;
@@ -136,10 +136,10 @@ class BusinessContactData
      * email (string)
      *
      * An email address to contact this business.
-     * @param null|string $email
+     * @param string $email
      * @return BusinessContactData
      */
-    public function setEmail(?string $email) : BusinessContactData
+    public function setEmail(string $email) : BusinessContactData
     {
         $this->email = $email;
         return $this;
@@ -149,10 +149,10 @@ class BusinessContactData
      * phone_number (string)
      *
      * A telephone number to contact this business.
-     * @param null|string $phone_number
+     * @param string $phone_number
      * @return BusinessContactData
      */
-    public function setPhoneNumber(?string $phone_number) : BusinessContactData
+    public function setPhoneNumber(string $phone_number) : BusinessContactData
     {
         $this->phone_number = $phone_number;
         return $this;
@@ -162,34 +162,34 @@ class BusinessContactData
      * fax_number (string)
      *
      * A fax number to contact this business.
-     * @param null|string $fax_number
+     * @param string $fax_number
      * @return BusinessContactData
      */
-    public function setFaxNumber(?string $fax_number) : BusinessContactData {
+    public function setFaxNumber(string $fax_number) : BusinessContactData {
         $this->fax_number = $fax_number;
         return $this;
     }
 
     /**
      * A website for this business.
-     * @param null|string $website
+     * @param string $website
      * @return BusinessContactData
      */
-    public function setWebsite(?string $website) : BusinessContactData {
+    public function setWebsite(string $website) : BusinessContactData {
         $this->website = $website;
         return $this;
     }
 
     public function print() {
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:street_address" content="%s" />', $this->street_address);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:locality" content="%s" />', $this->locality);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:postal_code" content="%s" />', $this->postal_code);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:region" content="%s" />', $this->region);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:country_name" content="%s" />', $this->country_name);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:email" content="%s" />', $this->email);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:phone_number" content="%s" />', $this->phone_number);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:fax_number" content="%s" />', $this->fax_number);
-        echo Util::sprintfOrEmpty('<meta property="business:contact_data:website" content="%s" />', $this->website);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:street_address" content="%s" />', $this->street_address ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:locality" content="%s" />', $this->locality ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:postal_code" content="%s" />', $this->postal_code ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:region" content="%s" />', $this->region ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:country_name" content="%s" />', $this->country_name ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:email" content="%s" />', $this->email ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:phone_number" content="%s" />', $this->phone_number ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:fax_number" content="%s" />', $this->fax_number ?? null);
+        echo Util::sprintfOrEmpty('<meta property="business:contact_data:website" content="%s" />', $this->website ?? null);
 
     }
 }

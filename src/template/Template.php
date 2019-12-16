@@ -4,13 +4,19 @@ declare(strict_types=1);
 namespace edwrodrig\static_generator\template;
 
 
-use edwrodrig\static_generator\cache\CacheManager;
+use edwrodrig\file_cache\CacheManager;
+use edwrodrig\static_generator\exception\CacheDoesNotExists;
+use edwrodrig\static_generator\exception\NoTranslationAvailableException;
+use edwrodrig\static_generator\exception\RelativePathCanNotBeFullException;
+use edwrodrig\static_generator\exception\UnregisteredWebDomainException;
 use edwrodrig\static_generator\html\AAttributes;
 use edwrodrig\static_generator\html\Attributes;
 use edwrodrig\static_generator\html\ImgAttributes;
 use edwrodrig\static_generator\PagePhp;
 use edwrodrig\static_generator\Repository;
-use edwrodrig\static_generator\util\Logger;
+use edwrodrig\logger\Logger;
+use Exception;
+use Throwable;
 
 /**
  * Class Template
@@ -25,7 +31,7 @@ class Template
      * The Page object of the file. Should always be a {@see PagePhp}
      * @var PagePhp
      */
-    protected $page_info;
+    protected PagePhp $page_info;
 
     /**
      * Template constructor.
@@ -107,8 +113,8 @@ class Template
      * @uses Context::getFullUrl() More important information
      * @param string $path
      * @return string
-     * @throws \edwrodrig\static_generator\exception\RelativePathCanNotBeFullException
-     * @throws \edwrodrig\static_generator\exception\UnregisteredWebDomainException
+     * @throws RelativePathCanNotBeFullException
+     * @throws UnregisteredWebDomainException
      */
     public function fullUrl(string $path) : string {
         return $this->page_info->getContext()->getFullUrl($path);
@@ -151,7 +157,7 @@ class Template
      * @param null|string $default
      * @param null|string $default_error
      * @return string
-     * @throws \edwrodrig\static_generator\exception\NoTranslationAvailableException
+     * @throws NoTranslationAvailableException
      */
     public function tr($translatable, ?string $default = null, ?string $default_error = null) : string {
        return $this->page_info->getContext()->tr($translatable, $default, $default_error);
@@ -161,7 +167,7 @@ class Template
      * Has translation
      *
      * @api
-     * @uses Context::hasTr() Is the funciton finally called
+     * @uses Context::hasTr() Is the function finally called
      * @param $translatable
      * @return bool
      */
@@ -203,7 +209,7 @@ class Template
      * @api
      * @param string $web_path
      * @return CacheManager
-     * @throws \edwrodrig\static_generator\exception\CacheDoesNotExists
+     * @throws CacheDoesNotExists
      */
     public function getCache(string $web_path) : CacheManager {
         return $this->page_info->getCache($web_path);
@@ -216,7 +222,8 @@ class Template
      * @param string $relative_path
      * @param callable $function
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     * @throws Throwable
      */
     public function generateFromFunction(string $relative_path, callable $function) : string {
         return $this->page_info->generateFromFunction($relative_path, $function);

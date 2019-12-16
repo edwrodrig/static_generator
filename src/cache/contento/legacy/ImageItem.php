@@ -6,7 +6,8 @@ namespace edwrodrig\static_generator\cache\contento\legacy;
 
 use DateTime;
 use edwrodrig\contento\collection\legacy\Collection;
-use edwrodrig\static_generator\cache\ImageItem as BaseImageItem;
+use edwrodrig\file_cache\ImageItem as BaseImageItem;
+use Exception;
 
 /**
  * Class ImageItem
@@ -18,13 +19,13 @@ class ImageItem extends BaseImageItem
     /**
      * @var Collection
      */
-    private $server;
+    private Collection $server;
 
     /**
      * The last modification time
      * @var DateTime
      */
-    private $last_modification_date;
+    private DateTime $last_modification_date;
 
     /**
      * Contains the temporary filename
@@ -32,6 +33,16 @@ class ImageItem extends BaseImageItem
      */
     private $source_filename = null;
 
+
+    private string $id;
+
+    /**
+     * ImageItem constructor.
+     * @param Collection $server
+     * @param array $data
+     * @param int $width
+     * @throws Exception
+     */
     public function __construct(Collection $server, array $data, int $width = 1000) {
 
         parent::__construct('', '', $width);
@@ -42,6 +53,12 @@ class ImageItem extends BaseImageItem
 
     }
 
+    /**
+     * @param Collection $server
+     * @param array $data
+     * @return ImageItem
+     * @throws Exception
+     */
     public static function createFromArray(Collection $server, array $data) {
         return new self($server, $data);
     }

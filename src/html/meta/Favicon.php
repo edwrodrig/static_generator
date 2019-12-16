@@ -29,7 +29,7 @@ class Favicon
      * The array that holds the icons
      * @var array
      */
-    private $icons = [];
+    private array $icons = [];
 
     /**
      * Set the 16x16 icon

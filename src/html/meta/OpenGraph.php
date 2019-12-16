@@ -200,21 +200,21 @@ class OpenGraph
     }
 
     public function print() {
-        echo Util::sprintfOrEmpty('<meta property="og:type" content="%s"/>', $this->type);
-        echo Util::sprintfOrEmpty('<meta property="og:url" content="%s"/>', $this->url);
-        echo Util::sprintfOrEmpty('<meta property="og:title" content="%s"/>', $this->title);
-        echo Util::sprintfOrEmpty('<meta property="og:description" content="%s"/>', $this->description);
-        echo Util::sprintfOrEmpty('<meta property="og:image" content="%s"/>', $this->image);
-        echo Util::sprintfOrEmpty('<meta property="og:locale" content="%s"/>', $this->locale);
-        echo Util::sprintfOrEmpty('<meta property="og:determiner" content="%s"/>', $this->determiner);
-        if ( !is_null($this->update_time))
+        echo Util::sprintfOrEmpty('<meta property="og:type" content="%s"/>', $this->type ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:url" content="%s"/>', $this->url ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:title" content="%s"/>', $this->title ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:description" content="%s"/>', $this->description ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:image" content="%s"/>', $this->image ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:locale" content="%s"/>', $this->locale ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:determiner" content="%s"/>', $this->determiner ?? null);
+        if ( isset($this->update_time))
             echo Util::sprintfOrEmpty('<meta property="og:updated_time" content="%s"/>', $this->update_time->format(DateTime::ISO8601));
-        echo Util::sprintfOrEmpty('<meta property="og:see_also" content="%s"/>', $this->see_also);
-        echo Util::sprintfOrEmpty('<meta property="og:ttl" content="%s"/>', $this->time_to_live);
+        echo Util::sprintfOrEmpty('<meta property="og:see_also" content="%s"/>', $this->see_also ?? null);
+        echo Util::sprintfOrEmpty('<meta property="og:ttl" content="%s"/>', $this->time_to_live ?? null);
 
-        if ( !is_null($this->image) ) {
-            echo Util::sprintfOrEmpty('<meta property="og:image:height" content="%d"/>', $this->image_height);
-            echo Util::sprintfOrEmpty('<meta property="og:image:width" content="%d"/>', $this->image_width);
+        if ( isset($this->image) ) {
+            echo Util::sprintfOrEmpty('<meta property="og:image:height" content="%d"/>', $this->image_height ?? null);
+            echo Util::sprintfOrEmpty('<meta property="og:image:width" content="%d"/>', $this->image_width ?? null);
         }
         if ( $this->rich_attachment )
             echo Util::sprintfOrEmpty('<meta property="og:rich_attachment" content="true"/>');
@@ -225,47 +225,47 @@ class OpenGraph
     /**
      * @var string
      */
-    private $url;
+    private string $url;
 
     /**
      * @var string
      */
-    private $title;
+    private string $title;
 
     /**
      * @var string
      */
-    private $description;
+    private string $description;
 
     /**
      * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @var string|null
      */
-    private $image;
+    private ?string $image;
 
     /**
      * @var int|null
      */
-    private $image_width;
+    private ?int $image_width;
 
     /**
      * @var int|null
      */
-    private $image_height;
+    private ?int $image_height;
 
     /**
      * @var string|null
      */
-    private $locale;
+    private ?string $locale;
 
     /**
      * @var string|null
      */
-    private $determiner;
+    private ?string $determiner;
 
 
     /**
@@ -275,22 +275,22 @@ class OpenGraph
      * @see http://ogp.me/#data_types For format info
      * @see https://stackoverflow.com/questions/26525584/facebook-open-graph-date-format Question about date format
      */
-    private $update_time;
+    private ?DateTime $update_time;
 
     /**
      * @var string|null
      */
-    private $see_also;
+    private ?string $see_also;
 
     /**
      * @var bool
      */
-    private $rich_attachment =false;
+    private bool $rich_attachment = false;
 
     /**
      * @var int|null
      */
-    private $time_to_live;
+    private ?int $time_to_live;
 
 
 

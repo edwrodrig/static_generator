@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace edwrodrig\static_generator;
 
+use edwrodrig\static_generator\exception\CopyException;
 use edwrodrig\static_generator\exception\InvalidTemplateClassException;
 use edwrodrig\static_generator\template\Template;
 use edwrodrig\static_generator\util\Util;
@@ -10,6 +11,7 @@ use Exception;
 use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
+use Throwable;
 
 /**
  * Class PagePhp
@@ -42,12 +44,12 @@ class PagePhp extends PageFile
      * @see PagePhp::MODE_SILENT process but not generate target
      * @var int
      */
-    private $mode = self::MODE_TEMPLATE;
+    private int $mode = self::MODE_TEMPLATE;
 
     /**
      * @var string
      */
-    private $template_class = Template::class;
+    private string $template_class = Template::class;
 
     /**
      * The additional data of the php page.
@@ -56,7 +58,7 @@ class PagePhp extends PageFile
      * The content of the data anotation must be a valid json string.
      * @var array
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * PagePhp constructor.
@@ -90,7 +92,6 @@ class PagePhp extends PageFile
             $data = strval($doc_block->getTagsByName('data')[0]);
             $parsed_data = @json_decode($data, true);
             if ( is_null($parsed_data) ) {
-                /** @noinspection PhpInternalEntityUsedInspection */
                 throw new InvalidTemplateMetadataException($data);
             }
             $this->data = $parsed_data;
@@ -102,7 +103,7 @@ class PagePhp extends PageFile
      *
      * Determine the template class of the processing
      * @param DocBlock $doc_block
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
+     * @throws InvalidTemplateClassException
      */
     private function loadTemplateDataFromDoc(DocBlock $doc_block)
     {
@@ -129,7 +130,6 @@ class PagePhp extends PageFile
             $this->template_class = $template_class;
 
         } else {
-            /** @noinspection PhpInternalEntityUsedInspection */
             throw new InvalidTemplateClassException($template_class);
 
         }
@@ -260,9 +260,10 @@ class PagePhp extends PageFile
      * Generates the output of the file
      *
      * The generation is according the {@see PagePhp::$mode mode}
-     * @api
-     * @throws Exception
      * @return string
+     * @throws CopyException
+     * @throws Throwable
+     * @api
      */
     public function generate() : string
     {
@@ -276,7 +277,7 @@ class PagePhp extends PageFile
         else if ( $this->mode == self::MODE_RAW )
             $content = $this->processRaw();
 
-        $this->getLogger()->end("DONE\n", false);
+        $this->getLogger()->end("DONE\n");
 
         return $content;
     }
@@ -285,17 +286,15 @@ class PagePhp extends PageFile
      * Process the file silently.
      *
      * Does not generate a {@see Page::writeFile() file}, but the output is returned as a string.
-     * @see PagePhp::isSilent()
      * @return string
-     * @throws Exception
+     * @throws Throwable
+     * @see PagePhp::isSilent()
      */
     private function processSilent() : string {
 
-        $content = Util::outputBufferSafe(function () {
+        return Util::outputBufferSafe(function () {
             $this->getTemplate()->print();
         });
-
-        return $content;
     }
 
     /**
@@ -304,7 +303,7 @@ class PagePhp extends PageFile
      * When is considered a raw file then this page is {@see Page::copyPage() copied}, works the same as {@see PageCopy}
      * @see PagePhp::isRaw()
      * @return string
-     * @throws \edwrodrig\static_generator\exception\CopyException
+     * @throws CopyException
      */
     private function processRaw() : string {
         $this->copyPage();
@@ -315,9 +314,9 @@ class PagePhp extends PageFile
      * Process this file as a Template.
      *
      * The file {@see Page::writePage() generates an output} but the content generation is delegated to the {@see PagePhp::getTemplate() template}
-     * @see PagePhp::isTemplate()
      * @return string
-     * @throws Exception
+     * @throws Throwable
+     * @see PagePhp::isTemplate()
      */
     private function processTemplate() : string {
 
@@ -336,12 +335,13 @@ class PagePhp extends PageFile
      * Useful when php scripts generates a set of files like post entries.
      * This function is mean to be used {@see PagePhp::isSilent() silent} php pages but is ok to use in other php pages
      *
-     * @api
-     * @uses PageFunction
      * @param string $relative_path The path relative to the {@see Context::getTargetRelativePath() target path}
      * @param callable $function The funciton that echo the content of the file
      * @return string
-     * @throws \Exception
+     * @throws Exception
+     * @throws Throwable
+     * @api
+     * @uses PageFunction
      */
     public function generateFromFunction(string $relative_path, callable $function) : string
     {

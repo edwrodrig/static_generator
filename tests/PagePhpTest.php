@@ -3,26 +3,29 @@
 namespace test\edwrodrig\static_generator;
 
 use edwrodrig\static_generator\Context;
+use edwrodrig\static_generator\exception\InvalidTemplateClassException;
+use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use edwrodrig\static_generator\PagePhp;
-use edwrodrig\static_generator\util\TemporaryLogger;
+use edwrodrig\logger\TemporaryLogger;
+use Exception;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
+use Throwable;
 
-class PagePhpTest extends \PHPUnit\Framework\TestCase
+class PagePhpTest extends TestCase
 {
 
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $root;
+    private vfsStreamDirectory $root;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->root = vfsStream::setup();
     }
 
     /**
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \Exception
+     * @throws InvalidTemplateClassException
+     * @throws Exception
+     * @throws Throwable
      */
     function testGenerateString()
     {
@@ -53,13 +56,13 @@ LOG;
     }
 
     /**
-     * @expectedException \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @expectedExceptionMessage UnexistantTemplate
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateClassException
-     * @throws \edwrodrig\static_generator\exception\InvalidTemplateMetadataException
+     * @throws InvalidTemplateClassException
+     * @throws InvalidTemplateMetadataException
      */
     public function testUnexistantTemplate()
     {
+        $this->expectException(InvalidTemplateClassException::class);
+        $this->expectExceptionMessage("UnexistantTemplate");
         $logger = new TemporaryLogger;
 
         $context = new Context(__DIR__ . '/files', $this->root->url());

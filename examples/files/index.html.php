@@ -4,7 +4,7 @@
  * @var $this \edwrodrig\static_generator\template\TemplateHtmlBasic
  */
 
-use edwrodrig\static_generator\cache\ImageItem;
+use edwrodrig\file_cache\ImageItem;
 ?>
 <h1><?=$this->tr(['es' => 'Amelia de Slayers', 'en' => 'Amelia of Slayers'])?></h1>
 <h2>Original:</h2>
