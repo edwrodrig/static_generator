@@ -26,7 +26,7 @@
         "leafo/scssphp": "^0.7.5",
         "phpdocumentor/reflection-docblock": "^4.3.0",
         "edwrodrig/file_cache" : "^0.1",
-        "edwrodrig/logger" : "1.0",
+        "edwrodrig/logger" : "^1.0.1",
         "ext-fileinfo": "*"
     },
     "require-dev" : {
