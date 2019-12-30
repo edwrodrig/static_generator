@@ -11,6 +11,8 @@ use Exception;
 use edwrodrig\static_generator\exception\InvalidTemplateMetadataException;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Object_;
 use Throwable;
 
 /**
@@ -114,12 +116,13 @@ class PagePhp extends PageFile
         foreach ($vars as $var) {
 
             if ($var->getVariableName() == 'this') {
-                if ($description = $var->getDescription()) {
-                    /** @var $type DocBlock\Description */
-                    $template_class = strval($description);
-                    $template_class = preg_replace("/^\\\\/", '', $template_class);
-                    break;
-                }
+
+                $type = $var->getType();
+                if ( is_null($type) ) continue;
+                if ( !$type instanceof Object_ ) break;
+                $template_class = strval($type->getFqsen());
+                $template_class = preg_replace("/^\\\\/", '', $template_class);
+                break;
             }
         }
 

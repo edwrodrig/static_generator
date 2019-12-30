@@ -2,7 +2,7 @@
 /**
  * @noinspection PhpUndefinedClassInspection
  * @template
- * @var $this UnexistantTemplate
+ * @var UnexistantTemplate $this
  * @data {
  *     "name": "some_name"
  * }

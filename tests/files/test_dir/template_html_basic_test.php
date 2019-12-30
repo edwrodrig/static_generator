@@ -1,8 +1,6 @@
 <?php
 /**
- *
- * @template
- * @var $this edwrodrig\static_generator\template\TemplateHtmlBasic
+ * @var edwrodrig\static_generator\template\TemplateHtmlBasic $this
  * @data {
  *     "name": "some_name"
  * }

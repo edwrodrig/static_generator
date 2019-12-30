@@ -3,7 +3,7 @@
  * @data {
  *   "title" : "title1"
  * }
- * @var $this Template
+ * @var Template $this
  */
 
 echo $this->getTitle(), "\n";

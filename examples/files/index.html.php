@@ -1,7 +1,6 @@
 <?php
 /**
- * @template
- * @var $this \edwrodrig\static_generator\template\TemplateHtmlBasic
+ * @var \edwrodrig\static_generator\template\TemplateHtmlBasic $this
  */
 
 use edwrodrig\file_cache\ImageItem;
