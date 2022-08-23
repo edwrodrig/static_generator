@@ -40,7 +40,7 @@ Write HTML [header tags](https://www.w3schools.com/tags/tag_hn.asp) instead of [
 Also because of the usage of these convenient languages, they try to reinvent the wheel in their own form ([conditionals](http://shopify.github.io/liquid/tags/control-flow/) and [loops](http://shopify.github.io/liquid/tags/iteration/)), and in some way in a painful form ([functions](http://hamishwillee.github.io/2014/11/13/jekyll-includes-are-functions)). Please stop this nonsense.
 
 I want to generate pages that are not tied to these new dialects. Just with a pair of concepts, configuration stuff plus plain vanilla PHP and that's all to start using your pages.
-I build this for me so I don't focus on a totally ignorant basic user, I am a software engineering that has experience in programming, OOP, and design patterns. I'm not going to cry is I have to create functions, subclass objects or put semicolons after every statement.
+I build this for me so I don't focus on a totally ignorant basic user, I am a software engineering that has experience in programming, [OOP](https://www.scaler.com/topics/what-is-object-oriented-programming-oop/), and design patterns. I'm not going to cry is I have to create functions, subclass objects or put semicolons after every statement.
 
 So that. More simple, less BS.
 
